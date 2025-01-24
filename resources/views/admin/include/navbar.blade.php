@@ -34,8 +34,8 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <img src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('assets/img/avatars/1.png') }}"
-                        alt="" class="w-px-40 rounded-circle h-auto" />
+                    <img src="{{ asset('assets/img/avatars/default.jpg') }}" alt=""
+                        class="w-px-40 rounded-circle h-auto" />
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -44,13 +44,19 @@
                         <div class="d-flex">
                             <div class="me-3 flex-shrink-0">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ Auth::user()->foto_profil ? asset('storage/' . Auth::user()->foto_profil) : asset('assets/img/avatars/1.png') }}"
-                                        alt class="w-px-40 rounded-circle h-auto" />
+                                    <img src="{{ asset('assets/img/avatars/default.jpg') }}" alt
+                                        class="w-px-40 rounded-circle h-auto" />
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                <small class="text-muted text-capitalize">{{ Auth::user()->role }}</small>
+                                <span class="fw-semibold d-block">{{ Auth::user()->nama }}</span>
+                                <small class="text-muted text-capitalize">
+                                    @if (Auth::user()->role == 'rt')
+                                        Ketua RT/RW {{ Auth::user()->rt_rw }}
+                                    @else
+                                        {{ Auth::user()->role }}
+                                    @endif
+                                </small>
                             </div>
                         </div>
                     </a>
@@ -86,13 +92,13 @@
         e.preventDefault(); // Mencegah form logout langsung dieksekusi
 
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You will be logged out!",
+            text: "Apakah Anda yakin ingin keluar?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, log me out!'
+            confirmButtonText: 'Keluar',
+            cancelButtonText: 'Tidak'
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('logoutForm').submit(); // Submit form jika dikonfirmasi

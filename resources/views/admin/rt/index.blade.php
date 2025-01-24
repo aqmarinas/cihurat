@@ -1,14 +1,12 @@
 @extends('admin.layouts.app')
 
-@section('title', 'RT/RW Data')
+@section('title', 'Daftar Ketua RT')
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Button to Open the Modal -->
         <div class="d-flex justify-content-start mb-3">
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDataModal">
-                Tambah Data
-            </button>
+            <a href="{{ route('rt.create') }}" class="btn btn-primary">Tambah Data</a>
         </div>
 
         @if (session('success'))
@@ -28,10 +26,10 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Daftar RT/RW</h5>
+                <h5 class="mb-0">Daftar Ketua RT</h5>
                 <div class="col-auto">
                     <input type="text" id="searchInput" class="form-control" style="width: 250px;"
-                        placeholder="Cari RT/RW...">
+                        placeholder="Cari nama...">
                 </div>
             </div>
             <div class="table-responsive text-nowrap">
@@ -39,7 +37,7 @@
                     <thead>
                         <tr>
                             <th>Nomor RT/RW</th>
-                            <th>Nama Ketua</th>
+                            <th>Nama Ketua RT</th>
                             <th>Nomor WhatsApp</th>
                             <th>Aksi</th>
                         </tr>
@@ -48,7 +46,7 @@
                         @foreach ($rtRwLists as $rtRwList)
                             <tr>
                                 <td><strong>{{ $rtRwList->rt_rw }}</strong></td>
-                                <td>{{ $rtRwList->nama_ketua }}</td>
+                                <td>{{ $rtRwList->nama }}</td>
                                 <td>{{ $rtRwList->nomor_whatsapp }}</td>
                                 <td>
                                     <!-- Tombol Edit -->
@@ -60,7 +58,7 @@
                                     </a>
                                     <!-- Tombol Hapus -->
                                     <form id="delete-form-{{ $rtRwList->id }}"
-                                        action="{{ route('rt-rw.destroy', $rtRwList->id) }}" method="POST"
+                                        action="{{ route('rt.destroy', $rtRwList->id) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
                                         @method('DELETE')
@@ -136,41 +134,6 @@
         </script>
     </div>
 
-    <!-- Modal for Adding Data -->
-    <div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="addDataModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addDataModalLabel">Tambah Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('rt-rw.store') }}" method="post" id="addDataForm">
-                        @csrf
-                        <div class="mb-3">
-                            <label class="form-label" for="rt_rw">Nomor RT/RW <span style="color: red">*</span></label>
-                            <input type="text" name="rt_rw" class="form-control" id="rt_rw" required
-                                placeholder="01/01" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama_ketua">Nama Ketua <span style="color: red">*</span></label>
-                            <input type="text" name="nama_ketua" class="form-control" id="nama_ketua" required
-                                placeholder="Nama Ketua RT" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp <span
-                                    style="color: red">*</span></label>
-                            <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp" required
-                                placeholder="081234567890" />
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal for Editing Course -->
     <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -180,13 +143,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('rt-rw.update', ':id') }}" method="post" id="editDataForm">
+                    <form action="{{ route('rt.update', ':id') }}" method="post" id="editDataForm">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
                             <label class="form-label" for="edit-rt_rw">RT/RW <span style="color: red">*</span></label>
-                            <input type="text" name="rt_rw" class="form-control" id="edit-rt_rw"
-                                placeholder="01/01" required />
+                            <input type="text" name="rt_rw" class="form-control" id="edit-rt_rw" placeholder="01/01"
+                                required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="edit-nama_ketua">Nama Ketua RT <span

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RtRw;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RtRwController extends Controller
@@ -12,9 +13,10 @@ class RtRwController extends Controller
      */
     public function index()
     {
-        $rtRwLists = RtRw::all();
+        $rtRwLists = User::where('role', 'rt')
+            ->orderBy('rt_rw', 'asc')
+            ->get();
         return view('admin.rt.index', compact('rtRwLists'));
-
     }
 
     /**
@@ -22,23 +24,13 @@ class RtRwController extends Controller
      */
     public function create()
     {
-        
+        return view('admin.rt.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validate = $request->validate([
-            'rt_rw' => 'required|string|max:8',
-            'nama_ketua' => 'required|string|max:50',
-            'nomor_whatsapp' => 'required|string|max:15',
-        ]);
-
-        RtRw::create($validate);
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.

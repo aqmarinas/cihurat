@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -17,109 +20,132 @@ class AdminController extends Controller
     }
 
     // Proses login admin
-    public function login(Request $request)
+    // public function login(Request $request)
+    // {
+    //     try {
+    //         // Validasi input
+    //         $credentials = $request->validate([
+    //             'email' => ['required', 'email'],
+    //             'password' => ['required'],
+    //         ]);
+
+    //         // Periksa apakah checkbox "remember me" dicentang
+    //         $remember = $request->has('remember-me');
+
+    //         // Cek apakah email ada di database admin
+    //         $admin = Admin::where('email', $request->email)->first();
+
+    //         if ($admin) {
+    //             // Jika email ditemukan di tabel Admin
+    //             if (Auth::guard('admin')->attempt($credentials, $remember)) {
+    //                 return redirect()->intended(route('dashboard'));
+    //             }
+
+    //             // Jika password salah untuk Admin
+    //             return back()->withErrors([
+    //                 'password' => 'The password is incorrect (admin).',
+    //             ])->withInput($request->except('password'));
+    //         }
+
+    //         $user = User::where('email', $request->email)->first();
+            
+    //         if ($user) {
+    //             // Jika email ditemukan di tabel Users
+    //             if (Auth::guard('users')->attempt($credentials, $remember)) {
+    //                 return redirect()->intended(route('dashboard'));
+    //             }
+    //             // Jika password salah untuk User
+    //             return back()->withErrors([
+    //                 'password' => 'The password is incorrect (user).',
+    //             ])->withInput($request->except('password'));
+    //         }
+
+    //         return back()->withErrors([
+    //             'email' => 'The email address is not registered.',
+    //         ])->withInput($request->except('password'));
+    //     } catch (\Exception $e) {
+    //         return back()->withErrors(['admin.login' => $e->getMessage()]);
+    //     }    
+    // }
+
+    public function login2(Request $request): RedirectResponse
     {
-        // Validasi input
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        // Periksa apakah checkbox "remember me" dicentang
-        $remember = $request->has('remember-me');
-
-        // Cek apakah email ada di database
-        $admin = Admin::where('email', $request->email)->first();
-
-        if (!$admin) {
-            // Jika email tidak ditemukan
-            return back()->withErrors([
-                'email' => 'The email address is not registered.',
-            ])->withInput($request->except('password'));
-        }
-
-        // Cek apakah password sesuai dengan email yang ada
-        if (!Auth::guard('admin')->attempt($credentials, $remember)) {
-            // Jika password salah
-            return back()->withErrors([
-                'password' => 'The password is incorrect.',
-            ])->withInput($request->except('password'));
-        }
-
-        // Redirect ke dashboard admin jika login berhasil
-        return redirect()->intended(route('admin.dashboard'));
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard'); 
+        }        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
-
-
+    
     // Logout admin
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
+        // if (Auth::guard('admin')->check()) {
+        //     Auth::guard('admin')->logout();
+        // } elseif (Auth::guard('users')->check()) {
+        //     Auth::guard('users')->logout();
+        // }
+        
+        $request->session()->flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('admin.login');
     }
 
+
     public function updateProfile(Request $request)
     {
-        // Pastikan admin terautentikasi
-        if (!Auth::check()) {
-            return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
-        }
-
-        $admin = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
-
-        // Pastikan objek admin adalah instance dari Admin
-        if (!$admin instanceof Admin) {
-            return redirect()->back()->with('error', 'Admin tidak valid.');
-        }
-
-        // Validasi data yang masuk
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admin,email,' . $admin->id,
-            'password' => 'nullable|string|min:6|confirmed', // Menggunakan nullable agar password tidak wajib diubah
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10048', // Sesuaikan ukuran jika perlu
-        ]);
-
-        // Perbarui nama dan email admin
-        $admin->name = $request->name;
-        $admin->email = $request->email;
-
-        // Jika password baru diberikan, hash dan set
-        if ($request->filled('password')) {
-            $admin->password = Hash::make($request->password);
-        }
-
-        // Menangani unggahan file untuk foto profil
-        if ($request->hasFile('foto_profil')) {
-            // Hapus foto lama jika ada
-            if ($admin->foto_profil) {
-                Storage::disk('public')->delete($admin->foto_profil);
+        try {
+            if (!Auth::check()) {
+                return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
             }
 
-            // Simpan foto profil dengan nama asli
-            $file = $request->file('foto_profil');
-            $filename = $file->getClientOriginalName(); // Mengambil nama file asli
-            $path = $file->storeAs('profile_pictures', $filename, 'public'); // Menyimpan dengan nama asli
-            $admin->foto_profil = $path; // Menyimpan jalur file di database
-        }
+            $user = Auth::user(); 
 
-        // Simpan perubahan
-        $admin->save(); // Memastikan ini dipanggil pada instansi Admin
+            if (!$user instanceof User) {
+                return redirect()->back()->with('error', 'Admin tidak valid.');
+            }
 
-        // Kembali dengan pesan sukses
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+            $validated = $request->validate([
+                'nama' => 'nullable|string|max:50',
+                'nik' => 'nullable|string|max:20',
+                'email' => 'nullable|email',
+                'nomor_whatsapp' => 'nullable|digits_between:10,15',
+                'rt_rw' => 'nullable|string|max:8',
+                'alamat' => 'nullable|string|max:255',
+                'password' => 'nullable|string|min:8|confirmed',
+            ]);
+
+            if ($request->filled('password')) {
+                $validated['password'] = Hash::make($request->password);
+            } else {
+                unset($validated['password']);
+            }
+
+            $user->update($validated);
+            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['edit.profile' => $e->getMessage()]);
+        }    
     }
 
     public function editProfile()
     {
-        $admin = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
+        $user = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
 
         // Pastikan admin terautentikasi
-        if (!$admin) {
+        if (!$user) {
             return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
         }
 
-        return view('admin.profile.edit', compact('admin'));
+        return view('admin.profile.edit', compact('user'));
     }
 
     public function index()
@@ -143,7 +169,7 @@ class AdminController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048',
             'email' => 'required|email|unique:admin,email',
             'role' => 'required|in:admin,guru',

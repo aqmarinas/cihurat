@@ -1,54 +1,68 @@
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item {{ Route::is('admin.dashboard') ? 'active' : '' }}">
-        <a href="{{ route('admin.dashboard') }}" class="menu-link">
+    <li class="menu-item {{ Route::is('dashboard') ? 'active' : '' }}">
+        <a href="{{ route('dashboard') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>
 
     @if (Auth::user()->role == 'admin')
-        <li class="menu-item {{ Route::is('surat.index') ? 'active' : '' }}">
-            <a href="{{ route('surat.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-question-mark"></i>
-                <div data-i18n="Analytics">Kelola Pengajuan</div>
+        <li class="menu-item {{ Route::is('admin.surat') ? 'active' : '' }}">
+            <a href="{{ route('admin.surat') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-envelope"></i>
+                <div data-i18n="Analytics">Kelola Surat</div>
             </a>
         </li>
 
-        <li class="menu-item {{ Route::is('rt-rw.index') ? 'active' : '' }}">
-            <a href="{{ route('rt-rw.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-question-mark"></i>
-                <div data-i18n="Analytics">Kelola RT</div>
+        <li class="menu-item {{ Route::is('rt.*') ? 'open active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="Account Settings">Kelola RT</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ Route::is('rt.index') ? 'active' : '' }}">
+                    <a href="{{ route('rt.index') }}" class="menu-link">
+                        <div data-i18n="Notifications">Daftar RT</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Route::is('rt.create') ? 'active' : '' }}">
+                    <a href="{{ route('rt.create') }}" class="menu-link">
+                        <div data-i18n="Account">Tambah Akun Ketua RT</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
-        <li class="menu-item {{ Route::is('surat.index') ? 'active' : '' }}">
-            <a href="{{ route('surat.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-question-mark"></i>
-                <div data-i18n="Analytics">Arsip</div>
+        <li class="menu-item {{ Route::is('user.*') ? 'open active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="Account Settings">Kelola Pengguna</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ Route::is('pengguna.index') ? 'active' : '' }}">
+                    <a href="{{ route('pengguna.index') }}" class="menu-link">
+                        <div data-i18n="Notifications">Daftar Pengguna</div>
+                    </a>
+                </li>
+            </ul>
         </li>
-    @endif
-
-    @if (Auth::user()->role == 'rt')
-        <li class="menu-item {{ Route::is('surat.index') ? 'active' : '' }}">
-            <a href="{{ route('surat.index') }}" class="menu-link">
+    @elseif (Auth::user()->role == 'rt')
+        <li class="menu-item {{ Route::is('verifikasi.index') ? 'active' : '' }}">
+            <a href="{{ route('verifikasi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-question-mark"></i>
                 <div data-i18n="Analytics">Verifikasi Pengajuan</div>
             </a>
         </li>
-    @endif
-
-    @if (Auth::user()->role == 'pengguna')
+    @elseif (Auth::user()->role == 'pengguna')
         <li class="menu-item {{ Route::is('surat.index') ? 'active' : '' }}">
             <a href="{{ route('surat.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file"></i>
                 <div data-i18n="Analytics">Pengajuan Surat</div>
             </a>
         </li>
-
-        <li class="menu-item {{ Route::is('surat.index') ? 'active' : '' }}">
-            <a href="{{ route('surat.index') }}" class="menu-link">
+        <li class="menu-item {{ Route::is('pengguna.riwayat') ? 'active' : '' }}">
+            <a href="{{ route('pengguna.riwayat') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-history"></i>
                 <div data-i18n="Analytics">Riwayat Pengajuan</div>
             </a>
@@ -156,7 +170,7 @@
         </li>
         <li class="menu-item {{ Route::is('siswa.*') ? 'open active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-group"></i>
+                <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Account Settings">Manajemen User</div>
             </a>
             <ul class="menu-sub">

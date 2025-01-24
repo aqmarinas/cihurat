@@ -13,8 +13,7 @@ return new class extends Migration
     {        
         Schema::create('admin', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('foto_profil')->nullable();
+            $table->string('nama');
             $table->string('email')->unique();
             $table->enum('role', ['admin', 'rt', 'pengguna'])->default(('pengguna'));
             $table->timestamp('email_verified_at')->nullable();

@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('surat', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->foreignId('user_id')->constrained();
+            $table->string('rt_rw');
+            $table->morphs('suratable');
+            $table->string('jenis_surat');
+            $table->timestamp('tanggal_pengajuan');
+            $table->timestamp('tanggal_disetujui')->nullable();
+            $table->enum('status', ['MENUNGGU', 'DISETUJUI', 'DITOLAK'])->default('MENUNGGU');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
+            // todo: attachment from user
         });
     }
 

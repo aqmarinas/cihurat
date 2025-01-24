@@ -61,39 +61,26 @@
                     <form action="{{ route('surat-domisili.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-nama_lengkap">Nama Lengkap<span style="color: red">
+                            <label class="form-label" for="basic-default-nama">Nama Lengkap<span style="color: red">
                                     *</span></label>
-                            <input type="text" name="nama_lengkap" class="form-control" id="basic-default-nama_lengkap"
-                                placeholder="Nama lengkap" required />
-                            <div id="nama_lengkap-error" style="color: red; display: none;">Nama lengkap wajib diisi</div>
+                            <input type="text" name="nama" class="form-control" id="basic-default-nama"
+                                placeholder="Nama lengkap" required value="{{ old('nama', $user->nama) }}" />
+                            <div id="nama-error" style="color: red; display: none;">Nama lengkap wajib diisi</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-nik">Nomor Induk Kependudukan (NIK)<span
                                     style="color: red"> *</span></label>
                             <input type="text" name="nik" class="form-control" id="basic-default-nik"
-                                inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required />
+                                inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
+                                value="{{ old('nik', $user->nik) }}" />
                             <div id="nik-error" style="color: red; display: none;">NIK wajib diisi dengan angka</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="alamat">Alamat Domisili Saat Ini <span style="color: red">
-                                    *</span></label>
-                            <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="5" placeholder="Alamat Domisili"
-                                required></textarea>
-                        </div>
-                        {{-- todo: select --}}
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-rt-rw">RT/RW
-                                {{-- <span style="color: red">*</span> --}}
-                            </label>
-                            <input type="text" name="rt_rw" class="form-control" id="basic-default-rt_rw"
-                                placeholder="RT/RW" />
-                            <div id="rt_rw-error" style="color: red; display: none;">RT/RW wajib diisi</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-tempat_lahir">Tempat Lahir<span style="color: red">
                                     *</span></label>
                             <input type="text" name="tempat_lahir" class="form-control" id="basic-default-tempat_lahir"
-                                placeholder="Tempat Lahir" required />
+                                placeholder="Tempat Lahir" required
+                                value="{{ old('tempat_lahir', $user->tempat_lahir) }}" />
                             <div id="tempat_lahir-error" style="color: red; display: none;">Tempat lahir wajib diisi</div>
                         </div>
                         <div class="mb-3">
@@ -101,21 +88,52 @@
                                     style="color: red">
                                     *</span></label>
                             <input type="text" name="tanggal_lahir" class="form-control" id="basic-default-tanggal_lahir"
-                                placeholder="Tanggal Lahir" required />
+                                placeholder="Tanggal Lahir" required
+                                value="{{ old('tanggal_lahir', $user->tanggal_lahir) }}" />
                             <div id="tanggal_lahir-error" style="color: red; display: none;">Tanggal lahir wajib diisi</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-default-status_kawin">Status Perkawinan<span
+                                    style="color: red">
+                                    *</span></label>
+                            <select id="basic-default-status_kawin" name="status_kawin" class="form-control" required>
+                                <option value="" disabled {{ old('status_kawin') == null ? 'selected' : '' }}>Pilih
+                                    Status Perkawinan</option>
+                                <option value="Belum Kawin">Belum Kawin</option>
+                                <option value="Kawin">Kawin</option>
+                                <option value="Cerai Hidup">Cerai Hidup</option>
+                                <option value="Cerai Mati">Cerai Mati</option>
+                            </select>
+                            <div id="status_kawin-error" style="color: red; display: none;">Status perkawinan wajib diisi
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-default-agama">Agama<span style="color: red">
+                                    *</span></label>
+                            <input type="text" name="agama" class="form-control" id="basic-default-agama"
+                                placeholder="Agama" required value="{{ old('agama') }}" />
+                            <div id="agama-error" style="color: red; display: none;">Agama wajib diisi</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-pekerjaan">Pekerjaan<span style="color: red">
                                     *</span></label>
                             <input type="text" name="pekerjaan" class="form-control" id="basic-default-pekerjaan"
-                                placeholder="Pekerjaan" required />
+                                placeholder="Pekerjaan" required value="{{ old('pekerjaan') }}" />
                             <div id="pekerjaan-error" style="color: red; display: none;">Pekerjaan wajib diisi</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="alamat">Alamat Domisili Saat Ini <span style="color: red">
+                                    *</span></label>
+                            <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="5"
+                                placeholder="Alamat Domisili" required value="{{ old('alamat', $user->alamat) }}"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-keperluan">Keperluan<span style="color: red">
                                     *</span></label>
                             <input type="text" name="keperluan" class="form-control" id="basic-default-keperluan"
-                                placeholder="Keperluan" required />
+                                placeholder="Keperluan" required value="{{ old('keperluan') }}" />
                             <div id="keperluan-error" style="color: red; display: none;">Keperluan wajib diisi</div>
                         </div>
                         <div class="mb-3">
@@ -123,7 +141,8 @@
                                     style="color: red">
                                     *</span></label>
                             <input type="text" name="no_whatsapp" class="form-control" id="basic-default-no_whatsapp"
-                                inputmode="numeric" placeholder="Nomor WhatsApp" required />
+                                inputmode="numeric" placeholder="Nomor WhatsApp" required
+                                value="{{ old('nomor_whatsapp', $user->nomor_whatsapp) }}" />
                             <div id="no_whatsapp-error" style="color: red; display: none;">Nomor WA wajib diisi dengan
                                 angka
                             </div>

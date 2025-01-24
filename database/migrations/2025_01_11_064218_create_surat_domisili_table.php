@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('surat_domisili', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lengkap');
+            $table->string('nama');
             $table->string('nik');
-            $table->string('alamat');
             $table->string('tempat_lahir');
             $table->string('tanggal_lahir');
+            $table->string('status_kawin');
+            $table->string('agama');
             $table->string('pekerjaan');
+            $table->string('alamat');
             $table->string('keperluan');
             $table->string('no_whatsapp');
             $table->timestamps();

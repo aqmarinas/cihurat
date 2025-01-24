@@ -2,60 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use Carbon\Carbon;
-use App\Models\Siswa;
 use App\Models\Course;
 use App\Models\Content;
 use App\Models\Kegiatan;
+use App\Models\Surat;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Menghitung total kursus
-        $courseCount = Course::count();
+        // User 
+        $totalSuratDiajukanUser = Surat::where('user_id', Auth::id())->count();
+        $totalSuratDisetujuiUser = Surat::where('user_id', Auth::id())->where('status', 'DISETUJUI')->count();
+        $totalSuratMenungguUser = Surat::where('user_id', Auth::id())->where('status', 'MENUNGGU')->count();
 
-        // Menghitung total konten
-        $contentCount = Content::count();
+        // RT 
+        $totalWargaRT = User::where('role', 'pengguna')->where('rt_rw', Auth::id())->count();
+        $totalSuratMenungguRT = Surat::where('rt_rw', Auth::user()->rt_rw)->where('status', 'MENUNGGU')->count();
+        $totalSuratDiajukanRT = Surat::where('rt_rw', Auth::user()->rt_rw)->count();
 
-        // Menghitung total kegiatan
-        $eventCount = Kegiatan::count();
-        // Menghitung total guru (hanya untuk admin)
-        $teacherCount = Admin::where('role', 'guru')->count();
-        $adminCount = Admin::where('role', 'admin')->count();
+        // Admin 
+        $totalAdmin = User::where('role', 'admin')->count();
+        $totalRt = User::where('role', 'rt')->count();
+        $totalUsers = User::where('role', 'pengguna')->count();
+        $totalSuratDiajukanAdmin = Surat::count();
+        $totalSuratDisetujuiAdmin = Surat::where('status', 'DISETUJUI')->count();
+        $totalSuratDitolakAdmin = Surat::where('status', 'DITOLAK')->count();
 
-        // Menghitung total siswa (guard siswa)
-        $studentCount = Siswa::count();
+        return view('admin.layouts.dashboard', compact(
+            // User
+            'totalSuratDiajukanUser',
+            'totalSuratDisetujuiUser',
+            'totalSuratMenungguUser',
 
-        // Array berisi kata-kata penyemangat
-        $motivationalQuotes = [
-            'Teruslah menginspirasi murid-murid Anda dengan semangat dan kreativitas!',
-            'Setiap langkah kecil yang Anda ambil memberikan dampak besar bagi murid-murid Anda!',
-            'Mengajar adalah profesi yang melahirkan semua profesi lainnya!',
-            'Anda sedang membentuk masa depan, satu murid pada satu waktu!',
-            'Kerja keras dan dedikasi Anda benar-benar membuat perbedaan!',
-            'Percayalah pada kekuatan pengaruh Anda, Anda membuat dampak besar!',
-            'Terima kasih telah menjadi mentor dan pembimbing luar biasa bagi murid-murid Anda!',
-            'Semangat mengajar Anda menerangi pikiran murid-murid Anda!',
-            'Teruslah maju, Anda melakukan pekerjaan yang luar biasa!',
-            'Anda memiliki kekuatan untuk mengubah hidup setiap hari!'
-        ];        
+            // RT
+            'totalWargaRT',
+            'totalSuratMenungguRT',
+            'totalSuratDiajukanRT',
 
-        // Ambil waktu saat ini dan bagi menjadi interval 6 jam
-        $hour = Carbon::now()->hour;
-        $quoteIndex = floor($hour / 6) % count($motivationalQuotes);
-
-        // Pilih kata penyemangat berdasarkan waktu
-        $randomQuote = $motivationalQuotes[$quoteIndex];
-
-        // Kirim ke view
-        return view('admin.layouts.dashboard', compact('courseCount', 'contentCount', 'eventCount', 'teacherCount', 'studentCount', 'randomQuote', 'adminCount'));
+            // Admin
+            'totalAdmin',
+            'totalRt',
+            'totalUsers',
+            'totalSuratDiajukanAdmin',
+            'totalSuratDisetujuiAdmin',
+            'totalSuratDitolakAdmin'
+        ));
     }
-
-    // public function profile() {
-    //     $users = Admin::all();
-    //     return view('admin.include.navbar', compact('users'));
-    // }
 }

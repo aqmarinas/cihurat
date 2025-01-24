@@ -18,8 +18,8 @@ class AdminMiddleware
     {
         return $next($request);
 
-        if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin.login'); // Redirect ke halaman login admin jika belum login
+        if (!Auth::guard('admin')->check() && !Auth::guard('users')->check()) {
+            return redirect()->route('admin.login'); 
         }
 
         return $next($request);

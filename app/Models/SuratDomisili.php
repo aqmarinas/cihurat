@@ -12,13 +12,20 @@ class SuratDomisili extends Model
     protected $table = 'surat_domisili';
 
     protected $fillable = [
-        'nama_lengkap',
+        'nama',
         'nik',
-        'alamat',
         'tempat_lahir',
         'tanggal_lahir',
+        'status_kawin',
+        'agama',
         'pekerjaan',
+        'alamat',
         'keperluan',
         'no_whatsapp',
     ];
+
+    public function surat()
+    {
+        return $this->morphOne(Surat::class, 'suratable');
+    }
 }

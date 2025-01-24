@@ -63,6 +63,16 @@
                             <!-- /Logo -->
                             <h4 class="mb-4">Selamat datang di Cihurat <br> (Cidahu Surat) 👋</h4>
 
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <form id="formAuthentication" class="mb-8" action="{{ route('admin.login.submit') }}"
                                 method="POST">
                                 @csrf
@@ -107,7 +117,8 @@
                                 </div>
 
                                 <p class="mt-6 text-center">
-                                    Belum punya akun? <a href="route" class="fw-bold text-primary">Daftar akun</a>
+                                    Belum punya akun? <a href="{{ route('register.index') }}"
+                                        class="fw-bold text-primary">Daftar akun</a>
                                 </p>
 
                                 <!-- Tampilkan error general jika ada -->

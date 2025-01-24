@@ -12,7 +12,29 @@ class Surat extends Model
     protected $table = 'surat';
 
     protected $fillable = [
-        'name',
-        'description',
+        'user_id',
+        'rt_rw',
+        'suratable_type',
+        'suratable_id',
+        'jenis_surat',
+        'tanggal_pengajuan',
+        'tanggal_disetujui',
+        'status',
+        'keterangan',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function suratable()
+    {
+        return $this->morphTo();
+    }
+
+    // public function rt()
+    // {
+    //     return $this->belongsTo(User::class, 'rt_id');
+    // }
 }
