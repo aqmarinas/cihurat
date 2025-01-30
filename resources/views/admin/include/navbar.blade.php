@@ -78,7 +78,7 @@
                 <li>
                 </li>
                 <li>
-                    <form id="logoutForm" action="{{ route('admin.logout') }}" method="POST">
+                    <form id="logoutForm" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <a href="javascript:void(0);" id="logoutButton" class="dropdown-item">
                             <i class="bx bx-power-off me-2"></i>

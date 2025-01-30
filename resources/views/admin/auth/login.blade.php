@@ -63,17 +63,19 @@
                             <!-- /Logo -->
                             <h4 class="mb-4">Selamat datang di Cihurat <br> (Cidahu Surat) 👋</h4>
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
                                 </div>
                             @endif
 
-                            <form id="formAuthentication" class="mb-8" action="{{ route('admin.login.submit') }}"
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
+                            <form id="formAuthentication" class="mb-8" action="{{ route('login.store') }}"
                                 method="POST">
                                 @csrf
                                 <div class="mb-3">
@@ -105,19 +107,11 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="remember-me"
-                                            name="remember-me" />
-                                        <label class="form-check-label" for="remember-me"> Ingat saya </label>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
                                     <button class="d-grid w-100 btn btn-primary" type="submit">Masuk</button>
                                 </div>
 
                                 <p class="mt-6 text-center">
-                                    Belum punya akun? <a href="{{ route('register.index') }}"
+                                    Belum punya akun? <a href="{{ route('register') }}"
                                         class="fw-bold text-primary">Daftar akun</a>
                                 </p>
 

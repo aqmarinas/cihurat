@@ -19,6 +19,6 @@ class RoleMiddleware
             return $next($request);
         }
 
-        return redirect()->route('dashboard')->withErrors(['access' => 'You do not have access to this feature.']);
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini');
     }
 }

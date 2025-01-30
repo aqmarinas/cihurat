@@ -30,7 +30,7 @@
                     <h5>Data Pengguna</h5>
                 </div>
                 <div class="col-md-6">
-                    <form method="GET" action="{{ route('pengguna.index') }}" class="d-flex">
+                    <form method="GET" action="{{ route('admin.kelola.pengguna') }}" class="d-flex">
                         <input type="text" name="search" class="form-control me-2" value="{{ request('search') }}"
                             placeholder="Cari nama..." />
                         <button type="submit" class="btn btn-primary">Cari</button>

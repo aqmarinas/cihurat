@@ -17,9 +17,9 @@ class Authenticate extends Middleware
     {
         if (!$request->expectsJson()) {
             Session::flash('error', 'Anda harus masuk terlebih dahulu!');
-            return route('admin.login');
+            return route('login');
         }
-        
-        return null;    
+
+        return null;
     }
 }

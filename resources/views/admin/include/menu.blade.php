@@ -40,8 +40,8 @@
                 <div data-i18n="Account Settings">Kelola Pengguna</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ Route::is('pengguna.index') ? 'active' : '' }}">
-                    <a href="{{ route('pengguna.index') }}" class="menu-link">
+                <li class="menu-item {{ Route::is('admin.kelola.pengguna') ? 'active' : '' }}">
+                    <a href="{{ route('admin.kelola.pengguna') }}" class="menu-link">
                         <div data-i18n="Notifications">Data Pengguna</div>
                     </a>
                 </li>

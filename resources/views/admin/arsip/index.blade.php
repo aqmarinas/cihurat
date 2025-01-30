@@ -22,7 +22,7 @@
                     <h5>Kelola Surat</h5>
                 </div>
                 <div class="col-md-6">
-                    <form method="GET" action="{{ route('admin.surat') }}" class="d-flex">
+                    <form method="GET" action="{{ route('admin.kelola.surat') }}" class="d-flex">
                         <input type="text" name="search" class="form-control me-2" value="{{ request('search') }}"
                             placeholder="Cari nama..." />
                         <button type="submit" class="btn btn-primary">Cari</button>
@@ -32,19 +32,19 @@
             <div class="">
                 {{-- Filter by status --}}
                 <div class="btn-group d-flex col-md-6 mx-4 flex-wrap pb-3 pr-4" role="group" aria-label="Filter Status">
-                    <a href="{{ route('admin.surat', ['status' => 'menunggu']) }}"
+                    <a href="{{ route('admin.kelola.surat', ['status' => 'menunggu']) }}"
                         class="btn btn-outline-dark flex-fill {{ strtoupper(request()->query('status')) == 'MENUNGGU' ? 'active' : '' }} mb-2">
                         Menunggu
                     </a>
-                    <a href="{{ route('admin.surat', ['status' => 'disetujui']) }}"
+                    <a href="{{ route('admin.kelola.surat', ['status' => 'disetujui']) }}"
                         class="btn btn-outline-dark flex-fill {{ strtoupper(request()->query('status')) == 'DISETUJUI' ? 'active' : '' }} mb-2">
                         Disetujui
                     </a>
-                    <a href="{{ route('admin.surat', ['status' => 'ditolak']) }}"
+                    <a href="{{ route('admin.kelola.surat', ['status' => 'ditolak']) }}"
                         class="btn btn-outline-dark flex-fill {{ strtoupper(request()->query('status')) == 'DITOLAK' ? 'active' : '' }} mb-2">
                         Ditolak
                     </a>
-                    <a href="{{ route('admin.surat') }}"
+                    <a href="{{ route('admin.kelola.surat') }}"
                         class="btn btn-outline-dark flex-fill {{ request()->query('status') == null ? 'active' : '' }} mb-2">
                         Semua
                     </a>
@@ -90,7 +90,7 @@
                                             "-"
                                         @endif
                                     <td>
-                                        <a href="{{ route('admin.surat.detail', $letter->id) }}"
+                                        <a href="{{ route('admin.kelola.surat.detail', $letter->id) }}"
                                             class="btn btn-primary btn-sm me-2">Detail</a>
                                         @if ($letter->status === 'DISETUJUI')
                                             <a href="{{ route('surat.download', $letter->id) }}"

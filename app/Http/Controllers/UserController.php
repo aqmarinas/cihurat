@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,12 +33,8 @@ class UserController extends Controller
         $validate['role'] = 'pengguna';
         $validate['password'] = bcrypt($validate['password']);
 
-        try {
-            User::create($validate);
-            return redirect()->route('admin.login');
-        } catch (\Exception $e) {
-            return back()->withErrors(['registerUser' => $e->getMessage()]);
-        }
+        User::create($validate);
+        return redirect()->route('login')->with('success', 'Berhasil mendaftar akun');
     }
 
     public function getAllPengguna(Request $request)
@@ -57,7 +53,7 @@ class UserController extends Controller
     {
         try {
             if (!Auth::check()) {
-                return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
+                return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
             }
 
             $user = Auth::user();
@@ -95,7 +91,7 @@ class UserController extends Controller
 
         // Pastikan admin terautentikasi
         if (!$user) {
-            return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
+            return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
         }
 
         return view('admin.profile.edit', compact('user'));

@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Auth\AdminController;
-use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RtController;
-use App\Http\Controllers\SuratController;
 use App\Http\Controllers\RwController;
+use App\Http\Controllers\SuratController;
 use App\Http\Controllers\VerifSuratController;
 
 /*
@@ -20,48 +20,56 @@ use App\Http\Controllers\VerifSuratController;
 |
 */
 
-// Route untuk halaman login admin
-Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/login', [AdminController::class, 'login2'])->name('admin.login.submit');
+// Login
+Route::get('/login', [AuthController::class, 'loginView'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
-Route::get('/register', [UserController::class, 'registerUserView'])->name('register.index');
-Route::post('/register', [UserController::class, 'registerUser'])->name('register.submit');
+// Register
+Route::get('/register', [UserController::class, 'registerUserView'])->name('register');
+Route::post('/register', [UserController::class, 'registerUser'])->name('register.store');
 
-Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// temporary
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/panduan', function () {
-    return view('admin.panduan.index');
-})->name('panduan.index');
-Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update.profile');
-Route::get('/profile/edit', [AdminController::class, 'editProfile'])->name('edit.profile');
+// Protected
+Route::middleware(['auth'])->group(
+    function () {
+        // Dashboard
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::middleware(['role:rt'])->group(function () {
-    Route::resource('verifikasi', VerifSuratController::class);
-    Route::post('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
-    Route::post('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
-});
+        // Profile (All role)
+        Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('edit.profile');
+        Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update.profile');
 
-Route::middleware(['role:pengguna'])->group(function () {
-    Route::resource('surat', SuratController::class);
-    Route::get('/surat/{id}/create', [SuratController::class, 'create'])->name('surat.create');
-    Route::get('/riwayat', [SuratController::class, 'history'])->name('pengguna.riwayat');
-    Route::get('/riwayat/{id}', [SuratController::class, 'historyDetails'])->name('pengguna.detail.riwayat');
-});
+        // Panduan
+        Route::get('/panduan', function () {
+            return view('admin.panduan.index');
+        })->name('panduan.index');
 
-Route::middleware(['role:admin'])->group(function () {
-    Route::resource('rt', RtController::class);
-    Route::resource('rw', RwController::class);
+        // Routes Pengguna
+        Route::middleware(['role:pengguna'])->group(function () {
+            Route::resource('surat', SuratController::class);
+            Route::get('/surat/{id}/create', [SuratController::class, 'create'])->name('pengguna.surat.create');
+            Route::get('/riwayat', [SuratController::class, 'history'])->name('pengguna.riwayat');
+            Route::get('/riwayat/{id}', [SuratController::class, 'historyDetails'])->name('pengguna.detail.riwayat');
+        });
 
-    Route::get('/users', [UserController::class, 'getAllPengguna'])->name('pengguna.index');
-    Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.surat');
-    Route::get('/admin/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.detail');
-    Route::get('/download/{id}', [VerifSuratController::class, 'download'])->name('surat.download');
+        // Routes RT
+        Route::middleware(['role:rt'])->group(function () {
+            Route::resource('verifikasi', VerifSuratController::class);
+            Route::post('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
+            Route::post('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
+        });
 
+        // Routes Admin
+        Route::middleware(['role:admin'])->group(function () {
+            Route::resource('rt', RtController::class);
+            Route::resource('rw', RwController::class);
 
-
-    Route::get('/arsip', function () {
-        return view('admin.arsip.index');
-    })->name('arsip.index');
-});
+            Route::get('/admin/pengguna', [UserController::class, 'getAllPengguna'])->name('admin.kelola.pengguna');
+            Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.kelola.surat');
+            Route::get('/admin/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.detail');
+            Route::get('/admin/surat/{id}/download', [VerifSuratController::class, 'download'])->name('surat.download');
+        });
+    }
+);

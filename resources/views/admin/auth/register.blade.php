@@ -73,7 +73,7 @@
                                 </div>
                             @endif
 
-                            <form id="formRegister" class="mb-8" action="{{ route('register.submit') }}"
+                            <form id="formRegister" class="mb-8" action="{{ route('register.store') }}"
                                 method="POST">
                                 @csrf
                                 <div class="mb-3">
@@ -190,7 +190,7 @@
                                 </div>
 
                                 <p class="mt-6 text-center">
-                                    Sudah punya akun? <a href="{{ route('admin.login') }}"
+                                    Sudah punya akun? <a href="{{ route('login') }}"
                                         class="fw-bold text-primary">Masuk</a>
                                 </p>
 
