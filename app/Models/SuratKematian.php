@@ -23,6 +23,5 @@ class SuratKematian extends Model
         'sebab_meninggal',
         'ktp',
         'kk',
-        'surat_keterangan'
     ];
 }

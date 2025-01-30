@@ -29,7 +29,5 @@ class SuratTidakMampu extends Model
         'keperluan',
         'ktp',
         'kk',
-        'surat_penghasilan',
-        'foto_rumah'
     ];
 }

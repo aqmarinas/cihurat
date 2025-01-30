@@ -174,38 +174,24 @@ class SuratController extends Controller
 
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'surat_penghasilan' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
-                    'foto_rumah.*' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
 
-                // single file
-                $fileFields = ['ktp', 'kk', 'surat_penghasilan'];
+                $fileFields = ['ktp', 'kk'];
                 $filePaths = [];
+
 
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        if ($file->getClientOriginalExtension() === 'pdf') {
-                            $filePaths[$field] = $file->storeAs("documents/$field", time() . "_$field." . $file->getClientOriginalExtension(), 'public');
-                        } else {
-                            $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
-                        }
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
                     }
                 }
 
-                // multiple file
-                if ($request->hasFile('foto_rumah')) {
-                    $fotoRumahPaths = [];
-                    foreach ($request->file('foto_rumah') as $index => $file) {
-                        $filename = "foto_rumah_$index";
-                        $path = $this->processImageWithWatermark($file, 'foto_rumah', $filename);
-                        $fotoRumahPaths[] = $path;
-                    }
-                    // convert array to json
-                    $filePaths['foto_rumah'] = json_encode($fotoRumahPaths);
-                }
+                $data = array_merge(
+                    $validateSurat,
+                    $filePaths,
+                );
 
-                $data = array_merge($validateSurat, $filePaths);
                 $suratModel = SuratTidakMampu::create($data);
                 break;
             case 'Surat Keterangan Kematian':
@@ -221,24 +207,24 @@ class SuratController extends Controller
                     'sebab_meninggal' => 'required|string|max:30',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'surat_keterangan' => 'required|mimes:jpg,jpeg,png,pdf|max:2048'
                 ]);
 
-                $fileFields = ['ktp', 'kk', 'surat_keterangan'];
+                $fileFields = ['ktp', 'kk'];
                 $filePaths = [];
+
 
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        if ($file->getClientOriginalExtension() === 'pdf') {
-                            $filePaths[$field] = $file->storeAs("documents/$field", time() . "_$field." . $file->getClientOriginalExtension(), 'public');
-                        } else {
-                            $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
-                        }
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
                     }
                 }
 
-                $data = array_merge($validateSurat, $filePaths);
+                $data = array_merge(
+                    $validateSurat,
+                    $filePaths,
+                );
+
                 $suratModel = SuratKematian::create($data);
                 break;
             case 'Surat Keterangan Usaha':
@@ -272,6 +258,7 @@ class SuratController extends Controller
                     $validateSurat,
                     $filePaths,
                 );
+
                 $suratModel = SuratUsaha::create($data);
                 break;
             case 'Surat Keterangan Belum Menikah':
@@ -305,17 +292,17 @@ class SuratController extends Controller
                     $validateSurat,
                     $filePaths,
                 );
+
                 $suratModel = SuratBelumNikah::create($data);
                 break;
-
-            case 'Surat Keterangan Ahli Waris':
-                break;
-            case 'Surat Keterangan Ahli Waris Bank':
-                break;
-            case 'Surat Pernyataan Kepemilikan Tanah':
-                break;
-            case 'Surat Keterangan Beda Nama':
-                break;
+                // case 'Surat Keterangan Ahli Waris':
+                //     break;
+                // case 'Surat Keterangan Ahli Waris Bank':
+                //     break;
+                // case 'Surat Pernyataan Kepemilikan Tanah':
+                //     break;
+                // case 'Surat Keterangan Beda Nama':
+                //     break;
             default:
                 return redirect()->route('surat.index')->with('error', 'Jenis surat tidak valid');
         }

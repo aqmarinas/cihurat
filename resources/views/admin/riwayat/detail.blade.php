@@ -141,21 +141,6 @@
                     <x-file-viewer title="KK" file="{{ $detailSurat->kk }}" />
                 @endif
 
-                @if ($detailSurat->surat_keterangan)
-                    <x-file-viewer title="Surat Keterangan" file="{{ $detailSurat->surat_keterangan }}" />
-                @endif
-
-                @if ($detailSurat->surat_penghasilan)
-                    <x-file-viewer title="Surat Penghasilan" file="{{ $detailSurat->surat_penghasilan }}" />
-                @endif
-
-                @if ($detailSurat->foto_rumah)
-                    @php
-                        $fotoRumahArray = json_decode($detailSurat->foto_rumah, true);
-                    @endphp
-                    <x-file-list-viewer title="Foto Rumah" :files="$fotoRumahArray ?? []" />
-                @endif
-
                 {{-- Action --}}
                 @if (Auth::user()->role == 'rt')
                     @if ($surat->status === 'MENUNGGU')

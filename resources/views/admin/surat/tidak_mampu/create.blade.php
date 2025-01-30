@@ -214,28 +214,6 @@
                             <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label" for="surat_penghasilan">Surat Penghasilan <span
-                                    style="color: red">*</span></label>
-                            <input type="file" name="surat_penghasilan" class="form-control" id="surat_penghasilan"
-                                accept=".jpg,.jpeg,.png,.pdf" required />
-                            <p style="font-size: 12px">(.jpg, .jpeg, .png, .pdf; Maksimal 2MB)</p>
-                        </div>
-
-                        {{-- todo: max 5 file --}}
-                        <div class="mb-3">
-                            <label class="form-label" for="foto_rumah">Foto Kondisi Rumah (Lebih dari 1 foto) <span
-                                    style="color: red">*</span></label>
-                            <input type="file" name="foto_rumah[]" class="form-control" id="foto_rumah"
-                                accept="image/jpeg,image/png, image/jpg" multiple required
-                                onchange="validateFileLimit(this)" />
-                            <p style="font-size: 12px; color: red; display: none;" id="fileLimitWarning">Anda hanya dapat
-                                mengunggah maksimal 5 file.</p>
-                            <p style="font-size:
-                                12px">(.jpg, .jpeg, .png; Maksimal 2MB per
-                                foto; dan Maksimal 5 foto)</p>
-                        </div>
-
                         <button type="submit" class="btn btn-primary" id="saveButton">Kirim</button>
                     </form>
                 </div>
@@ -243,17 +221,4 @@
             </div>
         </div>
     </div>
-    <script>
-        // function validateFileLimit(input) {
-        //     const maxFiles = 5;
-        //     const warningMessage = document.getElementById('fileLimitWarning');
-
-        //     if (input.files.length > maxFiles) {
-        //         warningMessage.style.display = 'block';
-        //         input.value = '';
-        //     } else {
-        //         warningMessage.style.display = 'none';
-        //     }
-        // }
-    </script>
 @endsection

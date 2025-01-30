@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('no_whatsapp');
             $table->string('ktp');
             $table->string('kk');
-            $table->string('surat_keterangan');
             $table->timestamps();
         });
     }

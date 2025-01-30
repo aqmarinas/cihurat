@@ -122,14 +122,6 @@
                             <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label" for="surat_keterangan">Surat Keterangan dari RS/Klinik <span
-                                    style="color: red">*</span></label>
-                            <input type="file" name="surat_keterangan" class="form-control" id="surat_keterangan"
-                                accept=".jpg,.jpeg,.png,.pdf" required />
-                            <p style="font-size: 12px">(.jpg, .jpeg, .png, .pdf; Maksimal 2MB)</p>
-                        </div>
-
                         <button type="submit" class="btn btn-primary" id="saveButton">Kirim</button>
                     </form>
                 </div>

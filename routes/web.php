@@ -37,10 +37,8 @@ Route::get('/panduan', function () {
 Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update.profile');
 Route::get('/profile/edit', [AdminController::class, 'editProfile'])->name('edit.profile');
 
-// todo: error
 Route::middleware(['role:rt'])->group(function () {
     Route::resource('verifikasi', VerifSuratController::class);
-    // Route::get('/verifikasi?status=menunggu', [VerifSuratController::class, 'index'])->name('verifikasi.index');
     Route::post('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
     Route::post('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
 });
@@ -55,9 +53,6 @@ Route::middleware(['role:pengguna'])->group(function () {
 Route::middleware(['role:admin'])->group(function () {
     Route::resource('rt', RtController::class);
     Route::resource('rw', RwController::class);
-    Route::post('/rt/create', [UserController::class, 'registerRt'])->name('register.rt.submit');
-    Route::get('/rt/update', [UserController::class, 'updateRt'])->name('update.rt');
-
 
     Route::get('/users', [UserController::class, 'getAllPengguna'])->name('pengguna.index');
     Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.surat');

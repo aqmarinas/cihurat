@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->softDeletes();
             $table->timestamps();
-            // todo: attachment from user
         });
     }
 

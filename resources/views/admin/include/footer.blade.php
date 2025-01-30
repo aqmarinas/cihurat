@@ -4,7 +4,6 @@
             document.write(new Date().getFullYear());
         </script>
         ©
-        {{-- todo: ubah ke link resmi --}}
         <span class="fw-bold">Desa Cidahu, Kab. Purwakarta</span> <br>
         Dibuat oleh KKN UNSIKA 2025
     </div>

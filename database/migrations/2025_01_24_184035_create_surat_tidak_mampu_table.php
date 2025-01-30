@@ -30,8 +30,6 @@ return new class extends Migration
             $table->string('keperluan');
             $table->string('ktp');
             $table->string('kk');
-            $table->string('surat_penghasilan');
-            $table->json('foto_rumah');
             $table->timestamps();
         });
     }
