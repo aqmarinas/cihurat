@@ -4,6 +4,28 @@
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- @if ($errors->any())
+            <div class="alert-danger alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif --}}
+
         <div class="card">
             <div class="card-body">
                 <div class="mb-3">
@@ -17,9 +39,32 @@
                     @endif
                 </div>
 
-                <h5><strong>Detail Pengajuan {{ $surat->jenis_surat }}</strong>
-                </h5>
-                {{-- Surat --}}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><strong>Detail Pengajuan {{ $surat->jenis_surat }}</strong></h5>
+
+                    @if (Auth::user()->role == 'pengguna')
+                        @if ($surat->status === 'MENUNGGU' && $surat->status !== 'DIBATALKAN' && $surat->status !== 'DISETUJUI')
+                            <form id="cancelForm" action="{{ route('surat.destroy', $surat->id) }}" method="POST"
+                                class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" id="cancelButton" class="btn btn-danger btn-sm">
+                                    <i class="bx bx-x-circle me-1"></i> Batal
+                                </button>
+                            </form>
+                        @endif
+                    @endif
+
+                    @if (Auth::user()->role == 'admin')
+                        @if ($surat->status === 'DISETUJUI')
+                            <a href="{{ route('surat.download', $surat->id) }}" class="btn btn-success btn-sm">
+                                <i class="fas fa-download"></i> Unduh
+                            </a>
+                        @endif
+                    @endif
+
+                </div>
+                {{-- Informasi Pengajuan Surat --}}
                 <div class="row">
                     <div class="col-md-6">
                         <p>
@@ -53,11 +98,12 @@
                                 <span class="badge bg-success">Disetujui</span>
                             @elseif ($surat->status === 'DITOLAK')
                                 <span class="badge bg-danger">Ditolak</span>
+                            @elseif ($surat->status === 'DIBATALKAN')
+                                <span class="badge bg-secondary">Dibatalkan</span>
                             @else
                                 "-"
                             @endif
                         </p>
-
                         <p>
                             <strong>Keterangan</strong>
                             <br>
@@ -69,123 +115,150 @@
 
                 <hr>
 
-                {{-- Detail  --}}
-                @if ($surat->jenis_surat === 'Surat Domisili')
-                    <div class="row">
+                {{-- Detail Surat --}}
+                <div class="row">
+                    @foreach ($fields->chunk(ceil($fields->count() / 2)) as $columnFields)
                         <div class="col-md-6">
-                            <p>
-                                <strong>Nama</strong>
-                                <br>
-                                {{ $detailSurat->nama ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Nomor WhatsApp</strong>
-                                <br>
-                                {{ $detailSurat->no_whatsapp ?? '-' }}
-                            </p>
-
-                            <p>
-                                <strong>NIK</strong>
-                                <br>
-                                {{ $detailSurat->nik ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Tempat, Tanggal Lahir</strong>
-                                <br>
-                                {{ $detailSurat->tempat_lahir ?? '-' }}, {{ $detailSurat->tanggal_lahir ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Status Perkawinan</strong>
-                                <br>
-                                {{ $detailSurat->status_kawin ?? '-' }}
-                            </p>
-
+                            @foreach ($columnFields as $field)
+                                <p>
+                                    <strong>{{ $field->label }}</strong>
+                                    <br>
+                                    {{ $detailSurat->{$field->field_name} ?? '-' }}
+                                </p>
+                            @endforeach
                         </div>
-                        <div class="col-md-6">
-                            <p>
-                                <strong>Agama</strong>
-                                <br>
-                                {{ $detailSurat->agama ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Pekerjaan</strong>
-                                <br>
-                                {{ $detailSurat->pekerjaan ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Alamat</strong>
-                                <br>
-                                {{ $detailSurat->alamat ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Keperluan</strong>
-                                <br>
-                                {{ $detailSurat->keperluan ?? '-' }}
-                            </p>
-                        </div>
-                    </div>
-                @elseif($surat->jenis_surat === 'Surat Pengantar')
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p>
-                                <strong>Nama</strong>
-                                <br>
-                                {{ $detailSurat->nama ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Nomor WhatsApp</strong>
-                                <br>
-                                {{ $detailSurat->no_whatsapp ?? '-' }}
-                            </p>
-
-                            <p>
-                                <strong>NIK</strong>
-                                <br>
-                                {{ $detailSurat->nik ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Tempat, Tanggal Lahir</strong>
-                                <br>
-                                {{ $detailSurat->tempat_lahir ?? '-' }}, {{ $detailSurat->tanggal_lahir ?? '-' }}
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p>
-                                <strong>Jenis Kelamin</strong>
-                                <br>
-                                {{ $detailSurat->jenis_kelamin ?? '-' }}
-                            </p>
-
-                            <p>
-                                <strong>Agama</strong>
-                                <br>
-                                {{ $detailSurat->agama ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Pekerjaan</strong>
-                                <br>
-                                {{ $detailSurat->pekerjaan ?? '-' }}
-                            </p>
-                            <p>
-                                <strong>Keperluan</strong>
-                                <br>
-                                {{ $detailSurat->keperluan ?? '-' }}
-                            </p>
-                        </div>
-                    </div>
-                @else
-                    <p>Jenis surat tidak diketahui.</p>
-                @endif
+                    @endforeach
+                </div>
 
                 <hr>
-                {{-- todo: Lampiran --}}
+
                 <h5><strong>Lampiran</strong></h5>
-                <p>{{ $detailSurat->ktp_file ?? '-' }}</p>
-                <img src="{{ asset('storage/' . $detailSurat->ktp_file) }}" alt="KTP"
-                    style="max-width: 300px; max-height: 400px;">
+
+                @if ($detailSurat->ktp)
+                    <x-file-viewer title="KTP" file="{{ $detailSurat->ktp }}" />
+                @endif
+                @if ($detailSurat->kk)
+                    <x-file-viewer title="KK" file="{{ $detailSurat->kk }}" />
+                @endif
+
+                @if ($detailSurat->surat_keterangan)
+                    <x-file-viewer title="Surat Keterangan" file="{{ $detailSurat->surat_keterangan }}" />
+                @endif
+
+                @if ($detailSurat->surat_penghasilan)
+                    <x-file-viewer title="Surat Penghasilan" file="{{ $detailSurat->surat_penghasilan }}" />
+                @endif
+
+                @if ($detailSurat->foto_rumah)
+                    @php
+                        $fotoRumahArray = json_decode($detailSurat->foto_rumah, true);
+                    @endphp
+                    <x-file-list-viewer title="Foto Rumah" :files="$fotoRumahArray ?? []" />
+                @endif
+
+                {{-- Action --}}
+                @if (Auth::user()->role == 'rt')
+                    @if ($surat->status === 'MENUNGGU')
+                        <div class="d-flex justify-content-end mb-3 me-3">
+                            <form action="{{ route('verifikasi.setujui', $surat->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-success me-2">
+                                    <i class="bx bx-check-circle me-1"></i> Setujui
+                                </button>
+                            </form>
+
+                            <form action="{{ route('verifikasi.tolak', $surat->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
+                                    data-bs-target="#modalTolak{{ $surat->id }}">
+                                    <i class="bx bx-x-circle me-1"></i>
+                                    Tolak
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                @endif
 
             </div>
         </div>
     </div>
+
+    {{-- Modal lampiran --}}
+    <div class="modal fade" id="viewFileModal" tabindex="-1" aria-labelledby="viewFileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewFileModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" alt="File" id="modalFileImage" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
     </div>
+
+    {{-- Modal alasan penolakan --}}
+    <div class="modal fade" id="modalTolak{{ $surat->id }}" tabindex="-1" aria-labelledby="modalTolakLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTolakLabel">Alasan Penolakan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('verifikasi.tolak', $surat->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="keterangan">Masukkan alasan penolakan:</label>
+                            <textarea name="keterangan" id="keterangan" class="form-control" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Tolak</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Lampiran
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewFileModal = document.getElementById('viewFileModal');
+            const modalTitle = document.getElementById('viewFileModalLabel');
+            const modalImage = document.getElementById('modalFileImage');
+
+            viewFileModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const title = button.getAttribute('data-title');
+                const file = button.getAttribute('data-file');
+
+                modalTitle.textContent = title;
+                modalImage.src = file;
+            });
+        });
+
+        // Modal Batal
+        document.getElementById('cancelButton').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                text: "Apakah Anda yakin ingin membatalkan pengajuan surat?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3435',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Batal',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('cancelForm').submit();
+                }
+            });
+        });
+    </script>
+
 @endsection

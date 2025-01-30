@@ -21,9 +21,9 @@ class DashboardController extends Controller
         $totalSuratMenungguUser = Surat::where('user_id', Auth::id())->where('status', 'MENUNGGU')->count();
 
         // RT 
-        $totalWargaRT = User::where('role', 'pengguna')->where('rt_rw', Auth::id())->count();
         $totalSuratMenungguRT = Surat::where('rt_rw', Auth::user()->rt_rw)->where('status', 'MENUNGGU')->count();
         $totalSuratDiajukanRT = Surat::where('rt_rw', Auth::user()->rt_rw)->count();
+        $totalWargaRT = User::where('role', 'pengguna')->where('rt_rw', Auth::id())->count();
 
         // Admin 
         $totalAdmin = User::where('role', 'admin')->count();

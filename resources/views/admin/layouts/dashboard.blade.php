@@ -63,6 +63,18 @@
     </style>
 
     <div class="container-xxl flex-grow-1 container-p-y">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-lg-12 order-0 mb-4">
                 <div class="card">
@@ -71,7 +83,11 @@
                             <div class="card-body">
                                 <h5 class="card-title text-primary">Selamat datang, {{ Auth::user()->nama }}!</h5>
                                 @if (Auth::user()->role == 'rt')
-                                    <p>Ketua RT/RW {{ Auth::user()->rt_rw }}</p>
+                                    @php
+                                        $rt_rw = Auth::user()->rt_rw;
+                                        $rt = explode('/', $rt_rw)[0];
+                                    @endphp
+                                    <p>Ketua RT {{ $rt ?? '' }}</p>
                                 @endif
                             </div>
                         </div>
@@ -148,7 +164,12 @@
                         <div class="card-body">
                             <i class="bx bx-group icon-style"
                                 style="background-color: #6f42c1; padding: 12px; border-radius: 100%;"></i>
-                            <h5 class="card-title">Total Warga RT [nama RT]</h5>
+                            @php
+                                $rt_rw = Auth::user()->rt_rw;
+                                $rt = explode('/', $rt_rw)[0];
+                            @endphp
+
+                            <h5 class="card-title">Total Warga RT {{ $rt ?? '' }}</h5>
                             <p class="card-text">{{ $totalWargaRT }}</p>
                         </div>
                     </div>
@@ -209,7 +230,7 @@
                     <div class="card hover-card text-center">
                         <div class="card-body">
                             <i class="bx bx-group icon-style"></i>
-                            <h5 class="card-title">Total Users</h5>
+                            <h5 class="card-title">Total Pengguna</h5>
                             <p class="card-text">{{ $totalUsers }}</p>
                         </div>
                     </div>

@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'nama' => 'User 1',
-                'nik' => '3173',
+                'nik' => '3173317331733173',
                 'email' => 'user@gmail.com',
                 'nomor_whatsapp' => '08123456789',
                 'rt_rw' => '01/01',

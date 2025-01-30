@@ -14,15 +14,19 @@ return new class extends Migration
         Schema::create('surat_pengantar', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('tempat_lahir');
-            $table->string('tanggal_lahir');
+            $table->string('ttl');
             $table->enum('jenis_kelamin', ['Perempuan', 'Laki-Laki']);
             $table->string('agama');
             $table->string('pekerjaan');
             $table->string('nik');
             $table->string('keperluan');
             $table->string('no_whatsapp');
-            $table->string('ktp_file');
+            $table->string('rt');
+            $table->string('rw');
+            $table->string('ketua_rt');
+            $table->string('ketua_rw');
+            $table->string('ktp');
+            $table->string('kk');
             $table->timestamps();
         });
     }

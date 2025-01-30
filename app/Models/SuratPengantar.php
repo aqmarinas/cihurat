@@ -13,14 +13,18 @@ class SuratPengantar extends Model
 
     protected $fillable = [
         'nama',
-        'tempat_lahir',
-        'tanggal_lahir',
+        'nik',
+        'no_whatsapp',
+        'ttl',
         'jenis_kelamin',
         'agama',
         'pekerjaan',
-        'nik',
         'keperluan',
-        'no_whatsapp',
-        'ktp_file',
+        'rt',
+        'rw',
+        'ketua_rw',
+        'ketua_rt',
+        'ktp',
+        'kk'
     ];
 }

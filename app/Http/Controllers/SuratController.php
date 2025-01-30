@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\JenisSurat;
+use App\Models\Rw;
 use App\Models\Surat;
+use App\Models\SuratBelumNikah;
 use App\Models\SuratDomisili;
+use App\Models\SuratField;
+use App\Models\SuratKematian;
 use App\Models\SuratPengantar;
+use App\Models\SuratTidakMampu;
+use App\Models\SuratUsaha;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class SuratController extends Controller
 {
@@ -60,72 +69,269 @@ class SuratController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $jenis_surat = $request->input('jenis_surat');
+        // try {
+        $jenis_surat = $request->input('jenis_surat');
 
-            switch ($jenis_surat) {
-                case 'Surat Domisili':
-                    $validateSurat = $request->validate([
-                        'nama' => 'required|string|max:50',
-                        'nik' => 'required|digits:16',
-                        'tempat_lahir' => 'required|string|max:30',
-                        'tanggal_lahir' => 'required|string|max:30',
-                        'status_kawin' => 'required|string|max:50',
-                        'agama' => 'required|string|max:50',
-                        'pekerjaan' => 'required|string|max:30',
-                        'alamat' => 'required|string|max:50',
-                        'keperluan' => 'required|string|max:50',
-                        'no_whatsapp' => 'required|string|max:20',
-                    ]);
+        switch ($jenis_surat) {
+            case 'Surat Pengantar':
+                $rt_rw = auth()->user()->rt_rw;
+                list($rt, $rw) = explode('/', $rt_rw);
 
-                    $suratModel = SuratDomisili::create($validateSurat);
-                    break;
-                case 'Surat Pengantar':
-                    $validateSurat = $request->validate([
-                        'nama' => 'required|string|max:50',
-                        'tempat_lahir' => 'required|string|max:30',
-                        'tanggal_lahir' => 'required|string|max:30',
-                        'jenis_kelamin' => 'required|string|max:15',
-                        'agama' => 'required|string|max:50',
-                        'pekerjaan' => 'required|string|max:30',
-                        'nik' => 'required|digits:16',
-                        'keperluan' => 'required|string|max:50',
-                        'no_whatsapp' => 'required|string|max:20',
-                        'ktp_file' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-                    ]);
-
-                    $ktpFile = $request->file('ktp_file');
-                    $filename = time() . '.' . $ktpFile->getClientOriginalExtension();
-                    $path = $ktpFile->storeAs('documents/ktp', $filename, 'public');
+                $ketuaRt = User::where('role', 'rt')
+                    ->where('rt_rw', "$rt_rw")
+                    ->first();
+                $ketuaRw = Rw::where('rw', $rw)->first();
 
 
-                    $suratModel = SuratPengantar::create(array_merge($validateSurat, [
-                        'ktp_file' => $path
-                    ]));
-                    break;
-                default:
-                    return redirect()->route('surat.index')->with('error', 'Jenis surat tidak valid');
-            }
+                $validateSurat = $request->validate([
+                    'nama' => 'required|string|max:50',
+                    'ttl' => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'jenis_kelamin' => 'required|string|max:15',
+                    'agama' => 'required|string|max:15',
+                    'pekerjaan' => 'required|string|max:30',
+                    'nik' => 'required|digits:16',
+                    'keperluan' => 'required|string|max:50',
+                    'no_whatsapp' => 'required|string|max:20',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                ]);
 
-            Surat::create([
-                'user_id' => auth()->id(),
-                'rt_rw' => auth()->user()->rt_rw,
-                'suratable_type' => get_class($suratModel),
-                'suratable_id' => $suratModel->id,
-                'jenis_surat' => $jenis_surat,
-                'tanggal_pengajuan' => now(),
-            ]);
-            return redirect()->route('pengguna.riwayat')->with('success', 'Berhasil mengajukan ' . $jenis_surat);
-        } catch (\Exception $e) {
-            logger()->error($e->getMessage());
-            return back()->withErrors(['error' => $e->getMessage()]);
+                $fileFields = ['ktp', 'kk'];
+                $filePaths = [];
+
+
+                foreach ($fileFields as $field) {
+                    if ($request->hasFile($field)) {
+                        $file = $request->file($field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                    }
+                }
+
+                $data = array_merge(
+                    $validateSurat,
+                    $filePaths,
+                    [
+                        'rt' => $rt,
+                        'rw' => $rw,
+                        'ketua_rw' => $ketuaRw->nama ?? "-",
+                        'ketua_rt' => $ketuaRt->nama ?? "-",
+                    ]
+                );
+                $suratModel = SuratPengantar::create($data);
+                break;
+            case 'Surat Domisili':
+                $validateSurat = $request->validate([
+                    'nama' => 'required|string|max:50',
+                    'nik' => 'required|digits:16',
+                    'ttl' => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'status_kawin' => 'required|string|max:50',
+                    'agama' => 'required|string|max:50',
+                    'pekerjaan' => 'required|string|max:30',
+                    'alamat' => 'required|string|max:50',
+                    'keperluan' => 'required|string|max:50',
+                    'no_whatsapp' => 'required|string|max:20',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+
+                ]);
+
+                $fileFields = ['ktp', 'kk'];
+                $filePaths = [];
+
+
+                foreach ($fileFields as $field) {
+                    if ($request->hasFile($field)) {
+                        $file = $request->file($field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                    }
+                }
+
+                $data = array_merge(
+                    $validateSurat,
+                    $filePaths,
+                );
+
+                $suratModel = SuratDomisili::create($data);
+                break;
+            case 'Surat Keterangan Tidak Mampu':
+                $validateSurat = $request->validate([
+                    'nama_ortu' => 'required|string|max:50',
+                    'nik_ortu' => 'required|digits:16',
+                    "ttl_ortu" => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'jenis_kelamin_ortu' => 'required|string|max:15',
+                    'no_whatsapp' => 'required|string|max:20',
+                    'status_kawin' => 'required|string|max:20',
+                    'alamat' => 'required|string|max:100',
+                    'penghasilan' => 'required|string|max:20',
+
+                    'nama' => 'required|string|max:50',
+                    'nik' => 'required|digits:16',
+                    "ttl" => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'jenis_kelamin' => 'required|string|max:15',
+                    'sekolah' => 'required|string|max:50',
+                    'jurusan' => 'required|string|max:50',
+                    'keperluan' => 'required|string|max:50',
+
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'surat_penghasilan' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
+                    'foto_rumah.*' => 'required|mimes:jpg,jpeg,png|max:2048'
+                ]);
+
+                // single file
+                $fileFields = ['ktp', 'kk', 'surat_penghasilan'];
+                $filePaths = [];
+
+                foreach ($fileFields as $field) {
+                    if ($request->hasFile($field)) {
+                        $file = $request->file($field);
+                        if ($file->getClientOriginalExtension() === 'pdf') {
+                            $filePaths[$field] = $file->storeAs("documents/$field", time() . "_$field." . $file->getClientOriginalExtension(), 'public');
+                        } else {
+                            $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        }
+                    }
+                }
+
+                // multiple file
+                if ($request->hasFile('foto_rumah')) {
+                    $fotoRumahPaths = [];
+                    foreach ($request->file('foto_rumah') as $index => $file) {
+                        $filename = "foto_rumah_$index";
+                        $path = $this->processImageWithWatermark($file, 'foto_rumah', $filename);
+                        $fotoRumahPaths[] = $path;
+                    }
+                    // convert array to json
+                    $filePaths['foto_rumah'] = json_encode($fotoRumahPaths);
+                }
+
+                $data = array_merge($validateSurat, $filePaths);
+                $suratModel = SuratTidakMampu::create($data);
+                break;
+            case 'Surat Keterangan Kematian':
+                $validateSurat = $request->validate([
+                    'nama' => 'required|string|max:50',
+                    'nik' => 'required|digits:16',
+                    'no_whatsapp' => 'required|string|max:20',
+                    'jenis_kelamin' => 'required|string|max:15',
+                    'alamat' => 'required|string|max:100',
+                    'hari_meninggal' => 'required|string|max:30',
+                    'tanggal_meninggal' => 'required|string|max:30',
+                    'tempat_meninggal' => 'required|string|max:30',
+                    'sebab_meninggal' => 'required|string|max:30',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'surat_keterangan' => 'required|mimes:jpg,jpeg,png,pdf|max:2048'
+                ]);
+
+                $fileFields = ['ktp', 'kk', 'surat_keterangan'];
+                $filePaths = [];
+
+                foreach ($fileFields as $field) {
+                    if ($request->hasFile($field)) {
+                        $file = $request->file($field);
+                        if ($file->getClientOriginalExtension() === 'pdf') {
+                            $filePaths[$field] = $file->storeAs("documents/$field", time() . "_$field." . $file->getClientOriginalExtension(), 'public');
+                        } else {
+                            $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        }
+                    }
+                }
+
+                $data = array_merge($validateSurat, $filePaths);
+                $suratModel = SuratKematian::create($data);
+                break;
+            case 'Surat Keterangan Usaha':
+                $validateSurat = $request->validate([
+                    'nama' => 'required|string|max:50',
+                    'nik' => 'required|digits:16',
+                    'ttl' => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'kewarganegaraan' => 'required|string|max:20',
+                    'agama' => 'required|string|max:15',
+                    'status_kawin' => 'required|string|max:15',
+                    'pekerjaan' => 'required|string|max:30',
+                    'alamat' => 'required|string|max:50',
+                    'jenis_usaha' => 'required|string|max:50',
+                    'no_whatsapp' => 'required|string|max:20',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                ]);
+
+                $fileFields = ['ktp', 'kk'];
+                $filePaths = [];
+
+
+                foreach ($fileFields as $field) {
+                    if ($request->hasFile($field)) {
+                        $file = $request->file($field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                    }
+                }
+
+                $data = array_merge(
+                    $validateSurat,
+                    $filePaths,
+                );
+                $suratModel = SuratUsaha::create($data);
+                break;
+            case 'Surat Keterangan Belum Menikah':
+                $validateSurat = $request->validate([
+                    'nama' => 'required|string|max:50',
+                    'bin' => 'required|string|max:50',
+                    'nik' => 'required|digits:16',
+                    'ttl' => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'agama' => 'required|string|max:15',
+                    'kewarganegaraan' => 'required|string|max:15',
+                    'status_kawin' => 'required|string|max:30',
+                    'pekerjaan' => 'required|string|max:30',
+                    'alamat' => 'required|string|max:50',
+                    'no_whatsapp' => 'required|string|max:20',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                ]);
+
+                $fileFields = ['ktp', 'kk'];
+                $filePaths = [];
+
+
+                foreach ($fileFields as $field) {
+                    if ($request->hasFile($field)) {
+                        $file = $request->file($field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                    }
+                }
+
+                $data = array_merge(
+                    $validateSurat,
+                    $filePaths,
+                );
+                $suratModel = SuratBelumNikah::create($data);
+                break;
+
+            case 'Surat Keterangan Ahli Waris':
+                break;
+            case 'Surat Keterangan Ahli Waris Bank':
+                break;
+            case 'Surat Pernyataan Kepemilikan Tanah':
+                break;
+            case 'Surat Keterangan Beda Nama':
+                break;
+            default:
+                return redirect()->route('surat.index')->with('error', 'Jenis surat tidak valid');
         }
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id) {}
 
+        Surat::create([
+            'user_id' => auth()->id(),
+            'rt_rw' => auth()->user()->rt_rw,
+            'suratable_type' => get_class($suratModel),
+            'suratable_id' => $suratModel->id,
+            'jenis_surat' => $jenis_surat,
+            'tanggal_pengajuan' => now(),
+        ]);
+        return redirect()->route('pengguna.riwayat')->with('success', 'Berhasil mengajukan ' . $jenis_surat);
+    }
+
+    public function show(string $id) {}
     /**
      * Show the form for editing the specified resource.
      */
@@ -147,13 +353,26 @@ class SuratController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $surat = Surat::find($id);
+
+        if (!$surat) {
+            return redirect()->route('pengguna.riwayat')->with('error', 'Pengajuan tidak ditemukan.');
+        }
+
+        $surat->status = 'DIBATALKAN';
+        $surat->save();
+
+        // soft delete
+        $surat->delete();
+
+        return redirect()->route('pengguna.riwayat')->with('success', 'Pengajuan berhasil dibatalkan.');
     }
 
     // User
     public function history()
     {
         $histories = Surat::where('user_id', auth()->id())
+            ->withTrashed()
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(5);
 
@@ -162,7 +381,9 @@ class SuratController extends Controller
 
     public function historyDetails(string $id)
     {
-        $surat = Surat::with(['user', 'suratable'])->findOrFail($id);
+        $surat = Surat::withTrashed()
+            ->with(['user', 'suratable'])
+            ->findOrFail($id);
 
         if (!$surat) {
             return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
@@ -170,7 +391,9 @@ class SuratController extends Controller
 
         $detailSurat = $surat->suratable;
 
-        return view('admin.riwayat.detail', compact('surat', 'detailSurat'));
+        $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
+
+        return view('admin.riwayat.detail', compact('surat', 'detailSurat', 'fields'));
     }
 
 
@@ -178,13 +401,52 @@ class SuratController extends Controller
     public function kelolaSurat(Request $request)
     {
         $status = $request->get('status');
-        $allLeters = Surat::query()
+        $search = $request->get('search');
+
+        $allLeters = Surat::with('user')
             ->when($status, function ($query, $status) {
                 return $query->where('status', strtoupper($status));
             })
+            ->when($search, function ($query, $search) {
+                return $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%");
+                });
+            })
             ->orderBy('tanggal_pengajuan', 'desc')
-            ->get();
+            ->paginate(10);
 
-        return view('admin.arsip.index', compact('allLeters'));
+        return view('admin.arsip.index', compact('allLeters', 'status', 'search'));
+    }
+
+    public function processImageWithWatermark($file, $folder, $field)
+    {
+        $manager = new ImageManager(new Driver());
+
+        $filename = time() . "_$field." . $file->getClientOriginalExtension();
+        $watermarkedImage = $manager->read($file);
+
+        $dateTime = date('Y/m/d H:i');
+        $textLines = ['Desa Cidahu', 'Kab. Purwakarta', $dateTime];
+
+        $x = $watermarkedImage->width() / 2;
+        $lineHeight = 80;
+        $startY = ($watermarkedImage->height() / 2) - (count($textLines) - 1) * $lineHeight / 2;
+
+        foreach ($textLines as $index => $line) {
+            $y = $startY + ($index * $lineHeight);
+
+            $watermarkedImage->text($line, $x, $y, function ($font) {
+                $font->file(public_path('fonts/Roboto-Bold.ttf'));
+                $font->size(70);
+                $font->color('rgba(192, 192, 192, .5)');
+                $font->align('center');
+                $font->valign('middle');
+            });
+        }
+
+        $path = storage_path("app/public/documents/$folder/$filename");
+        $watermarkedImage->save($path);
+
+        return "documents/$folder/$filename";
     }
 }

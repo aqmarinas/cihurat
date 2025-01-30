@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nik');
-            $table->string('tempat_lahir');
-            $table->string('tanggal_lahir');
+            $table->string('ttl');
             $table->string('status_kawin');
             $table->string('agama');
             $table->string('pekerjaan');
             $table->string('alamat');
             $table->string('keperluan');
             $table->string('no_whatsapp');
+            $table->string('ktp');
+            $table->string('kk');
             $table->timestamps();
         });
     }
@@ -30,7 +31,5 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-    }
+    public function down(): void {}
 };

@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Daftar Pengguna')
+@section('title', 'Data Pengguna')
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Button to Open the Modal -->
-        <div class="d-flex justify-content-start mb-3">
+        {{-- <div class="d-flex justify-content-start mb-3">
             <a href="{{ route('rt.create') }}" class="btn btn-primary">Tambah Data</a>
-        </div>
+        </div> --}}
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,11 +25,16 @@
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Daftar Pengguna</h5>
-                <div class="col-auto">
-                    <input type="text" id="searchInput" class="form-control" style="width: 250px;"
-                        placeholder="Cari nama...">
+            <div class="row mx-3 my-4">
+                <div class="col-md-6">
+                    <h5>Data Pengguna</h5>
+                </div>
+                <div class="col-md-6">
+                    <form method="GET" action="{{ route('pengguna.index') }}" class="d-flex">
+                        <input type="text" name="search" class="form-control me-2" value="{{ request('search') }}"
+                            placeholder="Cari nama..." />
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                    </form>
                 </div>
             </div>
             <div class="table-responsive text-nowrap">
@@ -47,9 +52,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($users as $index => $user)
                             <tr>
-                                <td>Nomor</td>
+                                <td class="text-center">{{ $index + 1 }}</td>
                                 <td><strong>{{ $user->nama ?? '-' }}</strong></td>
                                 <td>{{ $user->nik ?? '-' }}</td>
                                 <td>{{ $user->email ?? '-' }}</td>
@@ -81,7 +86,7 @@
 
                         @if ($users->isEmpty())
                             <tr>
-                                <td colspan="4" class="text-center">No data available</td>
+                                <td colspan="8" class="text-center">Tidak ada data yang tersedia</td>
                             </tr>
                         @endif
                     </tbody>
@@ -113,7 +118,8 @@
                     let matchFound = false;
 
                     Array.from(tableRows).forEach(row => {
-                        if (row.cells.length === 1 && row.cells[0].textContent.trim() === 'No data available') {
+                        if (row.cells.length === 1 && row.cells[0].textContent.trim() ===
+                            'Tidak ada data yang tersedia') {
                             return;
                         }
 

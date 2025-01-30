@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function registerUserView()
     {
         return view('admin.auth.register');
     }
@@ -40,34 +41,85 @@ class UserController extends Controller
         }
     }
 
-    public function registerRt()
+    public function getAllPengguna(Request $request)
     {
-        // request()->merge(['role' => 'rt']);
+        $search = $request->get('search');
 
-        $validate = request()->validate([
+        $users = User::where('role', 'pengguna')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('nama', 'like', "%{$search}%");
+            })->orderBy('nama', 'asc')
+            ->paginate(10);
+        return view('admin.pengguna.index', compact('users', 'search'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            if (!Auth::check()) {
+                return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
+            }
+
+            $user = Auth::user();
+
+            if (!$user instanceof User) {
+                return redirect()->back()->with('error', 'Admin tidak valid.');
+            }
+
+            $validated = $request->validate([
+                'nama' => 'nullable|string|max:50',
+                'nik' => 'nullable|string|max:20',
+                'email' => 'nullable|email',
+                'nomor_whatsapp' => 'nullable|digits_between:10,15',
+                'rt_rw' => 'nullable|string|max:8',
+                'alamat' => 'nullable|string|max:255',
+                'password' => 'nullable|string|min:8|confirmed',
+            ]);
+
+            if ($request->filled('password')) {
+                $validated['password'] = Hash::make($request->password);
+            } else {
+                unset($validated['password']);
+            }
+
+            $user->update($validated);
+            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['edit.profile' => $e->getMessage()]);
+        }
+    }
+
+    public function editProfile()
+    {
+        $user = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
+
+        // Pastikan admin terautentikasi
+        if (!$user) {
+            return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
+        }
+
+        return view('admin.profile.edit', compact('user'));
+    }
+
+
+    public function updateRt(Request $request, string $id)
+    {
+        $rtRwId = User::findOrFail($id);
+
+        $validated = $request->validate([
             'nama' => 'required|string|max:50',
             'nik' => 'nullable|string|max:20',
             'email' => 'required|email',
             'nomor_whatsapp' => 'required|digits_between:10,15',
-            'rt_rw' => 'required|string|max:8|unique:users,rt_rw',
+            'rt_rw' => 'required|string|max:8',
             'alamat' => 'nullable|string|max:255',
-            'role' => 'required|string|in:rt',
-            'password' => 'required|string|min:8|confirmed',
+            'role' => 'nullable|string|in:rt',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        $validate['password'] = bcrypt($validate['password']);
-        $validate['role'] = 'rt';
+        $rtRwId->update($validated);
 
-        User::create($validate);
-        return redirect()->route('rt.index')->with('success', 'Berhasil menambahkan akun ketua RT');
-    }
-
-    public function getAllPengguna()
-    {
-        $users = User::where('role', 'pengguna')
-            ->orderBy('nama', 'asc')
-            ->get();
-        return view('admin.pengguna.index', compact('users'));
+        return redirect()->back()->with('success', 'Data berhasil diperbarui!');
     }
     /**
      * Show the form for creating a new resource.

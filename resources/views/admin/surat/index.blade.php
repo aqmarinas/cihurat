@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Course')
+@section('title', 'Pengajuan Surat')
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -20,6 +20,21 @@
                     </ul>
                 </div>
             @endif
+
+            <div class="alert alert-primary alert-dismissible fade show col-md-6" role="alert">
+                <h5 class="text-primary">Informasi</h5>
+                <ul>
+                    <li>
+                        <p>
+                            Jika surat yang Anda butuhkan tidak tersedia, silakan ajukan terlebih dahulu <strong>Surat
+                                Pengantar RT/RW</strong> setempat. Setelah itu, Anda dapat mengunjungi kantor desa untuk
+                            mengurus pembuatan surat yang diperlukan
+
+                        </p>
+                    </li>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
             {{-- @if ($errors->has('error'))
                 <div class="alert alert-danger">

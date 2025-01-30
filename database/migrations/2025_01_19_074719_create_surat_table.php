@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('jenis_surat');
             $table->timestamp('tanggal_pengajuan');
             $table->timestamp('tanggal_disetujui')->nullable();
-            $table->enum('status', ['MENUNGGU', 'DISETUJUI', 'DITOLAK'])->default('MENUNGGU');
+            $table->enum('status', ['MENUNGGU', 'DISETUJUI', 'DITOLAK', 'DIBATALKAN'])->default('MENUNGGU');
             $table->string('keterangan')->nullable();
+            $table->softDeletes();
             $table->timestamps();
             // todo: attachment from user
         });

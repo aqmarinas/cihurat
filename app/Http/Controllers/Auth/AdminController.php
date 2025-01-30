@@ -48,7 +48,7 @@ class AdminController extends Controller
     //         }
 
     //         $user = User::where('email', $request->email)->first();
-            
+
     //         if ($user) {
     //             // Jika email ditemukan di tabel Users
     //             if (Auth::guard('users')->attempt($credentials, $remember)) {
@@ -77,12 +77,13 @@ class AdminController extends Controller
 
         if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard'); 
-        }        return back()->withErrors([
+            return redirect()->route('dashboard');
+        }
+        return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-    
+
     // Logout admin
     public function logout(Request $request)
     {
@@ -91,7 +92,7 @@ class AdminController extends Controller
         // } elseif (Auth::guard('users')->check()) {
         //     Auth::guard('users')->logout();
         // }
-        
+
         $request->session()->flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -100,53 +101,7 @@ class AdminController extends Controller
     }
 
 
-    public function updateProfile(Request $request)
-    {
-        try {
-            if (!Auth::check()) {
-                return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
-            }
 
-            $user = Auth::user(); 
-
-            if (!$user instanceof User) {
-                return redirect()->back()->with('error', 'Admin tidak valid.');
-            }
-
-            $validated = $request->validate([
-                'nama' => 'nullable|string|max:50',
-                'nik' => 'nullable|string|max:20',
-                'email' => 'nullable|email',
-                'nomor_whatsapp' => 'nullable|digits_between:10,15',
-                'rt_rw' => 'nullable|string|max:8',
-                'alamat' => 'nullable|string|max:255',
-                'password' => 'nullable|string|min:8|confirmed',
-            ]);
-
-            if ($request->filled('password')) {
-                $validated['password'] = Hash::make($request->password);
-            } else {
-                unset($validated['password']);
-            }
-
-            $user->update($validated);
-            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['edit.profile' => $e->getMessage()]);
-        }    
-    }
-
-    public function editProfile()
-    {
-        $user = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
-
-        // Pastikan admin terautentikasi
-        if (!$user) {
-            return redirect()->route('admin.login')->with('error', 'Silakan masuk terlebih dahulu.');
-        }
-
-        return view('admin.profile.edit', compact('user'));
-    }
 
     public function index()
     {

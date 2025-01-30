@@ -14,14 +14,15 @@ class SuratDomisili extends Model
     protected $fillable = [
         'nama',
         'nik',
-        'tempat_lahir',
-        'tanggal_lahir',
+        'ttl',
         'status_kawin',
         'agama',
         'pekerjaan',
         'alamat',
         'keperluan',
         'no_whatsapp',
+        'ktp',
+        'kk',
     ];
 
     public function surat()

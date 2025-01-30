@@ -4,30 +4,48 @@
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Kelola Surat</h5>
-                <div class="col-auto">
-                    <input type="text" id="searchInput" class="form-control" style="width: 250px;" placeholder="Cari nama...">
+            <div class="row mx-3 my-4">
+                <div class="col-md-6">
+                    <h5>Kelola Surat</h5>
+                </div>
+                <div class="col-md-6">
+                    <form method="GET" action="{{ route('admin.surat') }}" class="d-flex">
+                        <input type="text" name="search" class="form-control me-2" value="{{ request('search') }}"
+                            placeholder="Cari nama..." />
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                    </form>
                 </div>
             </div>
             <div class="">
                 {{-- Filter by status --}}
-                <div class="btn-group mx-4 pb-3" role="group" aria-label="Filter Status">
-                    <a href="{{ route('admin.surat', ['status' => 'disetujui']) }}"
-                        class="btn btn-outline-dark {{ request('status') === 'disetujui' ? 'active' : '' }}">
-                        Disetujui
-                    </a>
+                <div class="btn-group d-flex col-md-6 mx-4 flex-wrap pb-3 pr-4" role="group" aria-label="Filter Status">
                     <a href="{{ route('admin.surat', ['status' => 'menunggu']) }}"
-                        class="btn btn-outline-dark {{ request('status') === 'menunggu' ? 'active' : '' }}">
+                        class="btn btn-outline-dark flex-fill {{ strtoupper(request()->query('status')) == 'MENUNGGU' ? 'active' : '' }} mb-2">
                         Menunggu
                     </a>
+                    <a href="{{ route('admin.surat', ['status' => 'disetujui']) }}"
+                        class="btn btn-outline-dark flex-fill {{ strtoupper(request()->query('status')) == 'DISETUJUI' ? 'active' : '' }} mb-2">
+                        Disetujui
+                    </a>
                     <a href="{{ route('admin.surat', ['status' => 'ditolak']) }}"
-                        class="btn btn-outline-dark {{ request('status') === 'ditolak' ? 'active' : '' }}">
+                        class="btn btn-outline-dark flex-fill {{ strtoupper(request()->query('status')) == 'DITOLAK' ? 'active' : '' }} mb-2">
                         Ditolak
                     </a>
                     <a href="{{ route('admin.surat') }}"
-                        class="btn btn-outline-dark {{ request('status') === null ? 'active' : '' }}">
+                        class="btn btn-outline-dark flex-fill {{ request()->query('status') == null ? 'active' : '' }} mb-2">
                         Semua
                     </a>
                 </div>
@@ -36,7 +54,7 @@
                     <table class="table-bordered table-striped table">
                         <thead>
                             <tr>
-                                <th>Tanggal Masuk</th>
+                                <th>Tanggal Pengajuan</th>
                                 <th>Nama</th>
                                 <th>Jenis Surat</th>
                                 <th>Status</th>
@@ -54,7 +72,10 @@
                                     // $hasCourses = true;
                                 @endphp
                                 <tr>
-                                    <td>{{ \Carbon\Carbon::parse($letter->tanggal_pengajuan)->translatedFormat('d F Y') ?? '-' }}
+                                    <td>
+                                        {{ \Carbon\Carbon::parse($letter->tanggal_pengajuan)->translatedFormat('d F Y H:i') ?? '-' }}
+                                        WIB
+                                    </td>
                                     <td>{{ $letter->user->nama ?? '-' }}</td>
                                     <td>{{ $letter->jenis_surat ?? '-' }}</td>
                                     </td>
@@ -69,7 +90,7 @@
                                             "-"
                                         @endif
                                     <td>
-                                        <a href="{{ route('verifikasi.show', $letter->id) }}"
+                                        <a href="{{ route('admin.surat.detail', $letter->id) }}"
                                             class="btn btn-primary btn-sm me-2">Detail</a>
                                         @if ($letter->status === 'DISETUJUI')
                                             <a href="{{ route('surat.download', $letter->id) }}"
@@ -100,58 +121,6 @@
                 </div>
             @endif
         </div>
-        <script>
-            // Tunggu sampai DOM sepenuhnya dimuat
-            document.addEventListener('DOMContentLoaded', function() {
-                // Ambil elemen input search dan tbody
-                const searchInput = document.getElementById('searchInput');
-                const tableBody = document.querySelector('tbody');
-                const tableRows = tableBody.getElementsByTagName('tr');
-
-                // Buat div untuk pesan "tidak ditemukan"
-                const notFoundMessage = document.createElement('div');
-                notFoundMessage.className = 'alert alert-info text-center mt-3';
-                notFoundMessage.style.display = 'none';
-                notFoundMessage.textContent = 'No matching allLeters found';
-                document.querySelector('.table-responsive').after(notFoundMessage);
-
-                // Fungsi untuk melakukan pencarian
-                function performSearch() {
-                    const searchTerm = searchInput.value.toLowerCase().trim();
-                    let matchFound = false;
-
-                    // Loop melalui setiap baris tabel
-                    Array.from(tableRows).forEach(row => {
-                        // Skip baris "No data available"
-                        if (row.cells.length === 1 && row.cells[0].textContent.trim() === 'No data available') {
-                            return;
-                        }
-
-                        // Ambil teks dari kolom judul dan deskripsi
-                        const title = row.cells[1].textContent.toLowerCase();
-                        const description = row.cells[2].textContent.toLowerCase();
-
-                        // Cek apakah searchTerm ada dalam title atau description
-                        if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                            row.style.display = ''; // Tampilkan baris
-                            matchFound = true;
-                        } else {
-                            row.style.display = 'none'; // Sembunyikan baris
-                        }
-                    });
-
-                    // Tampilkan/sembunyikan pesan "tidak ditemukan"
-                    if (searchTerm && !matchFound) {
-                        notFoundMessage.style.display = 'block';
-                    } else {
-                        notFoundMessage.style.display = 'none';
-                    }
-                }
-
-                // Event listener untuk input search
-                searchInput.addEventListener('input', performSearch);
-            });
-        </script>
     </div>
 
 @endsection

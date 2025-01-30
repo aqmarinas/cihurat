@@ -18,17 +18,17 @@
         <li class="menu-item {{ Route::is('rt.*') ? 'open active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-group"></i>
-                <div data-i18n="Account Settings">Kelola RT</div>
+                <div data-i18n="Account Settings">Kelola RT dan RW</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ Route::is('rt.index') ? 'active' : '' }}">
                     <a href="{{ route('rt.index') }}" class="menu-link">
-                        <div data-i18n="Notifications">Daftar RT</div>
+                        <div data-i18n="Notifications">Data RT</div>
                     </a>
                 </li>
-                <li class="menu-item {{ Route::is('rt.create') ? 'active' : '' }}">
-                    <a href="{{ route('rt.create') }}" class="menu-link">
-                        <div data-i18n="Account">Tambah Akun Ketua RT</div>
+                <li class="menu-item {{ Route::is('rw.index') ? 'active' : '' }}">
+                    <a href="{{ route('rw.index') }}" class="menu-link">
+                        <div data-i18n="Account">Data RW</div>
                     </a>
                 </li>
             </ul>
@@ -42,7 +42,7 @@
             <ul class="menu-sub">
                 <li class="menu-item {{ Route::is('pengguna.index') ? 'active' : '' }}">
                     <a href="{{ route('pengguna.index') }}" class="menu-link">
-                        <div data-i18n="Notifications">Daftar Pengguna</div>
+                        <div data-i18n="Notifications">Data Pengguna</div>
                     </a>
                 </li>
             </ul>
@@ -51,7 +51,7 @@
         <li class="menu-item {{ Route::is('verifikasi.index') ? 'active' : '' }}">
             <a href="{{ route('verifikasi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-question-mark"></i>
-                <div data-i18n="Analytics">Verifikasi Pengajuan</div>
+                <div data-i18n="Analytics">Cek Pengajuan Surat</div>
             </a>
         </li>
     @elseif (Auth::user()->role == 'pengguna')
@@ -79,7 +79,7 @@
         </a>
     </li>
 
-    <li class="menu-header small text-uppercase">
+    {{-- <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Main</span>
     </li>
     <li class="menu-item {{ Route::is('course.*') || Route::is('content.*') ? 'open active' : '' }}">
@@ -126,7 +126,7 @@
                 </li>
             </ul>
         </li>
-        {{-- <li class="menu-item {{ Route::is('logo.*') ? 'open active' : '' }}">
+        <li class="menu-item {{ Route::is('logo.*') ? 'open active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-palette"></i>
                 <div data-i18n="Account Settings">Logo</div>
@@ -143,7 +143,7 @@
                     </a>
                 </li>
             </ul>
-        </li> --}}
+        </li>
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Guru</span>
         </li>
@@ -181,5 +181,5 @@
                 </li>
             </ul>
         </li>
-    @endif
+    @endif --}}
 </ul>

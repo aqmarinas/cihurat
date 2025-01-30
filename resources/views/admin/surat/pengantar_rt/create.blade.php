@@ -3,42 +3,6 @@
 @section('title', 'Surat Pengantar RT/RW')
 
 @section('container')
-    <style>
-        .upload-file-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .upload-area {
-            border: 2px dashed #007bff;
-            padding: 20px;
-            cursor: pointer;
-        }
-
-        .upload-label {
-            display: inline-block;
-            color: #007bff;
-        }
-
-        .file-list {
-            margin-top: 10px;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 5px;
-            padding: 5px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-        }
-
-        .file-item .remove-file {
-            cursor: pointer;
-            color: red;
-        }
-    </style>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="container">
 
@@ -67,27 +31,15 @@
                             <label class="form-label" for="basic-default-nama">Nama Lengkap<span style="color: red">
                                     *</span></label>
                             <input type="text" name="nama" class="form-control" id="basic-default-nama"
-                                placeholder="Nama lengkap" required value="{{ old('nama', $user->nama) }}" />
-                            <div id="nama-error" style="color: red; display: none;">Nama lengkap wajib diisi</div>
+                                placeholder="Nama Lengkap" required value="{{ old('nama', $user->nama) }}" />
                         </div>
-                        {{-- Tempat Lahir --}}
+                        {{-- TTL --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-tempat_lahir">Tempat Lahir<span style="color: red">
+                            <label class="form-label" for="basic-default-ttl">Tempat, Tanggal Lahir<span style="color: red">
                                     *</span></label>
-                            <input type="text" name="tempat_lahir" class="form-control" id="basic-default-tempat_lahir"
-                                placeholder="Tempat Lahir" required
-                                value="{{ old('tempat_lahir', $user->tempat_lahir) }}" />
-                            <div id="tempat_lahir-error" style="color: red; display: none;">Tempat lahir wajib diisi</div>
-                        </div>
-                        {{-- Tanggal Lahir --}}
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-tanggal_lahir">Tanggal Lahir<span
-                                    style="color: red">
-                                    *</span></label>
-                            <input type="text" name="tanggal_lahir" class="form-control" id="basic-default-tanggal_lahir"
-                                placeholder="Tanggal Lahir" required
-                                value="{{ old('tanggal_lahir', $user->tanggal_lahir) }}" />
-                            <div id="tanggal_lahir-error" style="color: red; display: none;">Tanggal lahir wajib diisi</div>
+                            <input type="text" name="ttl" class="form-control" id="basic-default-ttl"
+                                placeholder="Tanggal Lahir" required value="{{ old('ttl') }}" />
+                            <p style="font-size: 12px">Contoh: Purwakarta, 25 Januari 2025</p>
                         </div>
                         {{-- Jenis Kelamin --}}
                         <div class="mb-3">
@@ -100,8 +52,6 @@
                                 <option value="Laki-Laki">Laki-Laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
-                            <div id="jenis_kelamin-error" style="color: red; display: none;">Status perkawinan wajib diisi
-                            </div>
                         </div>
                         {{-- NIK --}}
                         <div class="mb-3">
@@ -110,7 +60,6 @@
                             <input type="text" name="nik" class="form-control" id="basic-default-nik"
                                 inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
                                 value="{{ old('nik', $user->nik) }}" />
-                            <div id="nik-error" style="color: red; display: none;">NIK wajib diisi dengan angka</div>
                         </div>
                         {{-- Agama --}}
                         <div class="mb-3">
@@ -118,7 +67,6 @@
                                     *</span></label>
                             <input type="text" name="agama" class="form-control" id="basic-default-agama"
                                 placeholder="Agama" required value="{{ old('agama') }}" />
-                            <div id="agama-error" style="color: red; display: none;">Agama wajib diisi</div>
                         </div>
                         {{-- Pekerjaan --}}
                         <div class="mb-3">
@@ -126,7 +74,6 @@
                                     *</span></label>
                             <input type="text" name="pekerjaan" class="form-control" id="basic-default-pekerjaan"
                                 placeholder="Pekerjaan" required value="{{ old('pekerjaan') }}" />
-                            <div id="pekerjaan-error" style="color: red; display: none;">Pekerjaan wajib diisi</div>
                         </div>
                         {{-- Keperluan --}}
                         <div class="mb-3">
@@ -134,49 +81,31 @@
                                     *</span></label>
                             <input type="text" name="keperluan" class="form-control" id="basic-default-keperluan"
                                 placeholder="Keperluan" required value="{{ old('keperluan') }}" />
-                            <div id="keperluan-error" style="color: red; display: none;">Keperluan wajib diisi</div>
                         </div>
                         {{-- Nomor WhatsApp --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-no_whatsapp">Nomor WhatsApp <span
-                                    style="color: red">
+                            <label class="form-label" for="basic-default-no_whatsapp">Nomor WhatsApp yang dapat dihubungi
+                                <span style="color: red">
                                     *</span></label>
                             <input type="text" name="no_whatsapp" class="form-control" id="basic-default-no_whatsapp"
                                 inputmode="numeric" placeholder="Nomor WhatsApp" required
                                 value="{{ old('nomor_whatsapp', $user->nomor_whatsapp) }}" />
-                            <div id="no_whatsapp-error" style="color: red; display: none;">Nomor WA wajib diisi dengan
-                                angka
-                            </div>
                         </div>
                         {{-- Attachment --}}
-                        {{-- <div>
-                            Scan KTP <span style="color: red"> *</span>
-                        </div>
-                        <div class="upload-file-container">
-                            <div class="upload-area">
-                                <input type="file" id="files" name="files[]" multiple style="display: none;">
-                                <label for="files" class="upload-label">
-                                    <div class="upload-icon">
-                                        <i class="bx bx-cloud-upload"></i>
-                                    </div>
-                                    <span>Click To Upload</span>
-                                </label>
-                            </div>
-                            <div id="file-list" class="file-list" style="margin: 10px 0px 10px 0px"></div>
-                            <div id="fileError" style="display:none; color:red;">File size exceeds 20MB.</div>
-                        </div> --}}
-                        {{-- <div class="mb-3">
-                            <label for="ktp" class="form-label">KTP <span style="color: red">
-                                    *</span></label>
-                            <input type="file" class="form-control" id="ktp" name="ktp" required>
-                        </div> --}}
                         <div class="mb-3">
-                            <label class="form-label" for="ktp_file">Upload KTP <span style="color: red">*</span></label>
-                            <input type="file" name="ktp_file" class="form-control" id="ktp_file"
-                                accept="image/jpeg,image/png" required />
-                            @error('ktp_file')
-                                <div style="color: red;">{{ $message }}</div>
-                            @enderror
+                            <label class="form-label" for="ktp">Kartu Tanda Penduduk (KTP) <span
+                                    style="color: red">*</span></label>
+                            <input type="file" name="ktp" class="form-control" id="ktp"
+                                accept="image/jpeg,image/png,image/jpg" required />
+                            <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="kk">Kartu Keluarga (KK) <span
+                                    style="color: red">*</span></label>
+                            <input type="file" name="kk" class="form-control" id="kk"
+                                accept="image/jpeg,image/png, image/jpg" required />
+                            <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="saveButton">Kirim</button>

@@ -21,6 +21,29 @@
             </div>
         @endif
 
+        <div class="alert alert-primary alert-dismissible fade show col-md-6" role="alert">
+            <h5 class="text-primary">Informasi</h5>
+            <ul>
+                <li>
+                    <p>
+                        Setelah pengajuan surat Anda disetujui, <strong>
+                            silakan datang ke Kantor Desa
+                        </strong>
+                        untuk mengambil surat yang telah
+                        diberi stempel basah.
+
+                    </p>
+                </li>
+                <li>
+                    Pastikan <strong>
+                        membawa bukti pengajuan surat
+                    </strong>
+                    untuk ditunjukkan kepada petugas di Kantor Desa.
+                </li>
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Riwayat Pengajuan Surat</h5>
@@ -73,6 +96,8 @@
                                             <span class="badge bg-success">Disetujui</span>
                                         @elseif ($history->status === 'DITOLAK')
                                             <span class="badge bg-danger">Ditolak</span>
+                                        @elseif ($history->status === 'DIBATALKAN')
+                                            <span class="badge bg-secondary">Dibatalkan</span>
                                         @else
                                             "-"
                                         @endif
@@ -85,7 +110,7 @@
 
                         @if ($histories->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center">No data available</td>
+                                <td colspan="6" class="text-center">Belum ada pengajuan surat</td>
                             </tr>
                         @endif
                     </tbody>
@@ -94,63 +119,18 @@
 
             <!-- Pagination -->
             @if ($histories instanceof \Illuminate\Pagination\LengthAwarePaginator && $histories->hasPages())
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $histories->links() }}
+                <div class="d-flex justify-content-between align-items-center mx-4 mt-2">
+                    <div>
+                        <p class="mb-0">
+                            Menampilkan <strong>{{ $histories->count() }}</strong> dari total
+                            <strong>{{ $histories->total() }}</strong> data.
+                        </p>
+                    </div>
+                    <div>
+                        {{ $histories->links() }}
+                    </div>
                 </div>
             @endif
         </div>
-        <script>
-            // Tunggu sampai DOM sepenuhnya dimuat
-            document.addEventListener('DOMContentLoaded', function() {
-                // Ambil elemen input search dan tbody
-                const searchInput = document.getElementById('searchInput');
-                const tableBody = document.querySelector('tbody');
-                const tableRows = tableBody.getElementsByTagName('tr');
-
-                // Buat div untuk pesan "tidak ditemukan"
-                const notFoundMessage = document.createElement('div');
-                notFoundMessage.className = 'alert alert-info text-center mt-3';
-                notFoundMessage.style.display = 'none';
-                notFoundMessage.textContent = 'No matching histories found';
-                document.querySelector('.table-responsive').after(notFoundMessage);
-
-                // Fungsi untuk melakukan pencarian
-                function performSearch() {
-                    const searchTerm = searchInput.value.toLowerCase().trim();
-                    let matchFound = false;
-
-                    // Loop melalui setiap baris tabel
-                    Array.from(tableRows).forEach(row => {
-                        // Skip baris "No data available"
-                        if (row.cells.length === 1 && row.cells[0].textContent.trim() === 'No data available') {
-                            return;
-                        }
-
-                        // Ambil teks dari kolom judul dan deskripsi
-                        const title = row.cells[1].textContent.toLowerCase();
-                        const description = row.cells[2].textContent.toLowerCase();
-
-                        // Cek apakah searchTerm ada dalam title atau description
-                        if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                            row.style.display = ''; // Tampilkan baris
-                            matchFound = true;
-                        } else {
-                            row.style.display = 'none'; // Sembunyikan baris
-                        }
-                    });
-
-                    // Tampilkan/sembunyikan pesan "tidak ditemukan"
-                    if (searchTerm && !matchFound) {
-                        notFoundMessage.style.display = 'block';
-                    } else {
-                        notFoundMessage.style.display = 'none';
-                    }
-                }
-
-                // Event listener untuk input search
-                searchInput.addEventListener('input', performSearch);
-            });
-        </script>
     </div>
-
 @endsection

@@ -3,20 +3,6 @@
 @section('title', 'Tambah Akun Ketua RT')
 
 @section('container')
-    <style>
-        .preview-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        #gambarPreview {
-            max-width: 100%;
-            height: auto;
-            width: 150px;
-        }
-    </style>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="container">
             @if ($errors->any())
@@ -33,7 +19,7 @@
                     <h5 class="mb-0">Tambah Akun Ketua RT</h5>
                 </div>
                 <div class="card-body">
-                    <form id="userForm" action="{{ route('register.rt.submit') }}" method="post">
+                    <form id="userForm" action="{{ route('rt.store') }}" method="post">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label" for="nama">Nama Lengkap Ketua RT <span
@@ -49,7 +35,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="nomor_whatsapp">Nomor Whatsapp <span
+                            <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp <span
                                     style="color: red">*</span></label>
                             <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp" required
                                 value="{{ old('nomor_whatsapp') }}" />
@@ -92,79 +78,10 @@
 
                         <input type="hidden" name="role" value="rt">
 
-                        <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
+                        <button type="submit" class="btn btn-primary" id="saveButton">Tambah</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('userForm');
-            const gambarInput = document.getElementById('basic-default-gambar');
-            const gambarPreview = document.getElementById('gambarPreview');
-            const saveButton = document.getElementById('saveButton');
-            const password = document.getElementById('password');
-            const passwordConfirmation = document.getElementById('password_confirmation');
-            const passwordError = document.getElementById('passwordError');
-            const gambarError = document.getElementById('gambarError');
-            const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/svg+xml'];
-
-            // Validasi gambar
-            gambarInput.addEventListener('change', function() {
-                const file = gambarInput.files[0];
-
-                if (file) {
-                    if (!validImageTypes.includes(file.type) || file.size > 10485760) {
-                        gambarError.style.display = 'block';
-                        gambarPreview.style.display = 'none';
-                        saveButton.disabled = true;
-                    } else {
-                        gambarError.style.display = 'none';
-
-                        // Preview gambar
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            gambarPreview.src = e.target.result;
-                            gambarPreview.style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-
-                        checkFormValidity(); // Periksa validitas form
-                    }
-                } else {
-                    checkFormValidity(); // Jika tidak ada gambar, tetap lanjut validasi form
-                }
-            });
-
-            // Fungsi untuk memeriksa kesesuaian password
-            function validatePassword() {
-                if (password.value !== passwordConfirmation.value) {
-                    passwordError.style.display = 'block';
-                    saveButton.disabled = true;
-                } else {
-                    passwordError.style.display = 'none';
-                    checkFormValidity(); // Periksa validitas form secara keseluruhan
-                }
-            }
-
-            // Validasi password ketika pengguna mengetik ulang password confirmation
-            passwordConfirmation.addEventListener('input', validatePassword);
-
-            // Fungsi untuk memeriksa validitas seluruh form (gambar dan password)
-            function checkFormValidity() {
-                const file = gambarInput.files[0];
-                const isPasswordValid = password.value === passwordConfirmation.value;
-                const isGambarValid = !file || (validImageTypes.includes(file.type) && file.size <=
-                    10485760); // Gambar opsional
-
-                if (isPasswordValid && isGambarValid) {
-                    saveButton.disabled = false; // Enable tombol save jika semua valid
-                } else {
-                    saveButton.disabled = true; // Disable tombol save jika ada yang tidak valid
-                }
-            }
-        });
-    </script>
 @endsection

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rt_rw', function (Blueprint $table) {
+        Schema::create('rw', function (Blueprint $table) {
             $table->id();
-            $table->string('rt_rw')->unique();
-            $table->string('nama_ketua');
-            $table->string('nomor_whatsapp');
+            $table->string('nama');
+            $table->string('rw');
+            $table->string('no_whatsapp');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rt_rw');
+        Schema::dropIfExists('rw');
     }
 };

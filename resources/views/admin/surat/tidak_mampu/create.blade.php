@@ -1,0 +1,259 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Surat Keterangan Tidak Mampu')
+
+@section('container')
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="container">
+
+            @if ($errors->any())
+                <div class="alert-danger alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Formulir Pengajuan {{ $surat->name ?? '' }}</h5>
+                </div>
+
+                <div class="card-body">
+                    <form action="{{ route('surat.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="jenis_surat" value="Surat Keterangan Tidak Mampu">
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6>Data Orang Tua Pemohon</h6>
+                                <hr>
+
+                                {{-- Nama --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-nama_ortu">Nama Lengkap Orang Tua<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="nama_ortu" class="form-control" id="basic-default-nama_ortu"
+                                        placeholder="Nama Lengkap Orang Tua" required value="{{ old('nama_ortu') }}" />
+                                </div>
+                                {{-- NIK --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-nik_ortu">Nomor Induk Kependudukan
+                                        (NIK) Orang Tua<span style="color: red"> *</span></label>
+                                    <input type="text" name="nik_ortu" class="form-control" id="basic-default-nik_ortu"
+                                        inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
+                                        value="{{ old('nik_ortu') }}" maxlength="16" />
+                                </div>
+                                {{-- TTL --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-ttl_ortu">Tempat, Tanggal Lahir Orang
+                                        Tua<span style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="ttl_ortu" class="form-control" id="basic-default-ttl_ortu"
+                                        placeholder="Tempat, Tanggal Lahir" required value="{{ old('ttl_ortu') }}" />
+                                    <p style="font-size: 12px">Contoh: Purwakarta, 24 Januari 1980</p>
+                                </div>
+                                {{-- Jenis Kelamin --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-jenis_kelamin_ortu">Jenis Kelamin<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <select id="basic-default-jenis_kelamin_ortu" name="jenis_kelamin_ortu"
+                                        class="form-control" required>
+                                        <option value="" disabled
+                                            {{ old('jenis_kelamin_ortu') == null ? 'selected' : '' }}>
+                                            Pilih
+                                            Jenis Kelamin</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+                                {{-- Nomor WhatsApp --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-no_whatsapp">Nomor WhatsApp yang dapat
+                                        dihubungi <span style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="no_whatsapp" class="form-control"
+                                        id="basic-default-no_whatsapp" inputmode="numeric" placeholder="Nomor WhatsApp"
+                                        required value="{{ old('nomor_whatsapp') }}" />
+                                </div>
+                                {{-- Status Perkawinan --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-status_kawin">Status Perkawinan<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <select id="basic-default-status_kawin" name="status_kawin" class="form-control"
+                                        required>
+                                        <option value="" disabled {{ old('status_kawin') == null ? 'selected' : '' }}>
+                                            Pilih
+                                            Status Perkawinan</option>
+                                        <option value="Belum Kawin">Belum Kawin</option>
+                                        <option value="Kawin">Kawin</option>
+                                        <option value="Cerai Hidup">Cerai Hidup</option>
+                                        <option value="Cerai Mati">Cerai Mati</option>
+                                    </select>
+                                </div>
+                                {{-- Alamat --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="alamat">Alamat <span style="color: red">
+                                            *</span></label>
+                                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="5"
+                                        placeholder="Alamat sesuai Kartu Keluarga (KK)" required>{{ old('alamat') }}</textarea>
+                                </div>
+                                {{-- Penghasilan Per Bulan --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-penghasilan">Penghasilan Per Bulan<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="penghasilan" class="form-control"
+                                        id="basic-default-penghasilan" placeholder="500.000" required
+                                        value="{{ old('penghasilan') }}" pattern="^\d{1,3}(\.\d{3})*$" />
+                                    <p style="font-size: 12px">Contoh: 1.000.000 (Gunakan titik untuk memisahkan ribuan)
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {{-- Data Pemohon --}}
+                                <h6>Data Pemohon</h6>
+                                <hr>
+                                {{-- Nama --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-nama">Nama Lengkap <span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="nama" class="form-control" id="basic-default-nama"
+                                        placeholder="Nama Lengkap" required value="{{ old('nama') }}" />
+                                </div>
+
+                                {{-- NIK --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-nik">Nomor Induk Kependudukan (NIK)<span
+                                            style="color: red"> *</span></label>
+                                    <input type="text" name="nik" class="form-control" id="basic-default-nik"
+                                        inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
+                                        maxlength="16" value="{{ old('nik') }}" />
+                                </div>
+                                {{-- TTL --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-ttl">Tempat, Tanggal Lahir<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="ttl" class="form-control" id="basic-default-ttl"
+                                        placeholder="Tempat, Tanggal Lahir" required value="{{ old('ttl') }}" />
+                                    <p style="font-size: 12px">Contoh: Purwakarta, 24 Januari 2010</p>
+                                </div>
+                                {{-- Jenis Kelamin --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <select id="basic-default-jenis_kelamin" name="jenis_kelamin" class="form-control"
+                                        required>
+                                        <option value="" disabled
+                                            {{ old('jenis_kelamin') == null ? 'selected' : '' }}>
+                                            Pilih
+                                            Jenis Kelamin</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+
+                                {{-- Sekolah --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-sekolah">Sekolah<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="sekolah" class="form-control" id="basic-default-sekolah"
+                                        placeholder="Sekolah" required value="{{ old('sekolah') }}" />
+                                </div>
+
+                                {{-- Jurusan --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-jurusan">Jurusan<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="jurusan" class="form-control" id="basic-default-jurusan"
+                                        placeholder="Jurusan" required value="{{ old('jurusan') }}" />
+                                    <p style="font-size: 12px">Isi tanda strip "-" jika tidak ada jurusan</p>
+
+                                </div>
+
+                                {{-- Keperluan --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-default-keperluan">Keperluan Surat<span
+                                            style="color: red">
+                                            *</span></label>
+                                    <input type="text" name="keperluan" class="form-control"
+                                        id="basic-default-keperluan" placeholder="Keperluan" required
+                                        value="{{ old('keperluan') }}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Attachment --}}
+                        <hr>
+                        <h6>Berkas </h6>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="ktp">Kartu Tanda Penduduk (KTP) <span
+                                    style="color: red">*</span></label>
+                            <input type="file" name="ktp" class="form-control" id="ktp"
+                                accept="image/jpeg,image/png,image/jpg" required />
+                            <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="kk">Kartu Keluarga (KK) <span
+                                    style="color: red">*</span></label>
+                            <input type="file" name="kk" class="form-control" id="kk"
+                                accept="image/jpeg,image/png, image/jpg" required />
+                            <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="surat_penghasilan">Surat Penghasilan <span
+                                    style="color: red">*</span></label>
+                            <input type="file" name="surat_penghasilan" class="form-control" id="surat_penghasilan"
+                                accept=".jpg,.jpeg,.png,.pdf" required />
+                            <p style="font-size: 12px">(.jpg, .jpeg, .png, .pdf; Maksimal 2MB)</p>
+                        </div>
+
+                        {{-- todo: max 5 file --}}
+                        <div class="mb-3">
+                            <label class="form-label" for="foto_rumah">Foto Kondisi Rumah (Lebih dari 1 foto) <span
+                                    style="color: red">*</span></label>
+                            <input type="file" name="foto_rumah[]" class="form-control" id="foto_rumah"
+                                accept="image/jpeg,image/png, image/jpg" multiple required
+                                onchange="validateFileLimit(this)" />
+                            <p style="font-size: 12px; color: red; display: none;" id="fileLimitWarning">Anda hanya dapat
+                                mengunggah maksimal 5 file.</p>
+                            <p style="font-size:
+                                12px">(.jpg, .jpeg, .png; Maksimal 2MB per
+                                foto; dan Maksimal 5 foto)</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="saveButton">Kirim</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        // function validateFileLimit(input) {
+        //     const maxFiles = 5;
+        //     const warningMessage = document.getElementById('fileLimitWarning');
+
+        //     if (input.files.length > maxFiles) {
+        //         warningMessage.style.display = 'block';
+        //         input.value = '';
+        //     } else {
+        //         warningMessage.style.display = 'none';
+        //     }
+        // }
+    </script>
+@endsection

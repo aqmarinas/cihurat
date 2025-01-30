@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RtRw extends Model
+class SuratField extends Model
 {
     use HasFactory;
 
-    protected $table = 'rt_rw';
+    protected $table = 'fields_letter';
 
     protected $fillable = [
-        'rt_rw',
-        'nama_ketua',
-        'nomor_whatsapp',
+        'jenis_surat',
+        'field_name',
+        'label'
     ];
 }

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Edit Profil')
+@section('title', 'Perbarui Profil')
 
 @section('container')
     <style>
@@ -45,7 +45,7 @@
             @endif
             <div class="card mb-12">
                 <div class="card-header">
-                    <h5 class="mb-0">Edit Profil</h5>
+                    <h5 class="mb-0">Perbarui Profil</h5>
                 </div>
                 <div class="card-body">
                     <form id="profileForm" action="{{ route('update.profile') }}" method="post"

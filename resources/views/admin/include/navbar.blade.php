@@ -52,7 +52,12 @@
                                 <span class="fw-semibold d-block">{{ Auth::user()->nama }}</span>
                                 <small class="text-muted text-capitalize">
                                     @if (Auth::user()->role == 'rt')
-                                        Ketua RT/RW {{ Auth::user()->rt_rw }}
+                                        @php
+                                            $rt_rw = Auth::user()->rt_rw;
+                                            $rt = explode('/', $rt_rw)[0];
+                                        @endphp
+
+                                        Ketua RT {{ $rt ?? '' }}
                                     @else
                                         {{ Auth::user()->role }}
                                     @endif
@@ -95,8 +100,8 @@
             text: "Apakah Anda yakin ingin keluar?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#dc3435',
+            cancelButtonColor: '#6c757d',
             confirmButtonText: 'Keluar',
             cancelButtonText: 'Tidak'
         }).then((result) => {

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'regex' => 'Format penulisan :Attribute tidak valid.',
     'required' => ':Attribute harus diisi.',
     'email' => ':Attribute harus berupa alamat email yang valid.',
     'max' => [
