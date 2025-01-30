@@ -148,7 +148,7 @@
         </script>
     </div>
 
-    <!-- Modal for Editing Course -->
+    <!-- Modal for Editing User -->
     <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -197,7 +197,6 @@
                 const form = document.getElementById('editDataForm');
                 form.action = form.action.replace(':id', rtRwId);
 
-                // Isi field modal dengan data course
                 document.getElementById('edit-rt_rw').value = rtRw;
                 document.getElementById('edit-nama_ketua').value = namaKetua;
                 document.getElementById('edit-nomor_whatsapp').value = nomorWhatsApp;

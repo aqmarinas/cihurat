@@ -13,7 +13,7 @@ class RwController extends Controller
     public function index()
     {
         $rwLists = Rw::all();
-        return view('admin.rw.index', compact('rwLists'));
+        return view('rw.index', compact('rwLists'));
     }
 
     /**
@@ -21,7 +21,7 @@ class RwController extends Controller
      */
     public function create()
     {
-        return view('admin.rw.create');
+        return view('rw.create');
     }
 
     /**

@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(
 
         // Panduan
         Route::get('/panduan', function () {
-            return view('admin.panduan.index');
+            return view('panduan.index');
         })->name('panduan.index');
 
         // Routes Pengguna

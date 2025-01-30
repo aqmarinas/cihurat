@@ -90,7 +90,7 @@
                                             "-"
                                         @endif
                                     <td>
-                                        <a href="{{ route('admin.kelola.surat.detail', $letter->id) }}"
+                                        <a href="{{ route('admin.surat.detail', $letter->id) }}"
                                             class="btn btn-primary btn-sm me-2">Detail</a>
                                         @if ($letter->status === 'DISETUJUI')
                                             <a href="{{ route('surat.download', $letter->id) }}"
@@ -106,7 +106,7 @@
 
                             @if ($allLeters->isEmpty())
                                 <tr>
-                                    <td colspan="6" class="text-center">No data available</td>
+                                    <td colspan="6" class="text-center">Tidak ada data yang tersedia</td>
                                 </tr>
                             @endif
                         </tbody>

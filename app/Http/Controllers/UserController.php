@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function registerUserView()
     {
-        return view('admin.auth.register');
+        return view('auth.register');
     }
 
     public function registerUser()
@@ -46,7 +46,7 @@ class UserController extends Controller
                 return $query->where('nama', 'like', "%{$search}%");
             })->orderBy('nama', 'asc')
             ->paginate(10);
-        return view('admin.pengguna.index', compact('users', 'search'));
+        return view('pengguna.index', compact('users', 'search'));
     }
 
     public function updateProfile(Request $request)
@@ -94,7 +94,7 @@ class UserController extends Controller
             return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
         }
 
-        return view('admin.profile.edit', compact('user'));
+        return view('profile.edit', compact('user'));
     }
 
 

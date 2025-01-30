@@ -26,7 +26,7 @@ class SuratController extends Controller
     public function index()
     {
         $letters = JenisSurat::all();
-        return view('admin.surat.index', compact('letters'));
+        return view('surat.index', compact('letters'));
     }
 
     /**
@@ -39,29 +39,29 @@ class SuratController extends Controller
 
         switch ($surat->name) {
             case 'Surat Pengantar RT/RW':
-                return view('admin.surat.pengantar_rt.create', compact('surat', 'user'));
+                return view('surat.pengantar_rt.create', compact('surat', 'user'));
             case 'Surat Keterangan Tidak Mampu':
-                return view('admin.surat.tidak_mampu.create', compact('surat', 'user'));
+                return view('surat.tidak_mampu.create', compact('surat', 'user'));
             case 'Surat Keterangan Kematian':
-                return view('admin.surat.kematian.create', compact('surat', 'user'));
+                return view('surat.kematian.create', compact('surat', 'user'));
             case 'Surat Keterangan Usaha':
-                return view('admin.surat.usaha.create', compact('surat', 'user'));
+                return view('surat.usaha.create', compact('surat', 'user'));
             case 'Surat Keterangan Belum Menikah':
-                return view('admin.surat.belum_menikah.create', compact('surat', 'user'));
-            case 'Surat Keterangan Ahli Waris':
-                return view('admin.surat.ahli_waris.create', compact('surat', 'user'));
-            case 'Surat Keterangan Ahli Waris Bank':
-                return view('admin.surat.ahli_waris_bank.create', compact('surat', 'user'));
-            case 'Surat Pernyataan Kepemilikan Tanah':
-                return view('admin.surat.kepemilikan_tanah.create', compact('surat', 'user'));
+                return view('surat.belum_menikah.create', compact('surat', 'user'));
             case 'Surat Keterangan Domisili':
-                return view('admin.surat.domisili.create', compact('surat', 'user'));
-            case 'Surat Keterangan Beda Nama':
-                return view('admin.surat.beda_nama.create', compact('surat', 'user'));
+                return view('surat.domisili.create', compact('surat', 'user'));
+                // case 'Surat Keterangan Ahli Waris':
+                //     return view('surat.ahli_waris.create', compact('surat', 'user'));
+                // case 'Surat Keterangan Ahli Waris Bank':
+                //     return view('surat.ahli_waris_bank.create', compact('surat', 'user'));
+                // case 'Surat Pernyataan Kepemilikan Tanah':
+                //     return view('surat.kepemilikan_tanah.create', compact('surat', 'user'));
+                // case 'Surat Keterangan Beda Nama':
+                //     return view('surat.beda_nama.create', compact('surat', 'user'));
             default:
                 abort(404, 'Jenis surat tidak ditemukan');
         }
-        return view('admin.surat.create', compact('letters'));
+        return view('surat.create', compact('letters'));
     }
 
     /**
@@ -363,7 +363,7 @@ class SuratController extends Controller
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(5);
 
-        return view('admin.riwayat.index', compact('histories'));
+        return view('riwayat.index', compact('histories'));
     }
 
     public function historyDetails(string $id)
@@ -380,7 +380,7 @@ class SuratController extends Controller
 
         $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
 
-        return view('admin.riwayat.detail', compact('surat', 'detailSurat', 'fields'));
+        return view('riwayat.detail', compact('surat', 'detailSurat', 'fields'));
     }
 
 
@@ -402,7 +402,7 @@ class SuratController extends Controller
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(10);
 
-        return view('admin.arsip.index', compact('allLeters', 'status', 'search'));
+        return view('arsip.index', compact('allLeters', 'status', 'search'));
     }
 
     public function processImageWithWatermark($file, $folder, $field)

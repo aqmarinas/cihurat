@@ -29,7 +29,7 @@ class VerifSuratController extends Controller
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(5);
 
-        return view('admin.verif.index', compact('letters', 'status', 'search'));
+        return view('verif.index', compact('letters', 'status', 'search'));
     }
 
 
@@ -46,7 +46,7 @@ class VerifSuratController extends Controller
         $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
 
 
-        return view('admin.riwayat.detail', compact('surat', 'detailSurat', 'fields'));
+        return view('riwayat.detail', compact('surat', 'detailSurat', 'fields'));
     }
 
     public function tolak(Request $request, string $id)

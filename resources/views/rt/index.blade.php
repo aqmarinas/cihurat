@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <!-- Modal for Editing Course -->
+    <!-- Modal for Editing RT -->
     <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

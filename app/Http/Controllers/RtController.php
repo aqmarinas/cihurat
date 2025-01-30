@@ -20,7 +20,7 @@ class RtController extends Controller
                 return $rt;
             });
 
-        return view('admin.rt.index', compact('rtLists'));
+        return view('rt.index', compact('rtLists'));
     }
 
     /**
@@ -28,7 +28,7 @@ class RtController extends Controller
      */
     public function create()
     {
-        return view('admin.rt.create');
+        return view('rt.create');
     }
 
     /**
