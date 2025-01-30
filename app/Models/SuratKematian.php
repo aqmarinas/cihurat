@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SuratKematian extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
 
     protected $table = 'surat_kematian';
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+
     protected $fillable = [
+        'id',
         'nama',
         'nik',
         'jenis_kelamin',

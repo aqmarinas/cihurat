@@ -372,8 +372,8 @@ class SuratController extends Controller
             ->with(['user', 'suratable'])
             ->findOrFail($id);
 
-        if (!$surat) {
-            return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
+        if ($surat->user_id !== Auth::id()) {
+            return redirect()->route('verifikasi.index')->with('error', 'Anda tidak memiliki izin untuk mengakses riwayat ini');
         }
 
         $detailSurat = $surat->suratable;

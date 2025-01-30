@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('surat', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->ulid('id')->primary();
+            $table->foreignUlid('user_id')->constrained();
             $table->string('rt_rw');
-            $table->morphs('suratable');
+            // $table->morphs('suratable');
+            $table->string('suratable_id', 26); // ULID panjangnya 26 karakter
+            $table->string('suratable_type');
             $table->string('jenis_surat');
             $table->timestamp('tanggal_pengajuan');
             $table->timestamp('tanggal_disetujui')->nullable();

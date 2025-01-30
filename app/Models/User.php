@@ -2,24 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
 
     protected $table = 'users';
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
-        'nama', 
-        'nik', 
-        'email', 
-        'nomor_whatsapp', 
-        'rt_rw', 
-        'alamat', 
+        'id',
+        'nama',
+        'nik',
+        'email',
+        'nomor_whatsapp',
+        'rt_rw',
+        'alamat',
         'role',
         'password'
     ];
@@ -33,7 +39,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function surat(){
+    public function surat()
+    {
         return $this->hasMany(Surat::class);
     }
 }

@@ -2,16 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SuratTidakMampu extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
 
     protected $table = 'surat_tidak_mampu';
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'nama_ortu',
         'nik_ortu',
         'ttl_ortu',
