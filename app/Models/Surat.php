@@ -34,9 +34,4 @@ class Surat extends Model
     {
         return $this->morphTo();
     }
-
-    // public function rt()
-    // {
-    //     return $this->belongsTo(User::class, 'rt_id');
-    // }
 }

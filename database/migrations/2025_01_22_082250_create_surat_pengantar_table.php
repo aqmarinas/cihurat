@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('ttl');
-            $table->enum('jenis_kelamin', ['Perempuan', 'Laki-Laki']);
+            $table->enum('jenis_kelamin', ['Perempuan', 'Laki-laki']);
             $table->string('agama');
             $table->string('pekerjaan');
             $table->string('nik');

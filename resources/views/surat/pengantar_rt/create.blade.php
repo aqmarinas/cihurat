@@ -49,7 +49,7 @@
                             <select id="basic-default-jenis_kelamin" name="jenis_kelamin" class="form-control" required>
                                 <option value="" disabled {{ old('jenis_kelamin') == null ? 'selected' : '' }}>Pilih
                                     Jenis Kelamin</option>
-                                <option value="Laki-Laki">Laki-Laki</option>
+                                <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
                         </div>

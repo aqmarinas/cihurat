@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_ortu');
             $table->string('nik_ortu');
             $table->string('ttl_ortu');
-            $table->enum('jenis_kelamin_ortu', ['Perempuan', 'Laki-Laki']);
+            $table->enum('jenis_kelamin_ortu', ['Perempuan', 'Laki-laki']);
             $table->string('no_whatsapp');
             $table->string('status_kawin');
             $table->string('alamat');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nik');
             $table->string('ttl');
-            $table->enum('jenis_kelamin', ['Perempuan', 'Laki-Laki']);
+            $table->enum('jenis_kelamin', ['Perempuan', 'Laki-laki']);
             $table->string('sekolah');
             $table->string('jurusan');
             $table->string('keperluan');

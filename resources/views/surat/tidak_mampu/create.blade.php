@@ -67,7 +67,7 @@
                                             {{ old('jenis_kelamin_ortu') == null ? 'selected' : '' }}>
                                             Pilih
                                             Jenis Kelamin</option>
-                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
                                 </div>
@@ -157,7 +157,7 @@
                                             {{ old('jenis_kelamin') == null ? 'selected' : '' }}>
                                             Pilih
                                             Jenis Kelamin</option>
-                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
                                 </div>
