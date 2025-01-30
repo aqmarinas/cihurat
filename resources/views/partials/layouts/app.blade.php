@@ -3,7 +3,7 @@
     data-assets-path="../assets/" data-template="vertical-menu-template-free">
 
     <head>
-        @include('admin.include.head')
+        @include('partials.include.head')
     </head>
 
     <body>
@@ -27,7 +27,7 @@
 
                     <div class="menu-inner-shadow"></div>
 
-                    @include('admin.include.menu')
+                    @include('partials.include.menu')
                 </aside>
                 <!-- / Menu -->
 
@@ -37,7 +37,7 @@
 
                     <nav class="layout-navbar container-xxl navbar-expand-xl navbar-detached align-items-center bg-navbar-theme navbar"
                         id="layout-navbar">
-                        @include('admin.include.navbar')
+                        @include('partials.include.navbar')
                     </nav>
 
                     <!-- / Navbar -->
@@ -51,7 +51,7 @@
 
                         <!-- Footer -->
                         <footer class="content-footer bg-footer-theme footer">
-                            @include('admin.include.footer')
+                            @include('partials.include.footer')
                         </footer>
                         <!-- / Footer -->
 
@@ -69,7 +69,7 @@
 
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->
-        @include('admin.include.script')
+        @include('partials.include.script')
     </body>
 
 </html>

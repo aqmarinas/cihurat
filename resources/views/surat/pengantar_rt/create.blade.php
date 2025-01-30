@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('partials.layouts.app')
 
 @section('title', 'Surat Pengantar RT/RW')
 

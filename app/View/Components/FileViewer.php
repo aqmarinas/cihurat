@@ -25,6 +25,6 @@ class FileViewer extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.file-viewer');
+        return view('partials.components.file-viewer');
     }
 }

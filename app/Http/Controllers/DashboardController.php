@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $totalSuratDisetujuiAdmin = Surat::where('status', 'DISETUJUI')->count();
         $totalSuratDitolakAdmin = Surat::where('status', 'DITOLAK')->count();
 
-        return view('admin.layouts.dashboard', compact(
+        return view('partials.layouts.dashboard', compact(
             // User
             'totalSuratDiajukanUser',
             'totalSuratDisetujuiUser',
