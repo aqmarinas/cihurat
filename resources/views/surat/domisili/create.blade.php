@@ -38,7 +38,7 @@
                                     style="color: red"> *</span></label>
                             <input type="text" name="nik" class="form-control" id="basic-default-nik"
                                 inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
-                                value="{{ old('nik', $user->nik) }}" />
+                                value="{{ old('nik', $user->nik) }}" inputmode="numeric" maxlength="16" />
                             <div id="nik-error" style="color: red; display: none;">NIK wajib diisi dengan angka</div>
                         </div>
                         <div class="mb-3">
@@ -83,8 +83,8 @@
                         <div class="mb-3">
                             <label class="form-label" for="alamat">Alamat Domisili Saat Ini <span style="color: red">
                                     *</span></label>
-                            <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="5" placeholder="Alamat Domisili"
-                                required value="{{ $user->alamat }}">{{ old('alamat') }}</textarea>
+                            <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="5"
+                                placeholder="Alamat Domisili" required value="{{ $user->alamat }}">{{ old('alamat') }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-keperluan">Keperluan<span style="color: red">

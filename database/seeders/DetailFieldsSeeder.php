@@ -57,6 +57,7 @@ class DetailFieldsSeeder extends Seeder
             "Surat Keterangan Kematian" => [
                 ['field_name' => 'nama', 'label' => 'Nama'],
                 ['field_name' => 'nik', 'label' => 'NIK'],
+                ['field_name' => 'no_whatsapp', 'label' => 'Nomor WhatsApp'],
                 ['field_name' => 'jenis_kelamin', 'label' => 'Jenis Kelamin'],
                 ['field_name' => 'alamat', 'label' => 'Alamat'],
                 ['field_name' => 'hari_meninggal', 'label' => 'Hari Meninggal'],
@@ -83,7 +84,7 @@ class DetailFieldsSeeder extends Seeder
                 ['field_name' => 'no_whatsapp', 'label' => 'Nomor WhatsApp'],
                 ['field_name' => 'ttl', 'label' => 'Tempat, Tanggal Lahir'],
                 ['field_name' => 'agama', 'label' => 'Agama'],
-                ['field_name' => 'kewarganegaraan', 'label' => 'kewarganegaraan'],
+                ['field_name' => 'kewarganegaraan', 'label' => 'Kewarganegaraan'],
                 ['field_name' => 'status_kawin', 'label' => 'Status Perkawinan'],
                 ['field_name' => 'pekerjaan', 'label' => 'Pekerjaan'],
                 ['field_name' => 'alamat', 'label' => 'Alamat'],

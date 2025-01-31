@@ -134,8 +134,8 @@
                                     <label class="form-label" for="basic-default-nik">Nomor Induk Kependudukan (NIK)<span
                                             style="color: red"> *</span></label>
                                     <input type="text" name="nik" class="form-control" id="basic-default-nik"
-                                        inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
-                                        maxlength="16" value="{{ old('nik') }}" />
+                                        inputmode="numeric" maxlength="16" placeholder="Nomor Induk Kependudukan (NIK)"
+                                        required value="{{ old('nik') }}" />
                                 </div>
                                 {{-- TTL --}}
                                 <div class="mb-3">

@@ -34,8 +34,12 @@ class SuratController extends Controller
      */
     public function create(string $id)
     {
-        $surat = JenisSurat::findOrFail($id);
+        $surat = JenisSurat::find($id);
         $user = Auth::user();
+
+        if (!$surat) {
+            return redirect()->route('surat.index')->with('error', 'Jenis surat tidak ditemukan.');
+        }
 
         switch ($surat->name) {
             case 'Surat Pengantar RT/RW':
@@ -59,7 +63,7 @@ class SuratController extends Controller
                 // case 'Surat Keterangan Beda Nama':
                 //     return view('surat.beda_nama.create', compact('surat', 'user'));
             default:
-                abort(404, 'Jenis surat tidak ditemukan');
+                return redirect()->route('surat.index')->with('error', 'Jenis surat tidak ditemukan');
         }
         return view('surat.create', compact('letters'));
     }
@@ -69,7 +73,6 @@ class SuratController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
         $jenis_surat = $request->input('jenis_surat');
 
         switch ($jenis_surat) {
@@ -202,7 +205,7 @@ class SuratController extends Controller
                     'jenis_kelamin' => 'required|string|max:15',
                     'alamat' => 'required|string|max:100',
                     'hari_meninggal' => 'required|string|max:30',
-                    'tanggal_meninggal' => 'required|string|max:30',
+                    'tanggal_meninggal' => 'required|string|max:30|regex:/^\d{1,2} [A-Za-z]+ \d{4}$/',
                     'tempat_meninggal' => 'required|string|max:30',
                     'sebab_meninggal' => 'required|string|max:30',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
@@ -370,7 +373,11 @@ class SuratController extends Controller
     {
         $surat = Surat::withTrashed()
             ->with(['user', 'suratable'])
-            ->findOrFail($id);
+            ->find($id);
+
+        if (!$surat) {
+            return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
+        }
 
         if ($surat->user_id !== Auth::id()) {
             return redirect()->route('verifikasi.index')->with('error', 'Anda tidak memiliki izin untuk mengakses riwayat ini');
@@ -382,7 +389,6 @@ class SuratController extends Controller
 
         return view('riwayat.detail', compact('surat', 'detailSurat', 'fields'));
     }
-
 
     // Admin
     public function kelolaSurat(Request $request)

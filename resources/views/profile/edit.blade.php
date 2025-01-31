@@ -37,12 +37,14 @@
                     </ul>
                 </div>
             @endif
+
             @if (session('success'))
                 <div class="alert-dismissible fade show alert alert-success">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+
             <div class="card mb-12">
                 <div class="card-header">
                     <h5 class="mb-0">Perbarui Profil</h5>
@@ -101,7 +103,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="nik">Nomor Induk Kependudukan (NIK)</label>
                                         <input type="text" name="nik" class="form-control" id="nik"
-                                            value="{{ $user->nik }}" />
+                                            inputmode="numeric" maxlength="16" value="{{ $user->nik }}" />
                                     </div>
                                     <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp</label>
                                     <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp"

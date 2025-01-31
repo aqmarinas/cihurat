@@ -59,7 +59,7 @@
                                     style="color: red"> *</span></label>
                             <input type="text" name="nik" class="form-control" id="basic-default-nik"
                                 inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
-                                value="{{ old('nik', $user->nik) }}" />
+                                value="{{ old('nik', $user->nik) }}" inputmode="numeric" maxlength="16" />
                         </div>
                         {{-- Agama --}}
                         <div class="mb-3">

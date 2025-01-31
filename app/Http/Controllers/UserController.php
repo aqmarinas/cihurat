@@ -34,7 +34,7 @@ class UserController extends Controller
         $validate['password'] = bcrypt($validate['password']);
 
         User::create($validate);
-        return redirect()->route('login')->with('success', 'Berhasil mendaftar akun');
+        return redirect()->route('login')->with('success', 'Berhasil mendaftar akun. Silahkan masuk.');
     }
 
     public function getAllPengguna(Request $request)
@@ -100,7 +100,11 @@ class UserController extends Controller
 
     public function updateRt(Request $request, string $id)
     {
-        $rtRwId = User::findOrFail($id);
+        $rtRwId = User::find($id);
+
+        if (!$rtRwId) {
+            return redirect()->back()->with('error', 'Data RT/RW tidak ditemukan.');
+        }
 
         $validated = $request->validate([
             'nama' => 'required|string|max:50',

@@ -35,7 +35,7 @@ class VerifSuratController extends Controller
 
     public function show(string $id)
     {
-        $surat = Surat::with(['user', 'suratable'])->findOrFail($id);
+        $surat = Surat::with(['user', 'suratable'])->find($id);
 
         if (!$surat) {
             return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
@@ -54,11 +54,16 @@ class VerifSuratController extends Controller
 
     public function tolak(Request $request, string $id)
     {
+        $letter = Surat::find($id);
+
+        if (!$letter) {
+            return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
+        }
+
         $request->validate([
             'keterangan' => 'required|string|max:255',
         ]);
 
-        $letter = Surat::findOrFail($id);
         $letter->status = 'DITOLAK';
         $letter->keterangan = $request->keterangan;
         $letter->save();
@@ -69,7 +74,7 @@ class VerifSuratController extends Controller
 
     public function setujui(string $id)
     {
-        $letter = Surat::findOrFail($id);
+        $letter = Surat::find($id);
 
         if (!$letter) {
             return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
@@ -174,7 +179,7 @@ class VerifSuratController extends Controller
 
     public function download(string $id)
     {
-        $letter = Surat::with('suratable')->findOrFail($id);
+        $letter = Surat::with('suratable')->find($id);
 
         if (!$letter) {
             return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');

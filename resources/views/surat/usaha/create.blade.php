@@ -39,7 +39,7 @@
                                     style="color: red"> *</span></label>
                             <input type="text" name="nik" class="form-control" id="basic-default-nik"
                                 inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK)" required
-                                value="{{ old('nik', $user->nik) }}" />
+                                value="{{ old('nik', $user->nik) }}" inputmode="numeric" maxlength="16" />
                         </div>
                         {{-- TTL --}}
                         <div class="mb-3">
@@ -97,7 +97,8 @@
                         </div>
                         {{-- Jenis Usaha --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-jenis_usaha">Jenis Usaha<span style="color: red">
+                            <label class="form-label" for="basic-default-jenis_usaha">Jenis Usaha<span
+                                    style="color: red">
                                     *</span></label>
                             <input type="text" name="jenis_usaha" class="form-control" id="basic-default-jenis_usaha"
                                 placeholder="Jenis Usaha" required value="{{ old('jenis_usaha') }}" />

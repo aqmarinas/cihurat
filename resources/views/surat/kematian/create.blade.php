@@ -39,7 +39,7 @@
                                     style="color: red"> *</span></label>
                             <input type="text" name="nik" class="form-control" id="basic-default-nik"
                                 inputmode="numeric" placeholder="Nomor Induk Kependudukan (NIK) Alm." required
-                                value="{{ old('nik') }}" />
+                                value="{{ old('nik') }}" inputmode="numeric" maxlength="16" />
                         </div>
                         {{-- Jenis Kelamin --}}
                         <div class="mb-3">
@@ -62,11 +62,23 @@
                         {{-- Hari Meninggal --}}
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-hari_meninggal">Hari Meninggal<span
-                                    style="color: red">
-                                    *</span></label>
-                            <input type="text" name="hari_meninggal" class="form-control"
-                                id="basic-default-hari_meninggal" placeholder="Hari" required
-                                value="{{ old('hari_meninggal') }}" />
+                                    style="color: red"> *</span></label>
+                            <select name="hari_meninggal" class="form-control" id="basic-default-hari_meninggal" required>
+                                <option value="" disabled selected>Pilih Hari</option>
+                                <option value="Senin" {{ old('hari_meninggal') == 'Senin' ? 'selected' : '' }}>Senin
+                                </option>
+                                <option value="Selasa" {{ old('hari_meninggal') == 'Selasa' ? 'selected' : '' }}>Selasa
+                                </option>
+                                <option value="Rabu" {{ old('hari_meninggal') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
+                                <option value="Kamis" {{ old('hari_meninggal') == 'Kamis' ? 'selected' : '' }}>Kamis
+                                </option>
+                                <option value="Jumat" {{ old('hari_meninggal') == 'Jumat' ? 'selected' : '' }}>Jumat
+                                </option>
+                                <option value="Sabtu" {{ old('hari_meninggal') == 'Sabtu' ? 'selected' : '' }}>Sabtu
+                                </option>
+                                <option value="Minggu" {{ old('hari_meninggal') == 'Minggu' ? 'selected' : '' }}>Minggu
+                                </option>
+                            </select>
                         </div>
                         {{-- Tanggal Meninggal --}}
                         <div class="mb-3">
