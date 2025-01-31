@@ -83,11 +83,6 @@
                                     <input type="text" class="@error('email') is-invalid @enderror form-control"
                                         id="email" name="email" value="{{ old('email') }}"
                                         placeholder="Masukkan email" autofocus />
-                                    @error('email')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 </div>
                                 <div class="form-password-toggle mb-3">
                                     <div class="d-flex justify-content-between">
@@ -99,11 +94,6 @@
                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                             aria-describedby="password" />
                                         <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                                        @error('password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -114,13 +104,6 @@
                                     Belum punya akun? <a href="{{ route('register') }}"
                                         class="fw-bold text-primary">Daftar akun</a>
                                 </p>
-
-                                <!-- Tampilkan error general jika ada -->
-                                @if ($errors->has('email'))
-                                    <div class="alert-danger alert">
-                                        {{ $errors->first('email') }}
-                                    </div>
-                                @endif
                             </form>
                         </div>
                     </div>

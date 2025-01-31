@@ -44,21 +44,16 @@
                         <div class="mb-3">
                             <label class="form-label" for="rt_rw">RT/RW <span style="color: red">*</span></label>
                             <select name="rt_rw" class="form-control" id="rt_rw" required>
-                                <option value="" selected disabled {{ old('rt_rw') == null ? 'selected' : '' }}>Pilih
-                                    RT/RW</option>
-                                <option value="01/01">01/01</option>
-                                <option value="02/01">02/01</option>
-                                <option value="03/02">03/02</option>
-                                <option value="04/02">04/02</option>
-                                <option value="05/03">05/03</option>
-                                <option value="06/03">06/03</option>
-                                <option value="07/04">07/04</option>
-                                <option value="08/04">08/04</option>
-                                {{-- @foreach ($dataRtRw as $rtRw)
-                                    <option value="{{ $rtRw->kode }}" {{ old('rt_rw') == $rtRw->kode ? 'selected' : '' }}>
-                                        {{ $rtRw->nama }}
-                                    </option>
-                                @endforeach --}}
+                                <option value="" disabled {{ old('rt_rw') == null ? 'selected' : '' }}>Pilih RT/RW
+                                </option>
+                                <option value="01/01" {{ old('rt_rw') == '01/01' ? 'selected' : '' }}>01/01</option>
+                                <option value="02/01" {{ old('rt_rw') == '02/01' ? 'selected' : '' }}>02/01</option>
+                                <option value="03/02" {{ old('rt_rw') == '03/02' ? 'selected' : '' }}>03/02</option>
+                                <option value="04/02" {{ old('rt_rw') == '04/02' ? 'selected' : '' }}>04/02</option>
+                                <option value="05/03" {{ old('rt_rw') == '05/03' ? 'selected' : '' }}>05/03</option>
+                                <option value="06/03" {{ old('rt_rw') == '06/03' ? 'selected' : '' }}>06/03</option>
+                                <option value="07/04" {{ old('rt_rw') == '07/04' ? 'selected' : '' }}>07/04</option>
+                                <option value="08/04" {{ old('rt_rw') == '08/04' ? 'selected' : '' }}>08/04</option>
                             </select>
                         </div>
 

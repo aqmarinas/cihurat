@@ -81,11 +81,6 @@
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('email') is-invalid @enderror form-control"
                                         id="email" name="email" placeholder="Masukkan Email" autofocus required />
-                                    @error('email')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="nomor_whatsapp" class="form-label">Nomor WhatsApp <span
@@ -94,63 +89,47 @@
                                         class="@error('nomor_whatsapp') is-invalid @enderror form-control"
                                         id="nomor_whatsapp" name="nomor_whatsapp" placeholder="Masukkan Nomor WhatsApp"
                                         required />
-                                    @error('nomor_whatsapp')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="nik" class="form-label">NIK <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('nik') is-invalid @enderror form-control"
                                         id="nik" name="nik" placeholder="Masukkan NIK" required />
-                                    @error('nik')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama Lengkap <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('nama') is-invalid @enderror form-control"
                                         id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required />
-                                    @error('nama')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="alamat" class="form-label">Alamat <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('alamat') is-invalid @enderror form-control"
                                         id="alamat" name="alamat" placeholder="Masukkan Alamat" required />
-                                    @error('alamat')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="rt_rw" class="form-label">RT/RW <span
                                             style="color: red">*</span></label>
                                     <select name="rt_rw" class="form-control" id="rt_rw">
                                         <option value="" selected disabled>Pilih RT/RW</option>
-                                        <option value="01/01">01/01</option>
-                                        <option value="02/01">02/01</option>
-                                        <option value="03/02">03/02</option>
-                                        <option value="04/02">04/02</option>
-                                        <option value="05/03">05/03</option>
-                                        <option value="06/03">06/03</option>
-                                        <option value="07/04">07/04</option>
-                                        <option value="08/04">08/04</option>
-                                    </select> @error('rt_rw')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                        <option value="01/01" {{ old('rt_rw') == '01/01' ? 'selected' : '' }}>01/01
+                                        </option>
+                                        <option value="02/01" {{ old('rt_rw') == '02/01' ? 'selected' : '' }}>02/01
+                                        </option>
+                                        <option value="03/02" {{ old('rt_rw') == '03/02' ? 'selected' : '' }}>03/02
+                                        </option>
+                                        <option value="04/02" {{ old('rt_rw') == '04/02' ? 'selected' : '' }}>04/02
+                                        </option>
+                                        <option value="05/03" {{ old('rt_rw') == '05/03' ? 'selected' : '' }}>05/03
+                                        </option>
+                                        <option value="06/03" {{ old('rt_rw') == '06/03' ? 'selected' : '' }}>06/03
+                                        </option>
+                                        <option value="07/04" {{ old('rt_rw') == '07/04' ? 'selected' : '' }}>07/04
+                                        </option>
+                                        <option value="08/04" {{ old('rt_rw') == '08/04' ? 'selected' : '' }}>08/04
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-password-toggle mb-3">
                                     <div class="d-flex justify-content-between">
@@ -165,11 +144,6 @@
                                             aria-describedby="password" required />
                                         <span class="input-group-text cursor-pointer"><i
                                                 class="bx bx-hide"></i></span>
-                                        @error('password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-password-toggle mb-3">

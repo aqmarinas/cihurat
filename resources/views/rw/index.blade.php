@@ -105,11 +105,12 @@
                         <div class="mb-3">
                             <label class="form-label" for="edit-rw">RT/RW <span style="color: red">*</span></label>
                             <select name="rw" class="form-control" id="edit-rw" required>
-                                <option value="" selected disabled>Pilih RW</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
+                                <option value="" selected disabled {{ old('rw') == null ? 'selected' : '' }}>Pilih RW
+                                </option>
+                                <option value="01" {{ old('rw') == '01' ? 'selected' : '' }}>01</option>
+                                <option value="02" {{ old('rw') == '02' ? 'selected' : '' }}>02</option>
+                                <option value="03" {{ old('rw') == '03' ? 'selected' : '' }}>03</option>
+                                <option value="04" {{ old('rw') == '04' ? 'selected' : '' }}>04</option>
                             </select>
                         </div>
                         <div class="mb-3">

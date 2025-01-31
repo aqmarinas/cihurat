@@ -68,17 +68,19 @@
                         </div>
                         {{-- Status Perkawinan --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-status_kawin">Status Perkawinan<span
-                                    style="color: red">
-                                    *</span></label>
+                            <label class="form-label" for="basic-default-status_kawin">Status Perkawinan <span
+                                    style="color: red">*</span></label>
                             <select id="basic-default-status_kawin" name="status_kawin" class="form-control" required>
-                                <option value="" disabled {{ old('status_kawin') == null ? 'selected' : '' }}>
-                                    Pilih
+                                <option value="" disabled {{ old('status_kawin') == null ? 'selected' : '' }}>Pilih
                                     Status Perkawinan</option>
-                                <option value="Belum Kawin">Belum Kawin</option>
-                                <option value="Kawin">Kawin</option>
-                                <option value="Cerai Hidup">Cerai Hidup</option>
-                                <option value="Cerai Mati">Cerai Mati</option>
+                                <option value="Belum Kawin" {{ old('status_kawin') == 'Belum Kawin' ? 'selected' : '' }}>
+                                    Belum Kawin</option>
+                                <option value="Kawin" {{ old('status_kawin') == 'Kawin' ? 'selected' : '' }}>Kawin
+                                </option>
+                                <option value="Cerai Hidup" {{ old('status_kawin') == 'Cerai Hidup' ? 'selected' : '' }}>
+                                    Cerai Hidup</option>
+                                <option value="Cerai Mati" {{ old('status_kawin') == 'Cerai Mati' ? 'selected' : '' }}>
+                                    Cerai Mati</option>
                             </select>
                         </div>
                         {{-- Pekerjaan --}}

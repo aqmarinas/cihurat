@@ -43,14 +43,16 @@
                         </div>
                         {{-- Jenis Kelamin --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin<span
-                                    style="color: red">
-                                    *</span></label>
+                            <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin <span
+                                    style="color: red">*</span></label>
                             <select id="basic-default-jenis_kelamin" name="jenis_kelamin" class="form-control" required>
-                                <option value="" disabled {{ old('jenis_kelamin') == null ? 'selected' : '' }}>Pilih
-                                    Jenis Kelamin</option>
-                                <option value="Laki-Laki">Laki-Laki</option>
-                                <option value="Perempuan">Perempuan</option>
+                                <option value="" disabled {{ old('jenis_kelamin') == null ? 'selected' : '' }}>
+                                    Pilih Jenis Kelamin
+                                </option>
+                                <option value="Laki-Laki" {{ old('jenis_kelamin') == 'Laki-Laki' ? 'selected' : '' }}>
+                                    Laki-Laki</option>
+                                <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                                    Perempuan</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -69,7 +71,8 @@
                                 </option>
                                 <option value="Selasa" {{ old('hari_meninggal') == 'Selasa' ? 'selected' : '' }}>Selasa
                                 </option>
-                                <option value="Rabu" {{ old('hari_meninggal') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
+                                <option value="Rabu" {{ old('hari_meninggal') == 'Rabu' ? 'selected' : '' }}>Rabu
+                                </option>
                                 <option value="Kamis" {{ old('hari_meninggal') == 'Kamis' ? 'selected' : '' }}>Kamis
                                 </option>
                                 <option value="Jumat" {{ old('hari_meninggal') == 'Jumat' ? 'selected' : '' }}>Jumat

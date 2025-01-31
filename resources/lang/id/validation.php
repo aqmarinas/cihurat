@@ -25,4 +25,20 @@ return [
     ],
     'in' => ':Attribute harus salah satu dari: :values.',
     'not_in' => ':Attribute yang dipilih tidak valid.',
+
+    'custom' => [
+        'nik' => [
+            'different' => 'NIK anak tidak boleh sama dengan NIK orang tua.',
+        ],
+        'ttl' => [
+            'different' => 'Tempat, tanggal lahir anak tidak boleh sama dengan orang tua.',
+        ],
+    ],
+
+    'attributes' => [
+        'nik' => 'NIK',
+        'nik_ortu' => 'NIK orang tua',
+        'ttl' => 'tempat, tanggal lahir',
+        'ttl_ortu' => 'tempat, tanggal lahir orang tua',
+    ],
 ];

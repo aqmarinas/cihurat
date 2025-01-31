@@ -58,17 +58,20 @@
                                 </div>
                                 {{-- Jenis Kelamin --}}
                                 <div class="mb-3">
-                                    <label class="form-label" for="basic-default-jenis_kelamin_ortu">Jenis Kelamin<span
-                                            style="color: red">
-                                            *</span></label>
+                                    <label class="form-label" for="basic-default-jenis_kelamin_ortu">Jenis Kelamin <span
+                                            style="color: red">*</span></label>
                                     <select id="basic-default-jenis_kelamin_ortu" name="jenis_kelamin_ortu"
                                         class="form-control" required>
                                         <option value="" disabled
                                             {{ old('jenis_kelamin_ortu') == null ? 'selected' : '' }}>
-                                            Pilih
-                                            Jenis Kelamin</option>
-                                        <option value="Laki-laki">Laki-laki</option>
-                                        <option value="Perempuan">Perempuan</option>
+                                            Pilih Jenis Kelamin
+                                        </option>
+                                        <option value="Laki-laki"
+                                            {{ old('jenis_kelamin_ortu') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki
+                                        </option>
+                                        <option value="Perempuan"
+                                            {{ old('jenis_kelamin_ortu') == 'Perempuan' ? 'selected' : '' }}>Perempuan
+                                        </option>
                                     </select>
                                 </div>
                                 {{-- Nomor WhatsApp --}}
@@ -78,22 +81,28 @@
                                             *</span></label>
                                     <input type="text" name="no_whatsapp" class="form-control"
                                         id="basic-default-no_whatsapp" inputmode="numeric" placeholder="Nomor WhatsApp"
-                                        required value="{{ old('nomor_whatsapp') }}" />
+                                        required value="{{ old('no_whatsapp') }}" />
                                 </div>
                                 {{-- Status Perkawinan --}}
                                 <div class="mb-3">
-                                    <label class="form-label" for="basic-default-status_kawin">Status Perkawinan<span
-                                            style="color: red">
-                                            *</span></label>
+                                    <label class="form-label" for="basic-default-status_kawin">Status Perkawinan <span
+                                            style="color: red">*</span></label>
                                     <select id="basic-default-status_kawin" name="status_kawin" class="form-control"
                                         required>
-                                        <option value="" disabled {{ old('status_kawin') == null ? 'selected' : '' }}>
-                                            Pilih
-                                            Status Perkawinan</option>
-                                        <option value="Belum Kawin">Belum Kawin</option>
-                                        <option value="Kawin">Kawin</option>
-                                        <option value="Cerai Hidup">Cerai Hidup</option>
-                                        <option value="Cerai Mati">Cerai Mati</option>
+                                        <option value="" disabled
+                                            {{ old('status_kawin') == null ? 'selected' : '' }}>
+                                            Pilih Status Perkawinan
+                                        </option>
+                                        <option value="Belum Kawin"
+                                            {{ old('status_kawin') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin
+                                        </option>
+                                        <option value="Kawin" {{ old('status_kawin') == 'Kawin' ? 'selected' : '' }}>Kawin
+                                        </option>
+                                        <option value="Cerai Hidup"
+                                            {{ old('status_kawin') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup
+                                        </option>
+                                        <option value="Cerai Mati"
+                                            {{ old('status_kawin') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
                                     </select>
                                 </div>
                                 {{-- Alamat --}}
@@ -148,17 +157,18 @@
                                 </div>
                                 {{-- Jenis Kelamin --}}
                                 <div class="mb-3">
-                                    <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin<span
-                                            style="color: red">
-                                            *</span></label>
+                                    <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin <span
+                                            style="color: red">*</span></label>
                                     <select id="basic-default-jenis_kelamin" name="jenis_kelamin" class="form-control"
                                         required>
                                         <option value="" disabled
                                             {{ old('jenis_kelamin') == null ? 'selected' : '' }}>
-                                            Pilih
-                                            Jenis Kelamin</option>
-                                        <option value="Laki-laki">Laki-laki</option>
-                                        <option value="Perempuan">Perempuan</option>
+                                            Pilih Jenis Kelamin
+                                        </option>
+                                        <option value="Laki-laki"
+                                            {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                        <option value="Perempuan"
+                                            {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                     </select>
                                 </div>
 

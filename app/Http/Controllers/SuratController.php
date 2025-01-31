@@ -168,8 +168,8 @@ class SuratController extends Controller
                     'penghasilan' => 'required|string|max:20',
 
                     'nama' => 'required|string|max:50',
-                    'nik' => 'required|digits:16',
-                    "ttl" => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
+                    'nik' => 'required|digits:16|different:nik_ortu',
+                    "ttl" => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/|different:ttl_ortu',
                     'jenis_kelamin' => 'required|string|max:15',
                     'sekolah' => 'required|string|max:50',
                     'jurusan' => 'required|string|max:50',

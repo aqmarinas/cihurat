@@ -43,14 +43,15 @@
                         </div>
                         {{-- Jenis Kelamin --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin<span
-                                    style="color: red">
-                                    *</span></label>
+                            <label class="form-label" for="basic-default-jenis_kelamin">Jenis Kelamin <span
+                                    style="color: red">*</span></label>
                             <select id="basic-default-jenis_kelamin" name="jenis_kelamin" class="form-control" required>
                                 <option value="" disabled {{ old('jenis_kelamin') == null ? 'selected' : '' }}>Pilih
                                     Jenis Kelamin</option>
-                                <option value="Laki-laki">Laki-laki</option>
-                                <option value="Perempuan">Perempuan</option>
+                                <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>
+                                    Laki-laki</option>
+                                <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                                    Perempuan</option>
                             </select>
                         </div>
                         {{-- NIK --}}
@@ -77,7 +78,7 @@
                         </div>
                         {{-- Keperluan --}}
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-keperluan">Keperluan<span style="color: red">
+                            <label class="form-label" for="basic-default-keperluan">Keperluan Surat<span style="color: red">
                                     *</span></label>
                             <input type="text" name="keperluan" class="form-control" id="basic-default-keperluan"
                                 placeholder="Keperluan" required value="{{ old('keperluan') }}" />
