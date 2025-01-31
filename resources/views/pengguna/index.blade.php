@@ -67,7 +67,7 @@
                                         data-id="{{ $user->id }}" data-rt_rw="{{ $user->rt_rw }}"
                                         data-nama_ketua="{{ $user->nama_ketua }}"
                                         data-nomor_whatsapp="{{ $user->nomor_whatsapp }}">
-                                        <i class="bx bx-edit-alt me-1"></i> Edit
+                                        <i class="bx bx-edit-alt me-1"></i> Ubah
                                     </a>
                                     <!-- Tombol Hapus -->
                                     <form id="delete-form-{{ $user->id }}"
@@ -177,7 +177,7 @@
                             <input type="text" name="nomor_whatsapp" class="form-control" id="edit-nomor_whatsapp"
                                 placeholder="081234567890" required />
                         </div>
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <button type="submit" class="btn btn-primary">Ubah</button>
                     </form>
                 </div>
             </div>

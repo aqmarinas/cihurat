@@ -49,7 +49,8 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <span class="fw-semibold d-block">{{ Auth::user()->nama }}</span>
+                                <span class="fw-semibold d-block text-truncate"
+                                    style="max-width: 150px;">{{ Auth::user()->nama }}</span>
                                 <small class="text-muted text-capitalize">
                                     @if (Auth::user()->role == 'rt')
                                         @php

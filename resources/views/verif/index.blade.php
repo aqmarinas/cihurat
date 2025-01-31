@@ -16,6 +16,11 @@
             </div>
         @endif
 
+        <div class="alert alert-primary alert-dismissible fade show col-md-6" role="alert">
+            <h5 class="text-primary mb-2">Informasi</h5>
+            <p>Ketua RT hanya dapat mengunduh surat pengantar RT/RW</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class="card">
             <div class="row mx-3 my-4">
                 <div class="col-md-6">
@@ -77,7 +82,6 @@
                                     </td>
                                     <td>{{ $letter->user->nama ?? '-' }}</td>
                                     <td>{{ $letter->jenis_surat ?? '-' }}</td>
-                                    </td>
                                     <td>
                                         @if ($letter->status === 'MENUNGGU')
                                             <span class="badge bg-warning">Menunggu</span>
@@ -91,7 +95,12 @@
                                     <td>
                                         <a href="{{ route('verifikasi.show', $letter->id) }}"
                                             class="btn btn-primary btn-sm me-2">Detail</a>
-                                    </td>
+                                        @if ($letter->jenis_surat === 'Surat Pengantar' && $letter->status === 'DISETUJUI')
+                                            <a href="{{ route('verifikasi.download', $letter->id) }}"
+                                                class="btn btn-success btn-sm">
+                                                <i class="fas fa-download"></i> Unduh
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 {{-- @endif --}}

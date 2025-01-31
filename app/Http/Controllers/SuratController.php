@@ -447,7 +447,7 @@ class SuratController extends Controller
             });
         }
 
-        $path = storage_path("app/private/documents/$folder/$filename");
+        $path = storage_path("app/public/documents/$folder/$filename");
         $watermarkedImage->save($path);
 
         return "documents/$folder/$filename";

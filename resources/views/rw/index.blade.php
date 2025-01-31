@@ -49,7 +49,7 @@
                                     <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-edit me-2"
                                         data-id="{{ $rwList->id }}" data-rw="{{ $rwList->rw }}"
                                         data-nama="{{ $rwList->nama }}" data-no_whatsapp="{{ $rwList->no_whatsapp }}">
-                                        <i class="bx bx-edit-alt me-1"></i> Edit
+                                        <i class="bx bx-edit-alt me-1"></i> Ubah
                                     </a>
                                     <!-- Tombol Hapus -->
                                     <form id="delete-form-{{ $rwList->id }}"

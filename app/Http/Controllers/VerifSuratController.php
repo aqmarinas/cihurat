@@ -100,27 +100,27 @@ class VerifSuratController extends Controller
         // Pilih template sesuai jenis surat
         switch ($letter->jenis_surat) {
             case 'Surat Pengantar':
-                $templatePath = storage_path('app/public/templates/Surat Pengantar RT RW.docx');
+                $templatePath = storage_path('app/private/templates/Surat Pengantar RT RW.docx');
                 $outputPath = storage_path('app/public/surat/surat_pengantar/Surat_Pengantar_' . $detailSurat->id . '.docx');
                 break;
             case 'Surat Keterangan Tidak Mampu':
-                $templatePath = storage_path('app/public/templates/Surat Keterangan Tidak Mampu.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Tidak Mampu.docx');
                 $outputPath = storage_path('app/public/surat/surat_tidak_mampu/Surat_Tidak_Mampu_' . $detailSurat->id . '.docx');
                 break;
             case 'Surat Keterangan Kematian':
-                $templatePath = storage_path('app/public/templates/Surat Keterangan Kematian.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Kematian.docx');
                 $outputPath = storage_path('app/public/surat/surat_kematian/Surat_Kematian_' . $detailSurat->id . '.docx');
                 break;
             case 'Surat Keterangan Usaha':
-                $templatePath = storage_path('app/public/templates/Surat Keterangan Usaha.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Usaha.docx');
                 $outputPath = storage_path('app/public/surat/surat_usaha/Surat_Usaha_' . $detailSurat->id . '.docx');
                 break;
             case 'Surat Keterangan Belum Menikah':
-                $templatePath = storage_path('app/public/templates/Surat Keterangan Belum Menikah.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Belum Menikah.docx');
                 $outputPath = storage_path('app/public/surat/surat_belum_nikah/Surat_Belum_Nikah_' . $detailSurat->id . '.docx');
                 break;
             case 'Surat Domisili':
-                $templatePath = storage_path('app/public/templates/Surat Keterangan Domisili.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Domisili.docx');
                 $outputPath = storage_path('app/public/surat/surat_domisili/Surat_Domisili_' . $detailSurat->id . '.docx');
                 break;
             default:
