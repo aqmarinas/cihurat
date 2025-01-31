@@ -61,7 +61,12 @@
                                     style="text-transform:capitalize !important;">{{ env('APP_NAME') }}</span>
                             </div>
                             <!-- /Logo -->
-                            <h4 class="mb-4">Daftar Akun</h4>
+                            <h4>Daftar Akun</h4>
+                            <p>
+                                <i class="bx bx-info-circle icon-style"
+                                    style="vertical-align: middle; margin-right: 5px;"></i>
+                                Butuh bantuan? Baca <a href="#" class="text-primary">panduan pengguna</a>
+                            </p>
 
                             @if ($errors->any())
                                 <div class="alert alert-danger">
@@ -80,39 +85,49 @@
                                     <label for="email" class="form-label">Email <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('email') is-invalid @enderror form-control"
-                                        id="email" name="email" placeholder="Masukkan Email" autofocus required />
+                                        id="email" name="email" placeholder="Masukkan Email"
+                                        value="{{ old('email') }}" autofocus required />
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="nomor_whatsapp" class="form-label">Nomor WhatsApp <span
                                             style="color: red">*</span></label>
                                     <input type="text"
                                         class="@error('nomor_whatsapp') is-invalid @enderror form-control"
                                         id="nomor_whatsapp" name="nomor_whatsapp" placeholder="Masukkan Nomor WhatsApp"
-                                        required />
+                                        value="{{ old('nomor_whatsapp') }}" required />
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="nik" class="form-label">NIK <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('nik') is-invalid @enderror form-control"
-                                        id="nik" name="nik" placeholder="Masukkan NIK" required />
+                                        id="nik" name="nik" placeholder="Masukkan NIK"
+                                        value="{{ old('nik') }}" required />
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama Lengkap <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('nama') is-invalid @enderror form-control"
-                                        id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required />
+                                        id="nama" name="nama" placeholder="Masukkan Nama Lengkap"
+                                        value="{{ old('nama') }}" required />
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="alamat" class="form-label">Alamat <span
                                             style="color: red">*</span></label>
                                     <input type="text" class="@error('alamat') is-invalid @enderror form-control"
-                                        id="alamat" name="alamat" placeholder="Masukkan Alamat" required />
+                                        id="alamat" name="alamat" placeholder="Masukkan Alamat"
+                                        value="{{ old('alamat') }}" required />
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="rt_rw" class="form-label">RT/RW <span
                                             style="color: red">*</span></label>
                                     <select name="rt_rw" class="form-control" id="rt_rw">
-                                        <option value="" selected disabled>Pilih RT/RW</option>
+                                        <option value="" disabled {{ old('rt_rw') == null ? 'selected' : '' }}>
+                                            Pilih RT/RW</option>
                                         <option value="01/01" {{ old('rt_rw') == '01/01' ? 'selected' : '' }}>01/01
                                         </option>
                                         <option value="02/01" {{ old('rt_rw') == '02/01' ? 'selected' : '' }}>02/01
@@ -131,6 +146,7 @@
                                         </option>
                                     </select>
                                 </div>
+
                                 <div class="form-password-toggle mb-3">
                                     <div class="d-flex justify-content-between">
                                         <label class="form-label" for="password">Password <span
@@ -146,6 +162,7 @@
                                                 class="bx bx-hide"></i></span>
                                     </div>
                                 </div>
+
                                 <div class="form-password-toggle mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password <span
                                             style="color: red">*</span></label>
@@ -167,17 +184,9 @@
                                     Sudah punya akun? <a href="{{ route('login') }}"
                                         class="fw-bold text-primary">Masuk</a>
                                 </p>
-
-                                <!-- Tampilkan error general jika ada -->
-                                @if ($errors->has('nomor_whatsapp'))
-                                    <div class="alert-danger alert">
-                                        {{ $errors->first('nomor_whatsapp') }}
-                                    </div>
-                                @endif
                             </form>
                         </div>
                     </div>
-                    <!-- /Register -->
                 </div>
             </div>
         </div>

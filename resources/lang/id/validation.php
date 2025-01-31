@@ -2,6 +2,7 @@
 
 return [
     'regex' => 'Format penulisan :Attribute tidak valid.',
+    'digits' => ':attribute harus terdiri dari :digits digit.',
     'required' => ':Attribute harus diisi.',
     'email' => ':Attribute harus berupa alamat email yang valid.',
     'max' => [

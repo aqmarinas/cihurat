@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Str;
 
 class SuratController extends Controller
 {
@@ -106,7 +107,7 @@ class SuratController extends Controller
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field);
                     }
                 }
 
@@ -130,7 +131,7 @@ class SuratController extends Controller
                     'status_kawin' => 'required|string|max:50',
                     'agama' => 'required|string|max:50',
                     'pekerjaan' => 'required|string|max:30',
-                    'alamat' => 'required|string|max:50',
+                    'alamat' => 'required|string|max:255',
                     'keperluan' => 'required|string|max:50',
                     'no_whatsapp' => 'required|string|max:20',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
@@ -145,7 +146,7 @@ class SuratController extends Controller
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field);
                     }
                 }
 
@@ -164,7 +165,7 @@ class SuratController extends Controller
                     'jenis_kelamin_ortu' => 'required|string|max:15',
                     'no_whatsapp' => 'required|string|max:20',
                     'status_kawin' => 'required|string|max:20',
-                    'alamat' => 'required|string|max:100',
+                    'alamat' => 'required|string|max:255',
                     'penghasilan' => 'required|string|max:20',
 
                     'nama' => 'required|string|max:50',
@@ -186,7 +187,7 @@ class SuratController extends Controller
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field);
                     }
                 }
 
@@ -203,7 +204,7 @@ class SuratController extends Controller
                     'nik' => 'required|digits:16',
                     'no_whatsapp' => 'required|string|max:20',
                     'jenis_kelamin' => 'required|string|max:15',
-                    'alamat' => 'required|string|max:100',
+                    'alamat' => 'required|string|max:255',
                     'hari_meninggal' => 'required|string|max:30',
                     'tanggal_meninggal' => 'required|string|max:30|regex:/^\d{1,2} [A-Za-z]+ \d{4}$/',
                     'tempat_meninggal' => 'required|string|max:30',
@@ -219,7 +220,7 @@ class SuratController extends Controller
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field);
                     }
                 }
 
@@ -239,7 +240,7 @@ class SuratController extends Controller
                     'agama' => 'required|string|max:15',
                     'status_kawin' => 'required|string|max:15',
                     'pekerjaan' => 'required|string|max:30',
-                    'alamat' => 'required|string|max:50',
+                    'alamat' => 'required|string|max:255',
                     'jenis_usaha' => 'required|string|max:50',
                     'no_whatsapp' => 'required|string|max:20',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
@@ -253,7 +254,7 @@ class SuratController extends Controller
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field);
                     }
                 }
 
@@ -274,7 +275,7 @@ class SuratController extends Controller
                     'kewarganegaraan' => 'required|string|max:15',
                     'status_kawin' => 'required|string|max:30',
                     'pekerjaan' => 'required|string|max:30',
-                    'alamat' => 'required|string|max:50',
+                    'alamat' => 'required|string|max:255',
                     'no_whatsapp' => 'required|string|max:20',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
@@ -287,7 +288,7 @@ class SuratController extends Controller
                 foreach ($fileFields as $field) {
                     if ($request->hasFile($field)) {
                         $file = $request->file($field);
-                        $filePaths[$field] = $this->processImageWithWatermark($file, $field, $field);
+                        $filePaths[$field] = $this->processImageWithWatermark($file, $field);
                     }
                 }
 
@@ -420,11 +421,11 @@ class SuratController extends Controller
         return view('arsip.index', compact('allLeters', 'status', 'search'));
     }
 
-    public function processImageWithWatermark($file, $folder, $field)
+    public function processImageWithWatermark($file, $folder)
     {
         $manager = new ImageManager(new Driver());
 
-        $filename = time() . "_$field." . $file->getClientOriginalExtension();
+        $filename = Str::ulid() . "." . $file->getClientOriginalExtension();
         $watermarkedImage = $manager->read($file);
 
         $dateTime = date('Y/m/d H:i');
@@ -446,7 +447,7 @@ class SuratController extends Controller
             });
         }
 
-        $path = storage_path("app/public/documents/$folder/$filename");
+        $path = storage_path("app/private/documents/$folder/$filename");
         $watermarkedImage->save($path);
 
         return "documents/$folder/$filename";

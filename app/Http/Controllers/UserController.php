@@ -22,9 +22,9 @@ class UserController extends Controller
     {
         $validate = request()->validate([
             'nama' => 'required|string|max:50',
-            'nik' => 'required|string|max:20',
+            'nik' => 'required|digits:16|unique:users,nik',
             'email' => 'required|email|unique:users,email',
-            'nomor_whatsapp' => 'required|digits_between:10,15',
+            'nomor_whatsapp' => 'required|digits_between:10,15|unique:users,nomor_whatsapp',
             'rt_rw' => 'nullable|string|max:8',
             'alamat' => 'nullable|string|max:255',
             'password' => 'required|string|min:8|confirmed',
