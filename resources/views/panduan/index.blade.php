@@ -4,8 +4,10 @@
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="m-8">
-            <h1>Panduan</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Mohon Maaf</h5>
+                <p class="card-text">Panduan belum tersedia. </p>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection

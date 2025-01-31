@@ -62,6 +62,11 @@
                             </div>
                             <!-- /Logo -->
                             <h4 class="mb-4">Selamat datang di Cihurat <br> (Cidahu Surat) 👋</h4>
+                            <p>
+                                <i class="bx bx-info-circle icon-style"
+                                    style="vertical-align: middle; margin-right: 5px;"></i>
+                                Butuh bantuan? Baca <a href="#" class="text-primary">panduan pengguna</a>
+                            </p>
 
                             @if (session('success'))
                                 <div class="alert alert-success">

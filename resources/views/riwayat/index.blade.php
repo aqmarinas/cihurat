@@ -21,10 +21,15 @@
             </div>
         @endif
 
-        <div class="alert alert-primary alert-dismissible fade show col-md-6" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show col-md-9" role="alert">
             <h5 class="text-primary">Informasi</h5>
             <ul>
                 <li>
+                    <p class="mb-0">Silakan hubungi ketua RT untuk memproses pengajuan surat.</p>
+                    <p>Ketua RT {{ $rt }}: <strong>{{ $noKetua }} ({{ $namaKetua }})</strong>
+                </li>
+                <li>
+                    </p>
                     <p>
                         Setelah pengajuan surat Anda disetujui, <strong>
                             silakan datang ke Kantor Desa
@@ -36,7 +41,7 @@
                 </li>
                 <li>
                     Pastikan <strong>
-                        membawa bukti pengajuan surat
+                        menunjukkan bukti pengajuan surat
                     </strong>
                     untuk ditunjukkan kepada petugas di Kantor Desa.
                 </li>

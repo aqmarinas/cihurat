@@ -366,7 +366,16 @@ class SuratController extends Controller
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(5);
 
-        return view('riwayat.index', compact('histories'));
+        $rt_rw = Auth::user()->rt_rw;
+        $rt = explode('/', $rt_rw)[0];
+
+        $ketuaRt = User::where('role', 'rt')
+            ->where('rt_rw', "$rt_rw")
+            ->first();
+        $namaKetua = $ketuaRt ? $ketuaRt->nama : "";
+        $noKetua = $ketuaRt ? $ketuaRt->nomor_whatsapp : "";
+
+        return view('riwayat.index', compact('histories', 'rt', 'namaKetua', 'noKetua'));
     }
 
     public function historyDetails(string $id)
