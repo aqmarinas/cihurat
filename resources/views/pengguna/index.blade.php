@@ -48,7 +48,7 @@
                             <th>Nomor WhatsApp</th>
                             <th>RT/RW</th>
                             <th>Alamat</th>
-                            <th>Aksi</th>
+                            {{-- <th>Aksi</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -60,8 +60,8 @@
                                 <td>{{ $user->email ?? '-' }}</td>
                                 <td>{{ $user->nomor_whatsapp ?? '-' }}</td>
                                 <td>{{ $user->rt_rw ?? '-' }}</td>
-                                <td>{{ $user->alamat ?? '-' }}</td>
-                                <td>
+                                <td>{{ Str::limit($user->alamat ?? '-', 30, '...') }}</td>
+                                {{-- <td>
                                     <!-- Tombol Edit -->
                                     <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-edit me-2"
                                         data-id="{{ $user->id }}" data-rt_rw="{{ $user->rt_rw }}"
@@ -81,7 +81,7 @@
                                         </button>
                                     </form>
                                 </td>
-                            </tr>
+                            </tr> --}}
                         @endforeach
 
                         @if ($users->isEmpty())
