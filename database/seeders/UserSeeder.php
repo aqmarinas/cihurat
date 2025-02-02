@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
 
         $users = [
             [
-                'nama' => 'User 1',
+                'nama' => 'Adi',
                 'nik' => '3173317331733173',
                 'email' => 'user@gmail.com',
                 'nomor_whatsapp' => '08123456789',
@@ -35,14 +35,6 @@ class UserSeeder extends Seeder
                 'nomor_whatsapp' => '081234567890',
                 'rt_rw' => '01/01',
                 'role' => 'admin',
-                'password' => Hash::make('12345678'),
-            ],
-            [
-                'nama' => 'RT',
-                'email' => 'rt@gmail.com',
-                'nomor_whatsapp' => '0812345678911',
-                'rt_rw' => '01/01',
-                'role' => 'rt',
                 'password' => Hash::make('12345678'),
             ],
             [
