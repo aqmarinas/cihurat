@@ -34,8 +34,7 @@
                     @elseif (Auth::user()->role == 'rt')
                         <a href="{{ route('verifikasi.index') }}" class="text-secondary">← Kembali</a>
                     @elseif (Auth::user()->role == 'admin')
-                        {{-- todo: route --}}
-                        <a href="{{ route('verifikasi.index') }}" class="text-secondary">← Kembali</a>
+                        <a href="{{ route('admin.kelola.surat') }}" class="text-secondary">← Kembali</a>
                     @endif
                 </div>
 

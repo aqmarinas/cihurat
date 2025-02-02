@@ -452,4 +452,41 @@ class SuratController extends Controller
 
         return "documents/$folder/$filename";
     }
+
+    public function uploadTemplate(Request $request)
+    {
+        $request->validate([
+            'jenis_surat' => 'required|string',
+            // 'description' => 'required|string',
+            'template' => 'required|mimes:docx|max:2048'
+        ]);
+
+        $folder = match ($request->jenis_surat) {
+            'Surat Pengantar' => 'surat_pengantar',
+            'Surat Keterangan Tidak Mampu' => 'surat_tidak_mampu',
+            'Surat Keterangan Kematian' => 'surat_kematian',
+            'Surat Keterangan Usaha' => 'surat_usaha',
+            'Surat Keterangan Belum Menikah' => 'surat_belum_nikah',
+            'Surat Domisili' => 'surat_domisili',
+            default => null
+        };
+
+        if (!$folder) {
+            return back()->with('error', 'Jenis surat tidak valid.');
+        }
+
+        $path = $request->file('template')->storeAs("private/templates/{$folder}", "{$request->jenis_surat}.docx");
+
+        return back()->with('success', 'Template berhasil diunggah.');
+    }
+
+    public function uploadTemplateView()
+    {
+        return view('kelola_template.index');
+    }
+    public function __construct()
+    {
+        $this->middleware('role:admin')->only(['historyDetails']);
+        $this->middleware('role:pengguna')->only(['create', 'historyDetails']);
+    }
 }

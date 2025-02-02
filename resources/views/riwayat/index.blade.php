@@ -52,7 +52,6 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Riwayat Pengajuan Surat</h5>
-                {{-- todo: filter by jenis surat and status --}}
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table-bordered table-striped table">

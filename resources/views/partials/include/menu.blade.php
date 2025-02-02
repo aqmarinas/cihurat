@@ -15,6 +15,13 @@
             </a>
         </li>
 
+        {{-- <li class="menu-item {{ Route::is('admin.template.upload') ? 'active' : '' }}">
+            <a href="{{ route('admin.template.upload') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-upload"></i>
+                <div data-i18n="Analytics">Kelola Template Surat</div>
+            </a>
+        </li> --}}
+
         <li class="menu-item {{ Route::is('rt.*') ? 'open active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-group"></i>
