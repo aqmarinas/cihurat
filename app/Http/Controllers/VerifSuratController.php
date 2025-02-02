@@ -120,7 +120,7 @@ class VerifSuratController extends Controller
                 $outputPath = storage_path('app/public/surat/surat_belum_nikah/Surat_Belum_Nikah_' . $detailSurat->id . '.docx');
                 break;
             case 'Surat Domisili':
-                $templatePath = public_path('templates/Surat Domisili.docx');
+                $templatePath = public_path('templates/Surat Keterangan Domisili.docx');
                 $outputPath = storage_path('app/public/surat/surat_domisili/Surat_Domisili_' . $detailSurat->id . '.docx');
                 break;
             default:
