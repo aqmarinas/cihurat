@@ -68,11 +68,12 @@ Route::middleware(['auth'])->group(
             Route::resource('rw', RwController::class);
 
             Route::get('/admin/pengguna', [UserController::class, 'getAllPengguna'])->name('admin.kelola.pengguna');
-            Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.kelola.surat');
+
             Route::post('/admin/template/store', [SuratController::class, 'uploadTemplate'])->name('admin.template.store');
             Route::get('/admin/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');
 
-            Route::get('/admin/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.detail');
+            Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.kelola.surat');
+            Route::get('/admin/surat/{id}/detail', [SuratController::class, 'archiveDetails'])->name('admin.surat.detail');
             Route::get('/admin/surat/{id}/download', [VerifSuratController::class, 'download'])->name('surat.download');
         });
     }

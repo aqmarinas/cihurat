@@ -76,6 +76,7 @@
                                     // $hasCourses = true;
                                 @endphp
                                 <tr>
+                                    {{-- <td>{{ $history->user->nama ?? '-' }}</td> --}}
                                     <td>{{ $history->jenis_surat ?? '-' }}</td>
                                     <td>
                                         @if ($history->tanggal_pengajuan)

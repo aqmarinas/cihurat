@@ -364,6 +364,7 @@ class SuratController extends Controller
     {
         $histories = Surat::where('user_id', auth()->id())
             ->withTrashed()
+            // ->with('user')
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(5);
 
@@ -386,15 +387,17 @@ class SuratController extends Controller
             ->find($id);
 
         if (!$surat) {
-            return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
+            return redirect()->back()->with('error', 'Data pengajuan surat tidak ditemukan.');
         }
 
-        if ($surat->user_id !== Auth::id()) {
-            return redirect()->route('verifikasi.index')->with('error', 'Anda tidak memiliki izin untuk mengakses riwayat ini');
-        }
+        $user = Auth::user();
+
+        // if ($user->role === 'pengguna' && $surat->user_id !== $user->id) {
+        //     return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengakses detail surat ini');
+        // }
+
 
         $detailSurat = $surat->suratable;
-
         $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
 
         return view('riwayat.detail', compact('surat', 'detailSurat', 'fields'));
@@ -419,6 +422,24 @@ class SuratController extends Controller
             ->paginate(10);
 
         return view('arsip.index', compact('allLeters', 'status', 'search'));
+    }
+
+    public function archiveDetails(string $id)
+    {
+        $surat = Surat::withTrashed()
+            ->with(['user', 'suratable'])
+            ->find($id);
+
+        if (!$surat) {
+            return redirect()->back()->with('error', 'Data pengajuan surat tidak ditemukan.');
+        }
+
+        $user = Auth::user();
+
+        $detailSurat = $surat->suratable;
+        $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
+
+        return view('riwayat.detail', compact('surat', 'detailSurat', 'fields'));
     }
 
     public function processImageWithWatermark($file, $folder)
