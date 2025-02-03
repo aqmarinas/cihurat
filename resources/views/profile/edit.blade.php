@@ -53,20 +53,43 @@
                     <form id="profileForm" action="{{ route('update.profile') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <div class="form-row">
-                            <!-- Column 1 -->
-                            <div class="form-column">
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{-- Nama --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="nama">Nama Lengkap</label>
                                     <input type="text" name="nama" class="form-control" id="nama"
                                         value="{{ $user->nama }}" />
                                 </div>
+                                {{-- Email --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="email">Email</label>
                                     <input type="email" name="email" class="form-control" id="email"
                                         value="{{ $user->email }}" />
                                 </div>
+                                {{-- NIK --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="nik">Nomor Induk Kependudukan (NIK)</label>
+                                    <input type="text" name="nik" class="form-control" id="nik"
+                                        inputmode="numeric" maxlength="16" value="{{ $user->nik }}" />
+                                </div>
+                                {{-- Nomor WhatsApp --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp</label>
+                                    <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp"
+                                        value="{{ $user->nomor_whatsapp }}" />
+                                </div>
+                            </div>
 
+                            <!-- Column 2 -->
+                            <div class="col-md-6">
+                                {{-- Alamat --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="alamat">Alamat</label>
+                                    <input type="text" name="alamat" class="form-control" id="alamat"
+                                        value="{{ $user->alamat }}" />
+                                </div>
+                                {{-- RT/RW --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="rt_rw">RT/RW</label>
                                     <select name="rt_rw" class="form-control" id="rt_rw">
@@ -89,33 +112,13 @@
                                         </option>
                                     </select>
                                 </div>
-
+                                {{-- New Password --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="password">Password Baru</label>
                                     <input type="password" name="password" class="form-control" id="password" />
                                 </div>
                                 <div class="error-message" id="passwordError"></div>
-                            </div>
-
-                            <!-- Column 2 -->
-                            <div class="form-column">
-                                <div class="mb-3">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="nik">Nomor Induk Kependudukan (NIK)</label>
-                                        <input type="text" name="nik" class="form-control" id="nik"
-                                            inputmode="numeric" maxlength="16" value="{{ $user->nik }}" />
-                                    </div>
-                                    <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp</label>
-                                    <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp"
-                                        value="{{ $user->nomor_whatsapp }}" />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="alamat">Alamat</label>
-                                    <input type="text" name="alamat" class="form-control" id="alamat"
-                                        value="{{ $user->alamat }}" />
-                                </div>
-
+                                {{-- Confirm New Password --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
                                     <input type="password" name="password_confirmation" class="form-control"
