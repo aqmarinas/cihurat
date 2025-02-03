@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(
             Route::get('/admin/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');
 
             Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.kelola.surat');
-            Route::get('/admin/surat/{id}/detail', [SuratController::class, 'archiveDetails'])->name('admin.surat.detail');
+            Route::get('/admin/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.detail');
             Route::get('/admin/surat/{id}/download', [VerifSuratController::class, 'download'])->name('surat.download');
         });
     }
