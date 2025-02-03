@@ -58,7 +58,7 @@
                                         alt="Cihurat Logo" />
                                 </span>
                                 <span class="app-brand-text demo text-body fw-bolder ms-2"
-                                    style="text-transform:capitalize !important;">{{ env('APP_NAME') }}</span>
+                                    style="text-transform:capitalize !important;">Cihurat</span>
                             </div>
                             <!-- /Logo -->
                             <h4 class="mb-4">Selamat datang di Cihurat <br> (Cidahu Surat) 👋</h4>

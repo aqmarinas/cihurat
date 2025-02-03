@@ -17,7 +17,7 @@
                         <img src="{{ asset('assets/img/favicon/cidahu.svg') }}" class="img-fluid" style="height: 2rem;"
                             alt="Cidahu Logo" />
                         <span class="app-brand-text demo text-body fw-bolder ms-2"
-                            style="text-transform:capitalize !important;">{{ env('APP_NAME') }}</span>
+                            style="text-transform:capitalize !important;">Cihurat</span>
 
                         <a href="javascript:void(0);"
                             class="layout-menu-toggle menu-link text-large d-block d-xl-none ms-auto">
