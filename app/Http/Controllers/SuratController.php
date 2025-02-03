@@ -392,10 +392,9 @@ class SuratController extends Controller
 
         $user = Auth::user();
 
-        // if ($user->role === 'pengguna' && $surat->user_id !== $user->id) {
-        //     return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengakses detail surat ini');
-        // }
-
+        if ($user->role === 'pengguna' && $surat->user_id !== $user->id) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengakses detail surat ini');
+        }
 
         $detailSurat = $surat->suratable;
         $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
@@ -422,24 +421,6 @@ class SuratController extends Controller
             ->paginate(10);
 
         return view('arsip.index', compact('allLeters', 'status', 'search'));
-    }
-
-    public function archiveDetails(string $id)
-    {
-        $surat = Surat::withTrashed()
-            ->with(['user', 'suratable'])
-            ->find($id);
-
-        if (!$surat) {
-            return redirect()->back()->with('error', 'Data pengajuan surat tidak ditemukan.');
-        }
-
-        $user = Auth::user();
-
-        $detailSurat = $surat->suratable;
-        $fields = SuratField::where('jenis_surat', $surat->jenis_surat)->get();
-
-        return view('riwayat.detail', compact('surat', 'detailSurat', 'fields'));
     }
 
     public function processImageWithWatermark($file, $folder)
@@ -504,10 +485,5 @@ class SuratController extends Controller
     public function uploadTemplateView()
     {
         return view('kelola_template.index');
-    }
-    public function __construct()
-    {
-        $this->middleware('role:admin')->only(['historyDetails']);
-        $this->middleware('role:pengguna')->only(['create', 'historyDetails']);
     }
 }

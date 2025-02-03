@@ -120,7 +120,7 @@
                         <div class="card-body">
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
-                            <h5 class="card-title">Total Surat Menunggu Disetujui </h5>
+                            <h5 class="card-title">Total Surat Menunggu </h5>
                             <p class="card-text">{{ $totalSuratMenungguUser }}</p>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                         <div class="card-body">
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
-                            <h5 class="card-title">Total Surat Menunggu Disetujui </h5>
+                            <h5 class="card-title">Total Surat Menunggu </h5>
                             <p class="card-text">{{ $totalSuratMenungguRT }}</p>
                         </div>
                     </div>
