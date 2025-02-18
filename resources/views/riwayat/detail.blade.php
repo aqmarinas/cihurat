@@ -48,7 +48,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" id="cancelButton" class="btn btn-danger btn-sm">
-                                    <i class="bx bx-x-circle me-1"></i> Batal
+                                    <i class="bx bx-x-circle me-1"></i> Batalkan
                                 </button>
                             </form>
                         @endif
@@ -200,8 +200,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-danger">Tolak</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                     </div>
                 </form>
             </div>
@@ -235,7 +235,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#dc3435',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Batal',
+                confirmButtonText: 'Batalkan',
                 cancelButtonText: 'Tidak'
             }).then((result) => {
                 if (result.isConfirmed) {

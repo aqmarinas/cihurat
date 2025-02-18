@@ -16,10 +16,14 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         if (!$request->expectsJson()) {
-            Session::flash('error', 'Anda harus masuk terlebih dahulu!');
+            // check if this is the first authentication check in the session
+            if (!session()->has('auth_checked')) {
+                session(['auth_checked' => true]); // mark as first-time check
+                return route('login');
+            }
+            Session::flash('error', 'Sesi habis. Anda harus masuk terlebih dahulu!');
             return route('login');
         }
-
         return null;
     }
 }
