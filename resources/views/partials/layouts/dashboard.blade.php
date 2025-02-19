@@ -89,6 +89,12 @@
                                     @endphp
                                     <p>Ketua RT {{ $rt ?? '' }}</p>
                                 @endif
+                                @if (Auth::user()->role == 'pengguna')
+                                    <p class="mt-2">Ajukan surat <a href="{{ route('surat.index') }}"
+                                            class="text-primary fw-bold">di
+                                            sini</a></p>
+                                @endif
+
                             </div>
                         </div>
                         <div class="col-sm-5 text-sm-left text-center">
@@ -106,34 +112,34 @@
             {{-- User --}}
             @if (Auth::user()->role == 'pengguna')
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('pengguna.riwayat') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-check-circle icon-style"
                                 style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Disetujui</h5>
                             <p class="card-text">{{ $totalSuratDisetujuiUser }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('pengguna.riwayat') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Menunggu </h5>
                             <p class="card-text">{{ $totalSuratMenungguUser }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('pengguna.riwayat') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-file icon-style"
                                 style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Diajukan</h5>
                             <p class="card-text">{{ $totalSuratDiajukanUser }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endif
 

@@ -31,7 +31,7 @@ class UserController extends Controller
         ]);
 
         $validate['role'] = 'pengguna';
-        $validate['password'] = bcrypt($validate['password']);
+        $validate['password'] = Hash::make($validate['password']);
 
         User::create($validate);
         return redirect()->route('login')->with('success', 'Berhasil mendaftar akun. Silahkan masuk.');
@@ -51,45 +51,40 @@ class UserController extends Controller
 
     public function updateProfile(Request $request)
     {
-        try {
-            if (!Auth::check()) {
-                return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
-            }
-
-            $user = Auth::user();
-
-            if (!$user instanceof User) {
-                return redirect()->back()->with('error', 'Admin tidak valid.');
-            }
-
-            $validated = $request->validate([
-                'nama' => 'nullable|string|max:50',
-                'nik' => 'nullable|string|max:20',
-                'email' => 'nullable|email',
-                'nomor_whatsapp' => 'nullable|digits_between:10,15',
-                'rt_rw' => 'nullable|string|max:8',
-                'alamat' => 'nullable|string|max:255',
-                'password' => 'nullable|string|min:8|confirmed',
-            ]);
-
-            if ($request->filled('password')) {
-                $validated['password'] = Hash::make($request->password);
-            } else {
-                unset($validated['password']);
-            }
-
-            $user->update($validated);
-            return redirect()->back()->with('success', 'Profil berhasil diubah!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['edit.profile' => $e->getMessage()]);
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
         }
+
+        $user = Auth::user();
+
+        if (!$user instanceof User) {
+            return redirect()->back()->with('error', 'Admin tidak valid.');
+        }
+
+        $validated = $request->validate([
+            'nama' => 'nullable|string|max:50',
+            'nik' => 'nullable|digits:16|unique:users,nik,' . $user->id,
+            'email' => 'nullable|email|unique:users,email,' . $user->id,
+            'nomor_whatsapp' => 'nullable|digits_between:10,15|unique:users,nomor_whatsapp,' . $user->id,
+            'rt_rw' => 'nullable|string|max:8',
+            'alamat' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+        return redirect()->back()->with('success', 'Profil berhasil diubah!');
     }
 
     public function editProfile()
     {
-        $user = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
+        $user = Auth::user();
 
-        // Pastikan admin terautentikasi
         if (!$user) {
             return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
         }

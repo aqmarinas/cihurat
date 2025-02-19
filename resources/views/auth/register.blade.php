@@ -100,7 +100,8 @@
                                                     class="@error('nomor_whatsapp') is-invalid @enderror form-control"
                                                     id="nomor_whatsapp" name="nomor_whatsapp"
                                                     placeholder="Masukkan Nomor WhatsApp"
-                                                    value="{{ old('nomor_whatsapp') }}" required />
+                                                    value="{{ old('nomor_whatsapp') }}" required maxlength="15"
+                                                    inputmode="numeric" />
                                             </div>
 
                                             <div class="mb-3">
@@ -109,7 +110,8 @@
                                                 <input type="text"
                                                     class="@error('nik') is-invalid @enderror form-control"
                                                     id="nik" name="nik" placeholder="Masukkan NIK"
-                                                    value="{{ old('nik') }}" required />
+                                                    value="{{ old('nik') }}" required maxlength="16"
+                                                    inputmode="numeric" />
                                             </div>
 
                                             <div class="mb-3">
@@ -188,10 +190,11 @@
                                                     <input type="password" id="password_confirmation"
                                                         class="form-control" name="password_confirmation"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        required />
+                                                        aria-describedby="password_confirmation" required />
                                                     <span class="input-group-text cursor-pointer"><i
                                                             class="bx bx-hide"></i></span>
                                                 </div>
+                                                <div class="mt-0" id="passwordConfirmationError"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -214,6 +217,46 @@
 
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const form = document.getElementById("profileForm");
+                const passwordField = document.getElementById("password");
+                const confirmPasswordField = document.getElementById("password_confirmation");
+                const errorDiv = document.getElementById("passwordConfirmationError");
+
+                function validatePasswords() {
+                    if (confirmPasswordField.value !== passwordField.value) {
+                        confirmPasswordField.classList.add("is-invalid");
+                        errorDiv.textContent = "Konfirmasi password tidak cocok.";
+                        errorDiv.style.color = "red";
+                        return false;
+                    } else {
+                        confirmPasswordField.classList.remove("is-invalid");
+                        errorDiv.textContent = "";
+                        return true;
+                    }
+                }
+
+                passwordField.addEventListener("input", function() {
+                    if (passwordField.value.length > 0) {
+                        confirmPasswordField.setAttribute("required", "required");
+                    } else {
+                        confirmPasswordField.removeAttribute("required");
+                        confirmPasswordField.classList.remove("is-invalid");
+                        errorDiv.textContent = "";
+                    }
+                });
+
+                confirmPasswordField.addEventListener("input", validatePasswords);
+
+                form.addEventListener("submit", function(event) {
+                    if (passwordField.value.length > 0 && !validatePasswords()) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
+
         <script src="../assets/vendor/libs/jquery/jquery.js"></script>
         <script src="../assets/vendor/libs/popper/popper.js"></script>
         <script src="../assets/vendor/js/bootstrap.js"></script>

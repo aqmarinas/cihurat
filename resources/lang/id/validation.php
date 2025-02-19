@@ -13,6 +13,7 @@ return [
     ],
     'confirmed' => 'Konfirmasi :Attribute tidak cocok.',
     'unique' => ':Attribute sudah digunakan.',
+    'digits_between' => ':Attribute harus terdiri dari :min sampai :max digit.',
     'string' => ':Attribute harus berupa teks.',
     'boolean' => ':Attribute harus bernilai true atau false.',
     'date' => ':Attribute bukan tanggal yang valid.',
