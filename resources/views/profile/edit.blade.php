@@ -1,28 +1,12 @@
 @extends('partials.layouts.app')
 
-@section('title', 'Perbarui Profil')
+@section('title', 'Ubah Profil')
 
 @section('container')
     <style>
         .card {
             max-width: 80rem;
             margin: 0;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .form-column {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 0.875em;
         }
     </style>
 
@@ -47,7 +31,7 @@
 
             <div class="card mb-12">
                 <div class="card-header">
-                    <h5 class="mb-0">Perbarui Profil</h5>
+                    <h5 class="mb-0">Ubah Profil</h5>
                 </div>
                 <div class="card-body">
                     <form id="profileForm" action="{{ route('update.profile') }}" method="post"
@@ -127,14 +111,13 @@
                                 <div class="error-message" id="passwordConfirmationError"></div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="saveButton">Perbarui Profil</button>
+                        <button type="submit" class="btn btn-primary" id="saveButton">Ubah</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript untuk preview gambar dan validasi -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Fungsi untuk memeriksa kesesuaian password

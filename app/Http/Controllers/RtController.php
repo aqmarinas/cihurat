@@ -69,7 +69,7 @@ class RtController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('rt.edit', ['rt' => User::find($id)]);
     }
 
     /**
@@ -90,7 +90,7 @@ class RtController extends Controller
         ]);
 
         $rt->update($validated);
-        return redirect()->back()->with('success', 'Berhasil mengubah data ketua RT');
+        return redirect()->route('rt.index')->with('success', 'Berhasil mengubah data ketua RT');
     }
 
     /**

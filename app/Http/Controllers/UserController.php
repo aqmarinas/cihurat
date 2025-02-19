@@ -79,7 +79,7 @@ class UserController extends Controller
             }
 
             $user->update($validated);
-            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+            return redirect()->back()->with('success', 'Profil berhasil diubah!');
         } catch (\Exception $e) {
             return back()->withErrors(['edit.profile' => $e->getMessage()]);
         }
@@ -119,7 +119,7 @@ class UserController extends Controller
 
         $rtRwId->update($validated);
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Akun RT berhasil diubah!');
     }
     /**
      * Show the form for creating a new resource.
