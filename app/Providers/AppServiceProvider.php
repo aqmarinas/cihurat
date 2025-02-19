@@ -24,16 +24,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
-
-        Validator::replacer('max', function ($message, $attribute, $rule, $parameters) {
-            if ($rule === 'max' && str_contains($message, 'file')) {
-                if (isset($parameters[0])) {
-                    $maxInMB = $parameters[0] / 1024;
-                    $message = str_replace(':max', $maxInMB . ' MB', $message);
-                }
-            }
-
-            return $message;
-        });
     }
 }

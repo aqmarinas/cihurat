@@ -95,7 +95,7 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'nik' => 'required|digits:16',
                     'keperluan' => 'required|string|max:50',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
@@ -133,7 +133,7 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
                     'keperluan' => 'required|string|max:50',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
 
@@ -163,7 +163,7 @@ class SuratController extends Controller
                     'nik_ortu' => 'required|digits:16',
                     "ttl_ortu" => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
                     'jenis_kelamin_ortu' => 'required|string|max:15',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'status_kawin' => 'required|string|max:20',
                     'alamat' => 'required|string|max:255',
                     'penghasilan' => 'required|string|max:20',
@@ -202,7 +202,7 @@ class SuratController extends Controller
                 $validateSurat = $request->validate([
                     'nama' => 'required|string|max:50',
                     'nik' => 'required|digits:16',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'jenis_kelamin' => 'required|string|max:15',
                     'alamat' => 'required|string|max:255',
                     'hari_meninggal' => 'required|string|max:30',
@@ -242,7 +242,7 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
                     'jenis_usaha' => 'required|string|max:50',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
@@ -276,7 +276,7 @@ class SuratController extends Controller
                     'status_kawin' => 'required|string|max:30',
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
