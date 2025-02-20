@@ -124,6 +124,22 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Data akun berhasil diubah!');
     }
 
+    // rt
+    public function getAllPenggunaByRt(Request $request)
+    {
+        $search = $request->get('search');
+        $user = auth()->user();
+
+        $users = User::where('role', 'pengguna')
+            ->where('rt_rw', $user->rt_rw)
+            ->when($search, function ($query) use ($search) {
+                return $query->where('nama', 'like', "%{$search}%");
+            })->orderBy('nama', 'asc')
+            ->paginate(10);
+        return view('pengguna.index', compact('users', 'search'));
+    }
+
+
     /**
      * Update the specified resource in storage.
      */

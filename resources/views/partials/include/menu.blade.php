@@ -61,6 +61,18 @@
                 <div data-i18n="Analytics">Cek Pengajuan Surat</div>
             </a>
         </li>
+        <li class="menu-item {{ Route::is('rt.kelola.pengguna') ? 'active' : '' }}">
+            <a href="{{ route('rt.kelola.pengguna') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="Analytics">Data Pengguna RT
+                    @php
+                        $rt_rw = Auth::user()->rt_rw;
+                        $rt = explode('/', $rt_rw)[0];
+                    @endphp
+                    {{ $rt ?? '' }}
+                </div>
+            </a>
+        </li>
     @elseif (Auth::user()->role == 'pengguna')
         <li class="menu-item {{ Route::is('surat.index') ? 'active' : '' }}">
             <a href="{{ route('surat.index') }}" class="menu-link">

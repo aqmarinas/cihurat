@@ -60,6 +60,8 @@ Route::middleware(['auth'])->group(
             Route::post('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
             Route::post('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
             Route::get('/verifikasi/{id}/download', [VerifSuratController::class, 'download'])->name('verifikasi.download');
+
+            Route::get('/rt/pengguna', [UserController::class, 'getAllPenggunaByRt'])->name('rt.kelola.pengguna');
         });
 
         // Routes Admin

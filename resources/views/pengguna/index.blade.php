@@ -30,7 +30,9 @@
                     <h5>Data Pengguna</h5>
                 </div>
                 <div class="col-md-6">
-                    <form method="GET" action="{{ route('admin.kelola.pengguna') }}" class="d-flex">
+                    <form method="GET"
+                        action="{{ auth()->user()->role === 'admin' ? route('admin.kelola.pengguna') : route('rt.kelola.pengguna') }}"
+                        class="d-flex">
                         <input type="text" name="search" class="form-control me-2" value="{{ request('search') }}"
                             placeholder="Cari nama..." />
                         <button type="submit" class="btn btn-primary">Cari</button>
@@ -48,7 +50,9 @@
                             <th>Nomor WhatsApp</th>
                             <th>RT/RW</th>
                             <th>Alamat</th>
-                            <th>Aksi</th>
+                            @if (Auth::user()->role == 'admin')
+                                <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -61,13 +65,14 @@
                                 <td>{{ $user->nomor_whatsapp ?? '-' }}</td>
                                 <td>{{ $user->rt_rw ?? '-' }}</td>
                                 <td>{{ Str::limit($user->alamat ?? '-', 30, '...') }}</td>
-                                <td>
-                                    <!-- Tombol Edit -->
-                                    <a href="{{ route('admin.edit.pengguna', $user->id) }}"
-                                        class="btn btn-primary btn-sm btn-edit me-2">
-                                        <i class="bx bx-edit-alt me-1"></i> Ubah
-                                    </a>
-                                    {{-- <!-- Tombol Hapus -->
+                                @if (Auth::user()->role == 'admin')
+                                    <td>
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('admin.edit.pengguna', $user->id) }}"
+                                            class="btn btn-primary btn-sm btn-edit me-2">
+                                            <i class="bx bx-edit-alt me-1"></i> Ubah
+                                        </a>
+                                        {{-- <!-- Tombol Hapus -->
                                     <form id="delete-form-{{ $user->id }}"
                                         action="{{ route('rt.destroy', $user->id) }}" method="POST"
                                         style="display: inline;">
@@ -78,7 +83,8 @@
                                             <i class="bx bx-trash me-1"></i> Delete
                                         </button>
                                     </form> --}}
-                                </td>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
 

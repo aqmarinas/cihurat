@@ -162,7 +162,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <a href="#" class="card hover-card text-decoration-none text-center">
+                    <a href="{{ route('rt.kelola.pengguna') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-group icon-style"
                                 style="background-color: #6f42c1; padding: 12px; border-radius: 100%;"></i>
