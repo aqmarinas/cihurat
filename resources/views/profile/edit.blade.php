@@ -110,6 +110,8 @@
                                         aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
+                                <div class="mt-0" id="passwordError"></div>
+
                             </div>
                             {{-- Confirm New Password --}}
                             <div class="form-password-toggle mb-3">
@@ -137,6 +139,9 @@
             const passwordField = document.getElementById("password");
             const confirmPasswordField = document.getElementById("password_confirmation");
             const errorDiv = document.getElementById("passwordConfirmationError");
+            const passwordErrorDiv = document.getElementById("passwordError");
+
+
 
             function validatePasswords() {
                 if (confirmPasswordField.value !== passwordField.value) {
@@ -151,7 +156,23 @@
                 }
             }
 
+            function validatePasswordLength() {
+                if (passwordField.value.length > 0 && passwordField.value.length < 8) {
+                    passwordField.classList.add("is-invalid");
+                    passwordErrorDiv.textContent = "Password minimal 8 karakter.";
+                    passwordErrorDiv.style.color = "red";
+                    return false;
+                } else {
+                    passwordField.classList.remove("is-invalid");
+                    passwordErrorDiv.textContent = "";
+                    return true;
+                }
+            }
+
+
             passwordField.addEventListener("input", function() {
+                validatePasswordLength();
+
                 if (passwordField.value.length > 0) {
                     confirmPasswordField.setAttribute("required", "required");
                 } else {
@@ -164,7 +185,7 @@
             confirmPasswordField.addEventListener("input", validatePasswords);
 
             form.addEventListener("submit", function(event) {
-                if (passwordField.value.length > 0 && !validatePasswords()) {
+                if (!validatePasswordLength() || (passwordField.value.length > 0 && !validatePasswords())) {
                     event.preventDefault();
                 }
             });
