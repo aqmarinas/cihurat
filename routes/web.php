@@ -72,7 +72,7 @@ Route::middleware(['auth'])->group(
             Route::get('/admin/pengguna', [UserController::class, 'getAllPengguna'])->name('admin.kelola.pengguna');
             Route::get('/admin/pengguna/{id}/edit', [UserController::class, 'editPengguna'])->name('admin.edit.pengguna');
             Route::post('/admin/pengguna/{id}/edit', [UserController::class, 'updatePengguna'])->name('admin.update.pengguna');
-
+            Route::patch('admin/pengguna/{id}/deactive', [UserController::class, 'deactive'])->name('admin.deactive.pengguna');
 
             Route::post('/admin/template/store', [SuratController::class, 'uploadTemplate'])->name('admin.template.store');
             Route::get('/admin/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');

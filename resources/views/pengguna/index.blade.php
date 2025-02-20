@@ -51,6 +51,7 @@
                             <th>RT/RW</th>
                             <th>Alamat</th>
                             @if (Auth::user()->role == 'admin')
+                                <th>Status</th>
                                 <th>Aksi</th>
                             @endif
                         </tr>
@@ -67,22 +68,27 @@
                                 <td>{{ Str::limit($user->alamat ?? '-', 30, '...') }}</td>
                                 @if (Auth::user()->role == 'admin')
                                     <td>
+                                        <span class="badge {{ $user->is_active ? 'bg-success' : 'bg-danger' }}">
+                                            {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </td>
+                                    <td>
                                         <!-- Tombol Edit -->
                                         <a href="{{ route('admin.edit.pengguna', $user->id) }}"
                                             class="btn btn-primary btn-sm btn-edit me-2">
-                                            <i class="bx bx-edit-alt me-1"></i> Ubah
+                                            Ubah
                                         </a>
-                                        {{-- <!-- Tombol Hapus -->
-                                    <form id="delete-form-{{ $user->id }}"
-                                        action="{{ route('rt.destroy', $user->id) }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="confirmDelete('{{ $user->id }}')">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </button>
-                                    </form> --}}
+                                        <form id="deactive-form-{{ $user->id }}"
+                                            action="{{ route('admin.deactive.pengguna', $user->id) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="button"
+                                                class="btn btn-sm {{ $user->is_active ? 'btn-danger' : 'btn-warning' }}"
+                                                onclick="confirmDeactive('{{ $user->id }}', {{ $user->is_active ? 'true' : 'false' }})">
+                                                {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                            </button>
+                                        </form>
                                     </td>
                                 @endif
                             </tr>
@@ -105,4 +111,22 @@
             @endif
         </div>
     </div>
+    <script>
+        function confirmDeactive(id, status) {
+            Swal.fire({
+                text: status ? 'Apakah Anda yakin ingin menonaktifkan akun ini?' :
+                    'Apakah Anda yakin ingin mengaktifkan kembali akun ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: status ? '#dc3435' : '# 22BB33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deactive-form-' + id).submit();
+                }
+            });
+        }
+    </script>
 @endsection

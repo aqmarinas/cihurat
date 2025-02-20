@@ -124,6 +124,20 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Data akun berhasil diubah!');
     }
 
+    public function deactive($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Akun tidak ditemukan.');
+        }
+
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Status akun berhasil diperbarui.');
+    }
+
     // rt
     public function getAllPenggunaByRt(Request $request)
     {
