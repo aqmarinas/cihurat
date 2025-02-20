@@ -144,10 +144,11 @@
                 @if (Auth::user()->role == 'rt')
                     @if ($surat->status === 'MENUNGGU')
                         <div class="d-flex justify-content-end mb-3 me-3">
-                            <form action="{{ route('verifikasi.setujui', $surat->id) }}" method="POST" class="d-inline">
+                            <form id="acceptForm" action="{{ route('verifikasi.setujui', $surat->id) }}" method="POST"
+                                class="d-inline">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-success me-2">
+                                <button type="button" id="acceptButton" class="btn btn-success me-2">
                                     <i class="bx bx-check-circle me-1"></i> Setujui
                                 </button>
                             </form>
@@ -224,23 +225,49 @@
             });
         });
 
-        // Modal Batal
-        document.getElementById('cancelButton').addEventListener('click', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            const acceptButton = document.getElementById('acceptButton');
+            const cancelButton = document.getElementById('cancelButton');
 
-            Swal.fire({
-                text: "Apakah Anda yakin ingin membatalkan pengajuan surat?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3435',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Batalkan',
-                cancelButtonText: 'Tidak'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('cancelForm').submit();
-                }
-            });
+            if (acceptButton) {
+                acceptButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        text: "Apakah Anda yakin ingin menyetujui?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#22BB33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('acceptForm').submit();
+                        }
+                    });
+                });
+            }
+
+            if (cancelButton) {
+                cancelButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        text: "Apakah Anda yakin ingin membatalkan pengajuan surat?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3435',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Batalkan',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('cancelForm').submit();
+                        }
+                    });
+                });
+            }
         });
     </script>
 
