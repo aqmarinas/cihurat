@@ -31,12 +31,12 @@ class RwController extends Controller
     {
         $validate = request()->validate([
             'nama' => 'required|string|max:50',
-            'no_whatsapp' => 'required|digits_between:10,15',
+            'no_whatsapp' => 'required|digits_between:10,15|unique:users,nomor_whatsapp',
             'rw' => 'required|digits:2',
         ]);
 
         Rw::create($validate);
-        return redirect() - back()->with('success', 'Berhasil menambahkan ketua RW');
+        return redirect()->route('rw.index')->with('success', 'Berhasil menambahkan data ketua RW');
     }
 
     /**
@@ -66,14 +66,14 @@ class RwController extends Controller
             return redirect()->back()->with('error', 'Data RW tidak ditemukan');
         }
 
-        $validated = request()->validate([
-            'nama' => 'required|string|max:50',
-            'no_whatsapp' => 'required|digits_between:10,15',
-            'rw' => 'required|digits:2',
+        $validated = $request->validate([
+            'nama' => 'nullable|string|max:50',
+            'no_whatsapp' => 'nullable|digits_between:10,15|unique:rw,no_whatsapp,' . $id,
+            'rw' => 'nullable|digits:2',
         ]);
 
         $rw->update($validated);
-        return redirect()->back()->with('success', 'Berhasil menambahkan ketua RW');
+        return redirect()->back()->with('success', 'Berhasil mengubah data ketua RW');
     }
 
     /**
@@ -81,6 +81,13 @@ class RwController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $rw = Rw::find($id);
+
+        if (!$rw) {
+            return redirect()->back()->with('error', 'Ketua RT tidak ditemukan!');
+        }
+
+        $rw->delete();
+        return redirect()->back()->with('success', 'Berhasil menghapus data ketua RW');
     }
 }

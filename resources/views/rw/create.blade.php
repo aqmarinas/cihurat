@@ -24,13 +24,14 @@
                         <label class="form-label" for="nama">Nama Lengkap Ketua RW <span
                                 style="color: red">*</span></label>
                         <input type="text" name="nama" class="form-control" id="nama" required
-                            value="{{ old('nama') }}" />
+                            placeholder="Masukkan Nama Lengkap" value="{{ old('nama') }}" />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="no_whatsapp">Nomor WhatsApp <span style="color: red">*</span></label>
                         <input type="text" name="no_whatsapp" class="form-control" id="no_whatsapp" required
-                            value="{{ old('no_whatsapp') }}" />
+                            value="{{ old('no_whatsapp') }}" placeholder="Masukkan Nomor WhatsApp" inputmode="numeric"
+                            maxlength="15" />
                     </div>
 
                     <div class="mb-3">
