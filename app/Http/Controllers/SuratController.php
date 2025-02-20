@@ -95,7 +95,7 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'nik' => 'required|digits:16',
                     'keperluan' => 'required|string|max:50',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
@@ -133,7 +133,7 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
                     'keperluan' => 'required|string|max:50',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
 
@@ -163,7 +163,7 @@ class SuratController extends Controller
                     'nik_ortu' => 'required|digits:16',
                     "ttl_ortu" => 'required|string|max:50|regex:/^[A-Za-z]+, \d{1,2} [A-Za-z]+ \d{4}$/',
                     'jenis_kelamin_ortu' => 'required|string|max:15',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'status_kawin' => 'required|string|max:20',
                     'alamat' => 'required|string|max:255',
                     'penghasilan' => 'required|string|max:20',
@@ -202,7 +202,7 @@ class SuratController extends Controller
                 $validateSurat = $request->validate([
                     'nama' => 'required|string|max:50',
                     'nik' => 'required|digits:16',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'jenis_kelamin' => 'required|string|max:15',
                     'alamat' => 'required|string|max:255',
                     'hari_meninggal' => 'required|string|max:30',
@@ -242,7 +242,7 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
                     'jenis_usaha' => 'required|string|max:50',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
@@ -276,7 +276,7 @@ class SuratController extends Controller
                     'status_kawin' => 'required|string|max:30',
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
-                    'no_whatsapp' => 'required|string|max:20',
+                    'no_whatsapp' => 'required|digits_between:10,15',
                     'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
                     'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
                 ]);
@@ -319,7 +319,7 @@ class SuratController extends Controller
             'jenis_surat' => $jenis_surat,
             'tanggal_pengajuan' => now(),
         ]);
-        return redirect()->route('pengguna.riwayat')->with('success', 'Berhasil mengajukan ' . $jenis_surat);
+        return redirect()->route('riwayat.index')->with('success', 'Berhasil mengajukan ' . $jenis_surat);
     }
 
     public function show(string $id) {}
@@ -347,7 +347,7 @@ class SuratController extends Controller
         $surat = Surat::find($id);
 
         if (!$surat) {
-            return redirect()->route('pengguna.riwayat')->with('error', 'Pengajuan tidak ditemukan.');
+            return redirect()->route('riwayat.index')->with('error', 'Pengajuan tidak ditemukan.');
         }
 
         $surat->status = 'DIBATALKAN';
@@ -356,7 +356,7 @@ class SuratController extends Controller
         // soft delete
         $surat->delete();
 
-        return redirect()->route('pengguna.riwayat')->with('success', 'Pengajuan berhasil dibatalkan.');
+        return redirect()->route('riwayat.index')->with('success', 'Pengajuan berhasil dibatalkan.');
     }
 
     // User
@@ -408,7 +408,7 @@ class SuratController extends Controller
         $status = $request->get('status');
         $search = $request->get('search');
 
-        $allLeters = Surat::with('user')
+        $allLetters = Surat::with('user')
             ->when($status, function ($query, $status) {
                 return $query->where('status', strtoupper($status));
             })
@@ -420,7 +420,7 @@ class SuratController extends Controller
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(10);
 
-        return view('arsip.index', compact('allLeters', 'status', 'search'));
+        return view('arsip.index', compact('allLetters', 'status', 'search'));
     }
 
     public function processImageWithWatermark($file, $folder)

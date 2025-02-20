@@ -26,7 +26,9 @@
             <ul>
                 <li>
                     <p class="mb-0">Silakan hubungi ketua RT untuk memproses pengajuan surat.</p>
-                    <p>Ketua RT {{ $rt }}: <strong>{{ $noKetua }} ({{ $namaKetua }})</strong>
+                    @if ($rt && $noKetua && $namaKetua)
+                        <p>Ketua RT {{ $rt }}: <strong>{{ $noKetua }} ({{ $namaKetua }})</strong>
+                    @endif
                 </li>
                 <li>
                     </p>
@@ -107,7 +109,7 @@
                                             "-"
                                         @endif
                                     <td>{{ $history->keterangan ?? '-' }}</td>
-                                    <td><a href="{{ route('pengguna.detail.riwayat', $history->id) }}"
+                                    <td><a href="{{ route('riwayat.show', $history->id) }}"
                                             class="btn btn-primary btn-sm">Detail</a></td>
                                 </tr>
                             @endif

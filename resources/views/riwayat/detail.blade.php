@@ -30,11 +30,11 @@
             <div class="card-body">
                 <div class="mb-3">
                     @if (Auth::user()->role == 'pengguna')
-                        <a href="{{ route('pengguna.riwayat') }}" class="text-secondary">← Kembali</a>
+                        <a href="{{ route('riwayat.index') }}" class="text-secondary">← Kembali</a>
                     @elseif (Auth::user()->role == 'rt')
                         <a href="{{ route('verifikasi.index') }}" class="text-secondary">← Kembali</a>
                     @elseif (Auth::user()->role == 'admin')
-                        <a href="{{ route('admin.kelola.surat') }}" class="text-secondary">← Kembali</a>
+                        <a href="{{ route('admin.surat.index') }}" class="text-secondary">← Kembali</a>
                     @endif
                 </div>
 
@@ -48,7 +48,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" id="cancelButton" class="btn btn-danger btn-sm">
-                                    <i class="bx bx-x-circle me-1"></i> Batal
+                                    <i class="bx bx-x-circle me-1"></i> Batalkan
                                 </button>
                             </form>
                         @endif
@@ -56,7 +56,7 @@
 
                     @if (Auth::user()->role == 'admin')
                         @if ($surat->status === 'DISETUJUI')
-                            <a href="{{ route('surat.download', $surat->id) }}" class="btn btn-success btn-sm">
+                            <a href="{{ route('admin.surat.download', $surat->id) }}" class="btn btn-success btn-sm">
                                 <i class="fas fa-download"></i> Unduh
                             </a>
                         @endif
@@ -144,21 +144,20 @@
                 @if (Auth::user()->role == 'rt')
                     @if ($surat->status === 'MENUNGGU')
                         <div class="d-flex justify-content-end mb-3 me-3">
-                            <form action="{{ route('verifikasi.setujui', $surat->id) }}" method="POST" class="d-inline">
+                            <form id="acceptForm" action="{{ route('verifikasi.setujui', $surat->id) }}" method="POST"
+                                class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-success me-2">
+                                @method('PATCH')
+                                <button type="button" id="acceptButton" class="btn btn-success me-2">
                                     <i class="bx bx-check-circle me-1"></i> Setujui
                                 </button>
                             </form>
 
-                            <form action="{{ route('verifikasi.tolak', $surat->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
-                                    data-bs-target="#modalTolak{{ $surat->id }}">
-                                    <i class="bx bx-x-circle me-1"></i>
-                                    Tolak
-                                </button>
-                            </form>
+                            <button type="submit" class="btn btn-danger me-2" data-bs-toggle="modal"
+                                data-bs-target="#modalTolak{{ $surat->id }}">
+                                <i class="bx bx-x-circle me-1"></i>
+                                Tolak
+                            </button>
                         </div>
                     @endif
                 @endif
@@ -193,6 +192,7 @@
                 </div>
                 <form action="{{ route('verifikasi.tolak', $surat->id) }}" method="POST">
                     @csrf
+                    @method('PATCH')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="keterangan">Masukkan alasan penolakan:</label>
@@ -200,8 +200,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-danger">Tolak</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
                     </div>
                 </form>
             </div>
@@ -225,23 +225,49 @@
             });
         });
 
-        // Modal Batal
-        document.getElementById('cancelButton').addEventListener('click', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            const acceptButton = document.getElementById('acceptButton');
+            const cancelButton = document.getElementById('cancelButton');
 
-            Swal.fire({
-                text: "Apakah Anda yakin ingin membatalkan pengajuan surat?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3435',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Batal',
-                cancelButtonText: 'Tidak'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('cancelForm').submit();
-                }
-            });
+            if (acceptButton) {
+                acceptButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        text: "Apakah Anda yakin ingin menyetujui?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#22BB33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('acceptForm').submit();
+                        }
+                    });
+                });
+            }
+
+            if (cancelButton) {
+                cancelButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        text: "Apakah Anda yakin ingin membatalkan pengajuan surat?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3435',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Batalkan',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('cancelForm').submit();
+                        }
+                    });
+                });
+            }
         });
     </script>
 

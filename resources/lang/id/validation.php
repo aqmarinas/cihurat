@@ -6,19 +6,26 @@ return [
     'required' => ':Attribute harus diisi.',
     'email' => ':Attribute harus berupa alamat email yang valid.',
     'max' => [
-        'string' => ':Attribute tidak boleh lebih dari :max karakter.',
+        'numeric' => ':Attribute tidak boleh lebih dari :max.',
+        'file'    => 'Ukuran file :Attribute terlalu besar. Silakan perkecil ukuran file terlebih dahulu.',
+        'string'  => ':Attribute tidak boleh lebih dari :max karakter.',
+        'array'   => ':Attribute tidak boleh memiliki lebih dari :max item.',
     ],
     'min' => [
-        'string' => ':Attribute harus memiliki minimal :min karakter.',
+        'numeric' => ':Attribute harus minimal :min.',
+        'file'    => ':Attribute harus minimal :min kilobytes.',
+        'string'  => ':Attribute harus minimal :min karakter.',
+        'array'   => ':Attribute harus memiliki minimal :min item.',
     ],
     'confirmed' => 'Konfirmasi :Attribute tidak cocok.',
     'unique' => ':Attribute sudah digunakan.',
+    'digits_between' => ':Attribute harus terdiri dari :min sampai :max digit.',
     'string' => ':Attribute harus berupa teks.',
     'boolean' => ':Attribute harus bernilai true atau false.',
     'date' => ':Attribute bukan tanggal yang valid.',
     'date_format' => ':Attribute harus sesuai dengan format :format.',
     'numeric' => ':Attribute harus berupa angka.',
-    'image' => ':Attribute harus berupa gambar (jpeg, png, bmp, gif, atau svg).',
+    'image' => ':Attribute harus berupa gambar (jpeg, png, atau jpg).',
     'file' => ':Attribute harus berupa file.',
     'mimes' => ':Attribute harus berupa file bertipe: :values.',
     'size' => [
@@ -42,4 +49,12 @@ return [
         'ttl' => 'tempat, tanggal lahir',
         'ttl_ortu' => 'tempat, tanggal lahir orang tua',
     ],
+
+    'between' => [
+        'numeric' => ':Attribute harus antara :min dan :max.',
+        'file'    => ':Attribute harus antara :min dan :max .',
+        'string'  => ':Attribute harus antara :min dan :max karakter.',
+        'array'   => ':Attribute harus memiliki antara :min dan :max item.',
+    ],
+
 ];

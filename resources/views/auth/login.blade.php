@@ -42,7 +42,7 @@
         <script src="../assets/js/config.js"></script>
     </head>
 
-    <body>
+    <body class="login-page">
         <!-- Content -->
 
         <div class="container-xxl">
@@ -85,17 +85,15 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="text" class="@error('email') is-invalid @enderror form-control"
-                                        id="email" name="email" value="{{ old('email') }}"
-                                        placeholder="Masukkan email" autofocus />
+                                    <input type="text" class="form-control" id="email" name="email"
+                                        value="{{ old('email') }}" placeholder="Masukkan email" autofocus />
                                 </div>
                                 <div class="form-password-toggle mb-3">
                                     <div class="d-flex justify-content-between">
                                         <label class="form-label" for="password">Password</label>
                                     </div>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password"
-                                            class="@error('password') is-invalid @enderror form-control" name="password"
+                                        <input type="password" id="password" class="form-control" name="password"
                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                             aria-describedby="password" />
                                         <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>

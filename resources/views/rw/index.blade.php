@@ -16,10 +16,13 @@
             </div>
         @endif
 
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        @if ($errors->any())
+            <div class="alert-danger alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
@@ -89,7 +92,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDataModalLabel">Ubah RW</h5>
+                    <h5 class="modal-title" id="editDataModalLabel">Ubah Ketua RW</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -97,13 +100,12 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label class="form-label" for="edit-nama">Nama Ketua RW <span
-                                    style="color: red">*</span></label>
+                            <label class="form-label" for="edit-nama">Nama Ketua RW</label>
                             <input type="text" name="nama" class="form-control" id="edit-nama"
                                 placeholder="Nama Ketua RW" required />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="edit-rw">RT/RW <span style="color: red">*</span></label>
+                            <label class="form-label" for="edit-rw">RT/RW</label>
                             <select name="rw" class="form-control" id="edit-rw" required>
                                 <option value="" selected disabled {{ old('rw') == null ? 'selected' : '' }}>Pilih RW
                                 </option>
@@ -114,10 +116,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="edit-no_whatsapp">Nomor WhatsApp <span
-                                    style="color: red">*</span></label>
+                            <label class="form-label" for="edit-no_whatsapp">Nomor WhatsApp</label>
                             <input type="text" name="no_whatsapp" class="form-control" id="edit-no_whatsapp"
-                                placeholder="Nomor WhatsApp" required />
+                                placeholder="Nomor WhatsApp" required inputmode="numeric" maxlength="15" />
                         </div>
                         <button type="submit" class="btn btn-primary">Ubah</button>
                     </form>

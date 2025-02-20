@@ -25,16 +25,8 @@
             border-radius: 50%;
         }
 
-        .icon-style.bx-book {
-            background-color: #007bff;
-        }
-
         .icon-style.bx-file {
             background-color: #28a745;
-        }
-
-        .icon-style.bx-calendar-event {
-            background-color: #ffc107;
         }
 
         .icon-style.bx-user {
@@ -87,8 +79,17 @@
                                         $rt_rw = Auth::user()->rt_rw;
                                         $rt = explode('/', $rt_rw)[0];
                                     @endphp
-                                    <p>Ketua RT {{ $rt ?? '' }}</p>
+                                    <p class="fw-bold text-secondary">Ketua RT {{ $rt ?? '' }}</p>
+                                    <p class="mt-2">Cek pengajuan surat <a href="{{ route('verifikasi.index') }}"
+                                            class="text-primary fw-bold">di
+                                            sini</a></p>
                                 @endif
+                                @if (Auth::user()->role == 'pengguna')
+                                    <p class="mt-2">Ajukan surat <a href="{{ route('surat.index') }}"
+                                            class="text-primary fw-bold">di
+                                            sini</a></p>
+                                @endif
+
                             </div>
                         </div>
                         <div class="col-sm-5 text-sm-left text-center">
@@ -106,61 +107,62 @@
             {{-- User --}}
             @if (Auth::user()->role == 'pengguna')
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('riwayat.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-check-circle icon-style"
                                 style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Disetujui</h5>
-                            <p class="card-text">{{ $totalSuratDisetujuiUser }}</p>
+                            <p class="card-text">{{ $totalSuratDisetujuiUser ?? '0' }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('riwayat.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Menunggu </h5>
-                            <p class="card-text">{{ $totalSuratMenungguUser }}</p>
+                            <p class="card-text">{{ $totalSuratMenungguUser ?? '0' }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('riwayat.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-file icon-style"
                                 style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Diajukan</h5>
-                            <p class="card-text">{{ $totalSuratDiajukanUser }}</p>
+                            <p class="card-text">{{ $totalSuratDiajukanUser ?? '0' }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endif
 
             {{-- RT --}}
             @if (Auth::user()->role == 'rt')
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('verifikasi.index', ['status' => 'menunggu']) }}"
+                        class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Menunggu </h5>
-                            <p class="card-text">{{ $totalSuratMenungguRT }}</p>
+                            <p class="card-text">{{ $totalSuratMenungguRT ?? '0' }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('verifikasi.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-file icon-style"
                                 style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Diajukan</h5>
-                            <p class="card-text">{{ $totalSuratDiajukanRT }}</p>
+                            <p class="card-text">{{ $totalSuratDiajukanRT ?? '0' }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
+                    <a href="{{ route('rt.pengguna.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-group icon-style"
                                 style="background-color: #6f42c1; padding: 12px; border-radius: 100%;"></i>
@@ -169,74 +171,49 @@
                                 $rt = explode('/', $rt_rw)[0];
                             @endphp
 
-                            <h5 class="card-title">Total Warga RT {{ $rt ?? '' }}</h5>
-                            <p class="card-text">{{ $totalWargaRT }}</p>
+                            <h5 class="card-title">Total Pengguna RT {{ $rt ?? '' }}</h5>
+                            <p class="card-text">{{ $totalWargaRT ?? '0' }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            @endif
-
-            {{-- Admin --}}
-            @if (Auth::user()->role == 'admin')
-                <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
-                        <div class="card-body">
-                            <i class="bx bx-check-circle icon-style"
-                                style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
-                            <h5 class="card-title">Total Surat Disetujui</h5>
-                            <p class="card-text">{{ $totalSuratDisetujuiAdmin }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
-                        <div class="card-body">
-                            <i class="bx bx-time icon-style"
-                                style="background-color: red; padding: 12px; border-radius: 100%;"></i>
-                            <h5 class="card-title">Total Surat Ditolak </h5>
-                            <p class="card-text">{{ $totalSuratDitolakAdmin }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
-                        <div class="card-body">
-                            <i class="bx bx-file icon-style"
-                                style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
-                            <h5 class="card-title">Total Surat Diajukan</h5>
-                            <p class="card-text">{{ $totalSuratDiajukanAdmin }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
-                        <div class="card-body">
-                            <i class="bx bx-user icon-style"></i>
-                            <h5 class="card-title">Total Admin</h5>
-                            <p class="card-text">{{ $totalAdmin }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
-                        <div class="card-body">
-                            <i class="bx bx-user-pin icon-style"></i>
-                            <h5 class="card-title">Total RT</h5>
-                            <p class="card-text">{{ $totalRt }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card hover-card text-center">
-                        <div class="card-body">
-                            <i class="bx bx-group icon-style"></i>
-                            <h5 class="card-title">Total Pengguna</h5>
-                            <p class="card-text">{{ $totalUsers }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
         </div>
+        @endif
+
+        {{-- Admin --}}
+        @if (Auth::user()->role == 'admin')
+            <div class="col-lg-4 mb-4">
+                <a href="{{ route('admin.surat.index', ['status' => 'disetujui']) }}"
+                    class="card hover-card text-decoration-none text-center">
+                    <div class="card-body">
+                        <i class="bx bx-check-circle icon-style"
+                            style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
+                        <h5 class="card-title">Total Surat Disetujui</h5>
+                        <p class="card-text">{{ $totalSuratDisetujuiAdmin ?? '0' }}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <a href="{{ route('admin.surat.index') }}" class="card hover-card text-decoration-none text-center">
+                    <div class="card-body">
+                        <i class="bx bx-file icon-style"
+                            style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
+                        <h5 class="card-title">Total Surat Diajukan</h5>
+                        <p class="card-text">{{ $totalSuratDiajukanAdmin ?? '0' }}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <a href="{{ route('admin.pengguna.index') }}" class="card hover-card text-decoration-none text-center">
+                    <div class="card-body">
+                        <i class="bx bx-group icon-style" style="padding: 12px; border-radius: 100%;"></i>
+                        <h5 class="card-title">Total Pengguna</h5>
+                        <p class="card-text">{{ $totalUsers ?? '0' }}</p>
+                    </div>
+                </a>
+            </div>
+    </div>
+    @endif
+
+    </div>
     </div>
 @endsection

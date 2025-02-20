@@ -48,10 +48,8 @@
                                 <td>{{ $rtList->nomor_whatsapp ?? '-' }}</td>
                                 <td>
                                     <!-- Tombol Edit -->
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-edit me-2"
-                                        data-id="{{ $rtList->id }}" data-rt_rw="{{ $rtList->rt_rw }}"
-                                        data-nama="{{ $rtList->nama }}" data-nomor_whatsapp="{{ $rtList->nomor_whatsapp }}"
-                                        data-email="{{ $rtList->email }}">
+                                    <a href="{{ route('rt.edit', $rtList->id) }}"
+                                        class="btn btn-primary btn-sm btn-edit me-2">
                                         <i class="bx bx-edit-alt me-1"></i> Ubah
                                     </a>
                                     <!-- Tombol Hapus -->
@@ -87,88 +85,7 @@
         </div>
     </div>
 
-    <!-- Modal for Editing RT -->
-    <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editDataModalLabel">Ubah RT</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('rt.update', ':id') }}" method="post" id="editDataForm">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-nama">Nama Ketua RT <span
-                                    style="color: red">*</span></label>
-                            <input type="text" name="nama" class="form-control" id="edit-nama"
-                                placeholder="Nama Ketua RT" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-rt_rw">RT/RW <span style="color: red">*</span></label>
-                            <select name="rt_rw" class="form-control" id="edit-rt_rw" required>
-                                <option value="" disabled {{ old('rt_rw') == null ? 'selected' : '' }}>Pilih RT/RW
-                                </option>
-                                <option value="01/01" {{ old('rt_rw') == '01/01' ? 'selected' : '' }}>01/01</option>
-                                <option value="02/01" {{ old('rt_rw') == '02/01' ? 'selected' : '' }}>02/01</option>
-                                <option value="03/02" {{ old('rt_rw') == '03/02' ? 'selected' : '' }}>03/02</option>
-                                <option value="04/02" {{ old('rt_rw') == '04/02' ? 'selected' : '' }}>04/02</option>
-                                <option value="05/03" {{ old('rt_rw') == '05/03' ? 'selected' : '' }}>05/03</option>
-                                <option value="06/03" {{ old('rt_rw') == '06/03' ? 'selected' : '' }}>06/03</option>
-                                <option value="07/04" {{ old('rt_rw') == '07/04' ? 'selected' : '' }}>07/04</option>
-                                <option value="08/04" {{ old('rt_rw') == '08/04' ? 'selected' : '' }}>08/04</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-nomor_whatsapp">Nomor WhatsApp <span
-                                    style="color: red">*</span></label>
-                            <input type="text" name="nomor_whatsapp" class="form-control" id="edit-nomor_whatsapp"
-                                placeholder="Nomor WhatsApp" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-email">Email <span style="color: red">*</span></label>
-                            <input type="email" name="email" class="form-control" id="edit-email" placeholder="Email"
-                                required />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Ubah</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Script for filling the edit modal
-        document.querySelectorAll('.btn-edit').forEach(button => {
-            button.addEventListener('click', function() {
-                const rtRwId = this.getAttribute('data-id');
-                const rtRw = this.getAttribute('data-rt_rw');
-                const namaKetua = this.getAttribute('data-nama');
-                const nomorWhatsApp = this.getAttribute('data-nomor_whatsapp');
-                const email = this.getAttribute('data-email');
-
-                const form = document.getElementById('editDataForm');
-                form.action = form.action.replace(':id', rtRwId);
-
-
-                document.getElementById('edit-nama').value = namaKetua;
-                document.getElementById('edit-nomor_whatsapp').value = nomorWhatsApp;
-                document.getElementById('edit-email').value = email;
-
-                const selectRtRw = document.getElementById('edit-rt_rw');
-                for (let option of selectRtRw.options) {
-                    if (option.value === rtRw) {
-                        option.selected = true;
-                        break;
-                    }
-                }
-
-                var editModal = new bootstrap.Modal(document.getElementById('editDataModal'));
-                editModal.show();
-            });
-        });
-
         function confirmDelete(id) {
             Swal.fire({
                 text: 'Apakah Anda yakin untuk menghapus data ini?',

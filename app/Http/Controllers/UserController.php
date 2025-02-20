@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // user
     public function registerUserView()
     {
         return view('auth.register');
@@ -31,12 +29,56 @@ class UserController extends Controller
         ]);
 
         $validate['role'] = 'pengguna';
-        $validate['password'] = bcrypt($validate['password']);
+        $validate['password'] = Hash::make($validate['password']);
 
         User::create($validate);
         return redirect()->route('login')->with('success', 'Berhasil mendaftar akun. Silahkan masuk.');
     }
 
+    public function updateProfile(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
+        }
+
+        $user = Auth::user();
+
+        if (!$user instanceof User) {
+            return redirect()->back()->with('error', 'Admin tidak valid.');
+        }
+
+        $validated = $request->validate([
+            'nama' => 'nullable|string|max:50',
+            'nik' => 'nullable|digits:16|unique:users,nik,' . $user->id,
+            'email' => 'nullable|email|unique:users,email,' . $user->id,
+            'nomor_whatsapp' => 'nullable|digits_between:10,15|unique:users,nomor_whatsapp,' . $user->id,
+            'rt_rw' => 'nullable|string|max:8',
+            'alamat' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+        return redirect()->back()->with('success', 'Profil berhasil diubah!');
+    }
+
+    public function editProfile()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
+        }
+
+        return view('profile.edit', compact('user'));
+    }
+
+    // admin
     public function getAllPengguna(Request $request)
     {
         $search = $request->get('search');
@@ -49,78 +91,74 @@ class UserController extends Controller
         return view('pengguna.index', compact('users', 'search'));
     }
 
-    public function updateProfile(Request $request)
+    public function editPengguna(string $id)
     {
-        try {
-            if (!Auth::check()) {
-                return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
-            }
-
-            $user = Auth::user();
-
-            if (!$user instanceof User) {
-                return redirect()->back()->with('error', 'Admin tidak valid.');
-            }
-
-            $validated = $request->validate([
-                'nama' => 'nullable|string|max:50',
-                'nik' => 'nullable|string|max:20',
-                'email' => 'nullable|email',
-                'nomor_whatsapp' => 'nullable|digits_between:10,15',
-                'rt_rw' => 'nullable|string|max:8',
-                'alamat' => 'nullable|string|max:255',
-                'password' => 'nullable|string|min:8|confirmed',
-            ]);
-
-            if ($request->filled('password')) {
-                $validated['password'] = Hash::make($request->password);
-            } else {
-                unset($validated['password']);
-            }
-
-            $user->update($validated);
-            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['edit.profile' => $e->getMessage()]);
-        }
+        return view('pengguna.edit', ['user' => User::find($id)]);
     }
 
-    public function editProfile()
+    public function updatePengguna(Request $request, string $id)
     {
-        $user = Auth::user(); // Mendapatkan admin yang sedang terautentikasi
+        $user = User::find($id);
 
-        // Pastikan admin terautentikasi
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
-        }
-
-        return view('profile.edit', compact('user'));
-    }
-
-
-    public function updateRt(Request $request, string $id)
-    {
-        $rtRwId = User::find($id);
-
-        if (!$rtRwId) {
-            return redirect()->back()->with('error', 'Data RT/RW tidak ditemukan.');
+            return redirect()->back()->with('error', 'Pengguna tidak ditemukan!');
         }
 
         $validated = $request->validate([
-            'nama' => 'required|string|max:50',
-            'nik' => 'nullable|string|max:20',
-            'email' => 'required|email',
-            'nomor_whatsapp' => 'required|digits_between:10,15',
-            'rt_rw' => 'required|string|max:8',
+            'nama' => 'nullable|string|max:50',
+            'nik' => 'nullable|digits:16|unique:users,nik,' . $id,
+            'email' => 'nullable|email|unique:users,email,' . $id,
+            'nomor_whatsapp' => 'nullable|digits_between:10,15|unique:users,nomor_whatsapp,' . $id,
+            'rt_rw' => 'nullable|string|max:8',
             'alamat' => 'nullable|string|max:255',
-            'role' => 'nullable|string|in:rt',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        $rtRwId->update($validated);
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
+        }
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui!');
+        $user->update($validated);
+        return redirect()->back()->with('success', 'Data akun berhasil diubah!');
     }
+
+    public function deactivate($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Akun tidak ditemukan.');
+        }
+
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Status akun berhasil diperbarui.');
+    }
+
+    // rt
+    public function getAllPenggunaByRt(Request $request)
+    {
+        $search = $request->get('search');
+        $user = auth()->user();
+
+        $users = User::where('role', 'pengguna')
+            ->where('rt_rw', $user->rt_rw)
+            ->when($search, function ($query) use ($search) {
+                return $query->where('nama', 'like', "%{$search}%");
+            })->orderBy('nama', 'asc')
+            ->paginate(10);
+        return view('pengguna.index', compact('users', 'search'));
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+
+
     /**
      * Show the form for creating a new resource.
      */

@@ -15,6 +15,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         // User 
         $totalSuratDiajukanUser = Surat::where('user_id', Auth::id())->count();
         $totalSuratDisetujuiUser = Surat::where('user_id', Auth::id())->where('status', 'DISETUJUI')->count();
@@ -26,8 +30,8 @@ class DashboardController extends Controller
         $totalWargaRT = User::where('role', 'pengguna', Auth::user()->rt_rw)->count();
 
         // Admin 
-        $totalAdmin = User::where('role', 'admin')->count();
-        $totalRt = User::where('role', 'rt')->count();
+        // $totalAdmin = User::where('role', 'admin')->count();
+        // $totalRt = User::where('role', 'rt')->count();
         $totalUsers = User::where('role', 'pengguna')->count();
         $totalSuratDiajukanAdmin = Surat::count();
         $totalSuratDisetujuiAdmin = Surat::where('status', 'DISETUJUI')->count();
@@ -45,8 +49,8 @@ class DashboardController extends Controller
             'totalSuratDiajukanRT',
 
             // Admin
-            'totalAdmin',
-            'totalRt',
+            // 'totalAdmin',
+            // 'totalRt',
             'totalUsers',
             'totalSuratDiajukanAdmin',
             'totalSuratDisetujuiAdmin',

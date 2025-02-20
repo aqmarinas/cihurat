@@ -50,7 +50,7 @@
                                 <h5 class="card-title flex-grow-0">{{ $letter->name }}</h5>
                                 <p class="card-text flex-grow-1">{{ $letter->description }}</p>
                                 <div class="d-grid mt-auto">
-                                    <a href="{{ route('pengguna.surat.create', $letter->id) }}" class="btn btn-primary">Buat
+                                    <a href="{{ route('surat.create', $letter->id) }}" class="btn btn-primary">Buat
                                         Surat</a>
                                 </div>
                             </div>

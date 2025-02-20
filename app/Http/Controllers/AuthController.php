@@ -25,9 +25,7 @@ class AuthController extends Controller
         // brute force
         $throttleKey = 'login:' . $request->ip();
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-            return back()->withErrors([
-                'email' => 'Terlalu banyak percobaan masuk. Silakan coba lagi dalam ' . RateLimiter::availableIn($throttleKey) . ' seconds.',
-            ]);
+            return back()->with('error', 'Terlalu banyak percobaan masuk. Silakan coba lagi dalam ' . RateLimiter::availableIn($throttleKey) . ' detik.');
         }
 
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -37,9 +35,7 @@ class AuthController extends Controller
         }
 
         RateLimiter::hit($throttleKey, 60);
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->with('error', 'Email atau password salah.');
     }
 
     public function logout(Request $request)

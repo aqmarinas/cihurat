@@ -1,10 +1,9 @@
 @extends('partials.layouts.app')
 
-@section('title', 'Tambah Akun Ketua RT')
+@section('title', 'Ubah Akun Ketua RT')
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        {{-- <div class="container"> --}}
         @if ($errors->any())
             <div class="alert-danger alert">
                 <ul>
@@ -16,85 +15,81 @@
         @endif
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="mb-0">Tambah Akun Ketua RT</h5>
+                <h5 class="mb-0">Ubah Akun Ketua RT</h5>
             </div>
             <div class="card-body">
-                <form id="rtForm" action="{{ route('rt.store') }}" method="post">
+                <form action="{{ route('rt.update', $rt->id) }}" method="post" id="editRtForm">
                     @csrf
+                    @method('PUT')
                     <div class="mb-3">
-                        <label class="form-label" for="nama">Nama Lengkap Ketua RT <span
-                                style="color: red">*</span></label>
-                        <input type="text" name="nama" class="form-control" id="nama" required
-                            value="{{ old('nama') }}" placeholder="Masukkan Nama Lengkap" />
+                        <label class="form-label">Nama Ketua RT</label>
+                        <input type="text" name="nama" class="form-control" id="edit-nama"
+                            value="{{ old('nama', $rt->nama) }}" placeholder="Nama Ketua RT" />
                     </div>
-
                     <div class="mb-3">
-                        <label class="form-label" for="email">Email <span style="color: red">*</span></label>
-                        <input type="email" name="email" class="form-control" id="email" required
-                            value="{{ old('email') }}" placeholder="Masukkan Email" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp <span
-                                style="color: red">*</span></label>
-                        <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp" required
-                            value="{{ old('nomor_whatsapp') }}" placeholder="Masukkan Nomor WhatsApp" inputmode="numeric"
-                            maxlength="15" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="rt_rw">RT/RW <span style="color: red">*</span></label>
-                        <select name="rt_rw" class="form-control" id="rt_rw" required>
-                            <option value="" disabled {{ old('rt_rw') == null ? 'selected' : '' }}>Pilih RT/RW
+                        <label class="form-label">RT/RW</label>
+                        <select name="rt_rw" class="form-control">
+                            <option value="" disabled {{ old('rt_rw', $rt->rt_rw) == null ? 'selected' : '' }}>Pilih
+                                RT/RW</option>
+                            <option value="01/01" {{ old('rt_rw', $rt->rt_rw) == '01/01' ? 'selected' : '' }}>01/01
                             </option>
-                            <option value="01/01" {{ old('rt_rw') == '01/01' ? 'selected' : '' }}>01/01</option>
-                            <option value="02/01" {{ old('rt_rw') == '02/01' ? 'selected' : '' }}>02/01</option>
-                            <option value="03/02" {{ old('rt_rw') == '03/02' ? 'selected' : '' }}>03/02</option>
-                            <option value="04/02" {{ old('rt_rw') == '04/02' ? 'selected' : '' }}>04/02</option>
-                            <option value="05/03" {{ old('rt_rw') == '05/03' ? 'selected' : '' }}>05/03</option>
-                            <option value="06/03" {{ old('rt_rw') == '06/03' ? 'selected' : '' }}>06/03</option>
-                            <option value="07/04" {{ old('rt_rw') == '07/04' ? 'selected' : '' }}>07/04</option>
-                            <option value="08/04" {{ old('rt_rw') == '08/04' ? 'selected' : '' }}>08/04</option>
+                            <option value="02/01" {{ old('rt_rw', $rt->rt_rw) == '02/01' ? 'selected' : '' }}>02/01
+                            </option>
+                            <option value="03/02" {{ old('rt_rw', $rt->rt_rw) == '03/02' ? 'selected' : '' }}>03/02
+                            </option>
+                            <option value="04/02" {{ old('rt_rw', $rt->rt_rw) == '04/02' ? 'selected' : '' }}>04/02
+                            </option>
+                            <option value="05/03" {{ old('rt_rw', $rt->rt_rw) == '05/03' ? 'selected' : '' }}>05/03
+                            </option>
+                            <option value="06/03" {{ old('rt_rw', $rt->rt_rw) == '06/03' ? 'selected' : '' }}>06/03
+                            </option>
+                            <option value="07/04" {{ old('rt_rw', $rt->rt_rw) == '07/04' ? 'selected' : '' }}>07/04
+                            </option>
+                            <option value="08/04" {{ old('rt_rw', $rt->rt_rw) == '08/04' ? 'selected' : '' }}>08/04
+                            </option>
                         </select>
                     </div>
-
+                    <div class="mb-3">
+                        <label class="form-label">Nomor WhatsApp</label>
+                        <input type="text" name="nomor_whatsapp" class="form-control"
+                            value="{{ old('nomor_whatsapp', $rt->nomor_whatsapp) }}" inputmode="numeric" maxlength="15"
+                            placeholder="Nomor WhatsApp" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email', $rt->email) }}"
+                            placeholder="Email" />
+                    </div>
                     <div class="form-password-toggle mb-3">
                         <div class="d-flex justify-content-between">
-                            <label class="form-label" for="password">Password <span style="color: red">*</span></label>
+                            <label class="form-label" for="password">Password</label>
                         </div>
                         <div class="input-group input-group-merge">
                             <input type="password" id="password"
                                 class="@error('password') is-invalid @enderror form-control" name="password"
-                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                aria-describedby="password" required />
+                                aria-describedby="password" />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
                     </div>
-
                     <div class="form-password-toggle mb-3">
                         <label for="password_confirmation" class="form-label">Konfirmasi
-                            Password <span style="color: red">*</span></label>
+                            Password</label>
                         <div class="input-group input-group-merge">
                             <input type="password" id="password_confirmation" class="form-control"
-                                name="password_confirmation"
-                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                aria-describedby="password_confirmation" required />
+                                name="password_confirmation" aria-describedby="password_confirmation" />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
                         <div class="mt-0" id="passwordConfirmationError"></div>
                     </div>
-
-                    <input type="hidden" name="role" value="rt">
-
-                    <button type="submit" class="btn btn-primary" id="saveButton">Tambah</button>
+                    <div class="mt-0" id="passwordConfirmationError"></div>
+                    <button type="submit" class="btn btn-primary" id="saveButton">Ubah</button>
                 </form>
             </div>
         </div>
-        {{-- </div> --}}
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById("rwForm");
+            const form = document.getElementById("editRtForm");
             const passwordField = document.getElementById("password");
             const confirmPasswordField = document.getElementById("password_confirmation");
             const errorDiv = document.getElementById("passwordConfirmationError");
