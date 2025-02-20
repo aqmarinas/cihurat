@@ -56,18 +56,18 @@ Route::middleware(['auth'])->group(
 
         // Routes RT
         Route::middleware(['role:rt'])->group(function () {
-            Route::resource('verifikasi', VerifSuratController::class);
-            Route::post('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
-            Route::post('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
-            Route::get('/verifikasi/{id}/download', [VerifSuratController::class, 'download'])->name('verifikasi.download');
+            Route::resource('/rt/verifikasi', VerifSuratController::class);
+            Route::post('/rt/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
+            Route::post('/rt/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
+            Route::get('/rt/verifikasi/{id}/download', [VerifSuratController::class, 'download'])->name('verifikasi.download');
 
             Route::get('/rt/pengguna', [UserController::class, 'getAllPenggunaByRt'])->name('rt.kelola.pengguna');
         });
 
         // Routes Admin
         Route::middleware(['role:admin'])->group(function () {
-            Route::resource('rt', RtController::class);
-            Route::resource('rw', RwController::class);
+            Route::resource('/admin/rt', RtController::class);
+            Route::resource('/admin/rw', RwController::class);
 
             Route::get('/admin/pengguna', [UserController::class, 'getAllPengguna'])->name('admin.kelola.pengguna');
             Route::get('/admin/pengguna/{id}/edit', [UserController::class, 'editPengguna'])->name('admin.edit.pengguna');
