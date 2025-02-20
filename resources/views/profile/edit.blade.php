@@ -102,8 +102,7 @@
                             {{-- New Password --}}
                             <div class="form-password-toggle mb-3">
                                 <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Password <span
-                                            style="color: red">*</span></label>
+                                    <label class="form-label" for="password">Password</label>
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password"
@@ -115,7 +114,7 @@
                             {{-- Confirm New Password --}}
                             <div class="form-password-toggle mb-3">
                                 <label for="password_confirmation" class="form-label">Konfirmasi
-                                    Password <span style="color: red">*</span></label>
+                                    Password</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password_confirmation" class="form-control"
                                         name="password_confirmation" aria-describedby="password_confirmation" />

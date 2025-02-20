@@ -66,7 +66,7 @@
                                 $hasCourses = false; 
                             @endphp --}}
 
-                            @foreach ($allLeters as $letter)
+                            @foreach ($allLetters as $letter)
                                 {{-- @if (Auth::user()->id == $letter->user_id) --}}
                                 @php
                                     // $hasCourses = true;
@@ -104,7 +104,7 @@
                                 {{-- @endif --}}
                             @endforeach
 
-                            @if ($allLeters->isEmpty())
+                            @if ($allLetters->isEmpty())
                                 <tr>
                                     <td colspan="6" class="text-center">Tidak ada data yang tersedia</td>
                                 </tr>
@@ -115,9 +115,17 @@
             </div>
 
             {{-- Pagination --}}
-            @if ($allLeters instanceof \Illuminate\Pagination\LengthAwarePaginator && $allLeters->hasPages())
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $allLeters->links() }}
+            @if ($allLetters instanceof \Illuminate\Pagination\LengthAwarePaginator && $allLetters->hasPages())
+                <div class="d-flex justify-content-between align-items-center mx-4 mt-4">
+                    <div>
+                        <p class="mb-0">
+                            Menampilkan <strong>{{ $allLetters->count() }}</strong> dari total
+                            <strong>{{ $allLetters->total() }}</strong> data.
+                        </p>
+                    </div>
+                    <div>
+                        {{ $allLetters->links() }}
+                    </div>
                 </div>
             @endif
         </div>

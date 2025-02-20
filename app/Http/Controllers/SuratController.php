@@ -408,7 +408,7 @@ class SuratController extends Controller
         $status = $request->get('status');
         $search = $request->get('search');
 
-        $allLeters = Surat::with('user')
+        $allLetters = Surat::with('user')
             ->when($status, function ($query, $status) {
                 return $query->where('status', strtoupper($status));
             })
@@ -420,7 +420,7 @@ class SuratController extends Controller
             ->orderBy('tanggal_pengajuan', 'desc')
             ->paginate(10);
 
-        return view('arsip.index', compact('allLeters', 'status', 'search'));
+        return view('arsip.index', compact('allLetters', 'status', 'search'));
     }
 
     public function processImageWithWatermark($file, $folder)
