@@ -112,7 +112,7 @@
                             <i class="bx bx-check-circle icon-style"
                                 style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Disetujui</h5>
-                            <p class="card-text">{{ $totalSuratDisetujuiUser }}</p>
+                            <p class="card-text">{{ $totalSuratDisetujuiUser ?? '0' }}</p>
                         </div>
                     </a>
                 </div>
@@ -122,7 +122,7 @@
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Menunggu </h5>
-                            <p class="card-text">{{ $totalSuratMenungguUser }}</p>
+                            <p class="card-text">{{ $totalSuratMenungguUser ?? '0' }}</p>
                         </div>
                     </a>
                 </div>
@@ -132,7 +132,7 @@
                             <i class="bx bx-file icon-style"
                                 style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Diajukan</h5>
-                            <p class="card-text">{{ $totalSuratDiajukanUser }}</p>
+                            <p class="card-text">{{ $totalSuratDiajukanUser ?? '0' }}</p>
                         </div>
                     </a>
                 </div>
@@ -147,7 +147,7 @@
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Menunggu </h5>
-                            <p class="card-text">{{ $totalSuratMenungguRT }}</p>
+                            <p class="card-text">{{ $totalSuratMenungguRT ?? '0' }}</p>
                         </div>
                     </a>
                 </div>
@@ -157,7 +157,7 @@
                             <i class="bx bx-file icon-style"
                                 style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
                             <h5 class="card-title">Total Surat Diajukan</h5>
-                            <p class="card-text">{{ $totalSuratDiajukanRT }}</p>
+                            <p class="card-text">{{ $totalSuratDiajukanRT ?? '0' }}</p>
                         </div>
                     </a>
                 </div>
@@ -172,7 +172,7 @@
                             @endphp
 
                             <h5 class="card-title">Total Pengguna RT {{ $rt ?? '' }}</h5>
-                            <p class="card-text">{{ $totalWargaRT }}</p>
+                            <p class="card-text">{{ $totalWargaRT ?? '0' }}</p>
                         </div>
                     </a>
                 </div>
@@ -188,7 +188,7 @@
                         <i class="bx bx-check-circle icon-style"
                             style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
                         <h5 class="card-title">Total Surat Disetujui</h5>
-                        <p class="card-text">{{ $totalSuratDisetujuiAdmin }}</p>
+                        <p class="card-text">{{ $totalSuratDisetujuiAdmin ?? '0' }}</p>
                     </div>
                 </a>
             </div>
@@ -198,7 +198,7 @@
                         <i class="bx bx-file icon-style"
                             style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
                         <h5 class="card-title">Total Surat Diajukan</h5>
-                        <p class="card-text">{{ $totalSuratDiajukanAdmin }}</p>
+                        <p class="card-text">{{ $totalSuratDiajukanAdmin ?? '0' }}</p>
                     </div>
                 </a>
             </div>
@@ -207,7 +207,7 @@
                     <div class="card-body">
                         <i class="bx bx-group icon-style" style="padding: 12px; border-radius: 100%;"></i>
                         <h5 class="card-title">Total Pengguna</h5>
-                        <p class="card-text">{{ $totalUsers }}</p>
+                        <p class="card-text">{{ $totalUsers ?? '0' }}</p>
                     </div>
                 </a>
             </div>

@@ -26,7 +26,9 @@
             <ul>
                 <li>
                     <p class="mb-0">Silakan hubungi ketua RT untuk memproses pengajuan surat.</p>
-                    <p>Ketua RT {{ $rt }}: <strong>{{ $noKetua }} ({{ $namaKetua }})</strong>
+                    @if ($rt && $noKetua && $namaKetua)
+                        <p>Ketua RT {{ $rt }}: <strong>{{ $noKetua }} ({{ $namaKetua }})</strong>
+                    @endif
                 </li>
                 <li>
                     </p>

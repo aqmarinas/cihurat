@@ -48,7 +48,7 @@
                             <th>Nomor WhatsApp</th>
                             <th>RT/RW</th>
                             <th>Alamat</th>
-                            {{-- <th>Aksi</th> --}}
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,15 +61,13 @@
                                 <td>{{ $user->nomor_whatsapp ?? '-' }}</td>
                                 <td>{{ $user->rt_rw ?? '-' }}</td>
                                 <td>{{ Str::limit($user->alamat ?? '-', 30, '...') }}</td>
-                                {{-- <td>
+                                <td>
                                     <!-- Tombol Edit -->
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-edit me-2"
-                                        data-id="{{ $user->id }}" data-rt_rw="{{ $user->rt_rw }}"
-                                        data-nama_ketua="{{ $user->nama_ketua }}"
-                                        data-nomor_whatsapp="{{ $user->nomor_whatsapp }}">
+                                    <a href="{{ route('admin.edit.pengguna', $user->id) }}"
+                                        class="btn btn-primary btn-sm btn-edit me-2">
                                         <i class="bx bx-edit-alt me-1"></i> Ubah
                                     </a>
-                                    <!-- Tombol Hapus -->
+                                    {{-- <!-- Tombol Hapus -->
                                     <form id="delete-form-{{ $user->id }}"
                                         action="{{ route('rt.destroy', $user->id) }}" method="POST"
                                         style="display: inline;">
@@ -79,9 +77,9 @@
                                             onclick="confirmDelete('{{ $user->id }}')">
                                             <i class="bx bx-trash me-1"></i> Delete
                                         </button>
-                                    </form>
+                                    </form> --}}
                                 </td>
-                            </tr> --}}
+                            </tr>
                         @endforeach
 
                         @if ($users->isEmpty())
@@ -100,126 +98,5 @@
                 </div>
             @endif
         </div>
-
-        <script>
-            // Tunggu sampai DOM sepenuhnya dimuat
-            document.addEventListener('DOMContentLoaded', function() {
-                const searchInput = document.getElementById('searchInput');
-                const tableBody = document.querySelector('tbody');
-                const tableRows = tableBody.getElementsByTagName('tr');
-                const notFoundMessage = document.createElement('div');
-                notFoundMessage.className = 'alert alert-info text-center mt-3';
-                notFoundMessage.style.display = 'none';
-                notFoundMessage.textContent = 'No matching data found';
-                document.querySelector('.table-responsive').after(notFoundMessage);
-
-                function performSearch() {
-                    const searchTerm = searchInput.value.toLowerCase().trim();
-                    let matchFound = false;
-
-                    Array.from(tableRows).forEach(row => {
-                        if (row.cells.length === 1 && row.cells[0].textContent.trim() ===
-                            'Tidak ada data yang tersedia') {
-                            return;
-                        }
-
-                        const rtRw = row.cells[0].textContent.toLowerCase();
-                        const namaKetua = row.cells[1].textContent.toLowerCase();
-                        const nomorWhatsApp = row.cells[2].textContent.toLowerCase();
-
-                        if (rtRw.includes(searchTerm) || namaKetua.includes(searchTerm) || nomorWhatsApp
-                            .includes(searchTerm)) {
-                            row.style.display = '';
-                            matchFound = true;
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    });
-
-                    if (searchTerm && !matchFound) {
-                        notFoundMessage.style.display = 'block';
-                    } else {
-                        notFoundMessage.style.display = 'none';
-                    }
-                }
-
-                searchInput.addEventListener('input', performSearch);
-            });
-        </script>
     </div>
-
-    <!-- Modal for Editing User -->
-    <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editDataModalLabel">Edit RT/RW</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('rt.update', ':id') }}" method="post" id="editDataForm">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-rt_rw">RT/RW <span style="color: red">*</span></label>
-                            <input type="text" name="rt_rw" class="form-control" id="edit-rt_rw" placeholder="01/01"
-                                required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-nama_ketua">Nama Ketua RT <span
-                                    style="color: red">*</span></label>
-                            <input type="text" name="nama_ketua" class="form-control" id="edit-nama_ketua"
-                                placeholder="Nama Ketua RT" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="edit-nomor_whatsapp">RT/RW <span
-                                    style="color: red">*</span></label>
-                            <input type="text" name="nomor_whatsapp" class="form-control" id="edit-nomor_whatsapp"
-                                placeholder="081234567890" required />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Ubah</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Script for filling the edit modal
-        document.querySelectorAll('.btn-edit').forEach(button => {
-            button.addEventListener('click', function() {
-                const rtRwId = this.getAttribute('data-id');
-                const rtRw = this.getAttribute('data-rt_rw');
-                const namaKetua = this.getAttribute('data-nama_ketua');
-                const nomorWhatsApp = this.getAttribute('data-nomor_whatsapp');
-
-                // Replace URL in edit form action
-                const form = document.getElementById('editDataForm');
-                form.action = form.action.replace(':id', rtRwId);
-
-                document.getElementById('edit-rt_rw').value = rtRw;
-                document.getElementById('edit-nama_ketua').value = namaKetua;
-                document.getElementById('edit-nomor_whatsapp').value = nomorWhatsApp;
-
-                // Tampilkan modal
-                var editModal = new bootstrap.Modal(document.getElementById('editDataModal'));
-                editModal.show();
-            });
-        });
-
-        function confirmDelete(id) {
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + id).submit();
-                }
-            });
-        }
-    </script>
 @endsection

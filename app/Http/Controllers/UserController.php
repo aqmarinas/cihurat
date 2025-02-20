@@ -91,6 +91,44 @@ class UserController extends Controller
         return view('pengguna.index', compact('users', 'search'));
     }
 
+    public function editPengguna(string $id)
+    {
+        return view('pengguna.edit', ['user' => User::find($id)]);
+    }
+
+    public function updatePengguna(Request $request, string $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Pengguna tidak ditemukan!');
+        }
+
+        $validated = $request->validate([
+            'nama' => 'nullable|string|max:50',
+            'nik' => 'nullable|digits:16|unique:users,nik,' . $id,
+            'email' => 'nullable|email|unique:users,email,' . $id,
+            'nomor_whatsapp' => 'nullable|digits_between:10,15|unique:users,nomor_whatsapp,' . $id,
+            'rt_rw' => 'nullable|string|max:8',
+            'alamat' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+        return redirect()->back()->with('success', 'Data akun berhasil diubah!');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+
+
     /**
      * Show the form for creating a new resource.
      */

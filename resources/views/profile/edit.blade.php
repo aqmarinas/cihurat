@@ -34,7 +34,7 @@
                 <h5 class="mb-0">Ubah Profil</h5>
             </div>
             <div class="card-body">
-                <form id="profileForm" action="{{ route('update.profile') }}" method="post" enctype="multipart/form-data">
+                <form id="profileForm" action="{{ route('update.profile') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -122,7 +122,6 @@
                                 </div>
                                 <div class="mt-0" id="passwordConfirmationError"></div>
                             </div>
-                            <div class="mt-0" id="passwordConfirmationError"></div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" id="saveButton">Ubah</button>
