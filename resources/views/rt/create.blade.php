@@ -19,26 +19,27 @@
                 <h5 class="mb-0">Tambah Akun Ketua RT</h5>
             </div>
             <div class="card-body">
-                <form id="userForm" action="{{ route('rt.store') }}" method="post">
+                <form id="rtForm" action="{{ route('rt.store') }}" method="post">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Lengkap Ketua RT <span
                                 style="color: red">*</span></label>
                         <input type="text" name="nama" class="form-control" id="nama" required
-                            value="{{ old('nama') }}" />
+                            value="{{ old('nama') }}" placeholder="Masukkan Nama Lengkap" />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="email">Email <span style="color: red">*</span></label>
                         <input type="email" name="email" class="form-control" id="email" required
-                            value="{{ old('email') }}" />
+                            value="{{ old('email') }}" placeholder="Masukkan Email" />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="nomor_whatsapp">Nomor WhatsApp <span
                                 style="color: red">*</span></label>
                         <input type="text" name="nomor_whatsapp" class="form-control" id="nomor_whatsapp" required
-                            value="{{ old('nomor_whatsapp') }}" />
+                            value="{{ old('nomor_whatsapp') }}" placeholder="Masukkan Nomor WhatsApp" inputmode="numeric"
+                            maxlength="15" />
                     </div>
 
                     <div class="mb-3">
@@ -57,18 +58,30 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="password">Password <span style="color: red">*</span></label>
-                        <input type="password" name="password" class="form-control" id="password" required />
+                    <div class="form-password-toggle mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label" for="password">Password <span style="color: red">*</span></label>
+                        </div>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password"
+                                class="@error('password') is-invalid @enderror form-control" name="password"
+                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                aria-describedby="password" required />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="password_confirmation">Konfirmasi Password <span
-                                style="color: red">*</span></label>
-                        <input type="password" name="password_confirmation" class="form-control" id="password_confirmation"
-                            required />
-                        <div id="passwordError" class="text-danger" style="display: none;">Konfimasi password tidak
-                            sesuai!</div>
+                    <div class="form-password-toggle mb-3">
+                        <label for="password_confirmation" class="form-label">Konfirmasi
+                            Password <span style="color: red">*</span></label>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password_confirmation" class="form-control"
+                                name="password_confirmation"
+                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                aria-describedby="password_confirmation" required />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                        <div class="mt-0" id="passwordConfirmationError"></div>
                     </div>
 
                     <input type="hidden" name="role" value="rt">
@@ -79,4 +92,43 @@
         </div>
         {{-- </div> --}}
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("rwForm");
+            const passwordField = document.getElementById("password");
+            const confirmPasswordField = document.getElementById("password_confirmation");
+            const errorDiv = document.getElementById("passwordConfirmationError");
+
+            function validatePasswords() {
+                if (confirmPasswordField.value !== passwordField.value) {
+                    confirmPasswordField.classList.add("is-invalid");
+                    errorDiv.textContent = "Konfirmasi password tidak cocok.";
+                    errorDiv.style.color = "red";
+                    return false;
+                } else {
+                    confirmPasswordField.classList.remove("is-invalid");
+                    errorDiv.textContent = "";
+                    return true;
+                }
+            }
+
+            passwordField.addEventListener("input", function() {
+                if (passwordField.value.length > 0) {
+                    confirmPasswordField.setAttribute("required", "required");
+                } else {
+                    confirmPasswordField.removeAttribute("required");
+                    confirmPasswordField.classList.remove("is-invalid");
+                    errorDiv.textContent = "";
+                }
+            });
+
+            confirmPasswordField.addEventListener("input", validatePasswords);
+
+            form.addEventListener("submit", function(event) {
+                if (passwordField.value.length > 0 && !validatePasswords()) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 @endsection

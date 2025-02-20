@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RtController extends Controller
 {
@@ -40,16 +41,16 @@ class RtController extends Controller
 
         $validate = request()->validate([
             'nama' => 'required|string|max:50',
-            'nik' => 'nullable|string|max:20',
-            'email' => 'required|email',
-            'nomor_whatsapp' => 'required|digits_between:10,15',
+            'nik' => 'nullable|digits:16|unique:users,nik',
+            'email' => 'required|email|unique:users,email',
+            'nomor_whatsapp' => 'required|digits_between:10,15|unique:users,nomor_whatsapp',
             'rt_rw' => 'required|string|max:8',
             'alamat' => 'nullable|string|max:255',
-            'role' => 'required|string|in:rt',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $validate['password'] = bcrypt($validate['password']);
+        $validate['role'] = 'rt';
+        $validate['password'] = Hash::make($validate['password']);
 
         User::create($validate);
 
@@ -85,9 +86,19 @@ class RtController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:50',
+            'nik' => 'nullable|digits:16|unique:users,nik,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
+            'nomor_whatsapp' => 'required|digits_between:10,15|unique:users,nomor_whatsapp,' . $id,
             'rt_rw' => 'required|string|max:8',
-            'nomor_whatsapp' => 'required|string|max:15',
+            'alamat' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
+
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
+        }
 
         $rt->update($validated);
         return redirect()->route('rt.index')->with('success', 'Berhasil mengubah data ketua RT');

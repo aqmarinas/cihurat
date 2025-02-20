@@ -18,13 +18,13 @@
                 <h5 class="mb-0">Ubah Akun Ketua RT</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('rt.update', $rt->id) }}" method="post">
+                <form action="{{ route('rt.update', $rt->id) }}" method="post" id="editRtForm">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
                         <label class="form-label">Nama Ketua RT</label>
                         <input type="text" name="nama" class="form-control" id="edit-nama"
-                            value="{{ old('nama', $rt->nama) }}" />
+                            value="{{ old('nama', $rt->nama) }}" placeholder="Nama Ketua RT" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">RT/RW</label>
@@ -52,48 +52,78 @@
                     <div class="mb-3">
                         <label class="form-label">Nomor WhatsApp</label>
                         <input type="text" name="nomor_whatsapp" class="form-control"
-                            value="{{ old('nomor_whatsapp', $rt->nomor_whatsapp) }}" />
+                            value="{{ old('nomor_whatsapp', $rt->nomor_whatsapp) }}" inputmode="numeric" maxlength="15"
+                            placeholder="Nomor WhatsApp" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', $rt->email) }}" />
+                        <input type="email" name="email" class="form-control" value="{{ old('email', $rt->email) }}"
+                            placeholder="Email" />
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="password">Password Baru</label>
-                        <input type="password" name="password" class="form-control" id="password" />
+                    <div class="form-password-toggle mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label" for="password">Password</label>
+                        </div>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password"
+                                class="@error('password') is-invalid @enderror form-control" name="password"
+                                aria-describedby="password" />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
                     </div>
-                    <div class="error-message" id="passwordError"></div>
-                    <div class="mb-3">
-                        <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
-                        <input type="password" name="password_confirmation" class="form-control"
-                            id="password_confirmation" />
+                    <div class="form-password-toggle mb-3">
+                        <label for="password_confirmation" class="form-label">Konfirmasi
+                            Password</label>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password_confirmation" class="form-control"
+                                name="password_confirmation" aria-describedby="password_confirmation" />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                        <div class="mt-0" id="passwordConfirmationError"></div>
                     </div>
-                    <div class="error-message" id="passwordConfirmationError"></div>
+                    <div class="mt-0" id="passwordConfirmationError"></div>
                     <button type="submit" class="btn btn-primary" id="saveButton">Ubah</button>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fungsi untuk memeriksa kesesuaian password
-            function validatePassword() {
-                const password = passwordInput.value;
-                const passwordConfirmation = passwordConfirmationInput.value;
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("editRtForm");
+            const passwordField = document.getElementById("password");
+            const confirmPasswordField = document.getElementById("password_confirmation");
+            const errorDiv = document.getElementById("passwordConfirmationError");
 
-                if (password !== passwordConfirmation) {
-                    passwordConfirmationError.textContent = 'Konfirmasi password tidak cocok.';
-                    passwordConfirmationInput.classList.add('is-invalid'); // Tambahkan kelas untuk styling
-                    saveButton.disabled = true; // Nonaktifkan tombol simpan
+            function validatePasswords() {
+                if (confirmPasswordField.value !== passwordField.value) {
+                    confirmPasswordField.classList.add("is-invalid");
+                    errorDiv.textContent = "Konfirmasi password tidak cocok.";
+                    errorDiv.style.color = "red";
+                    return false;
                 } else {
-                    passwordConfirmationError.textContent = ''; // Reset pesan kesalahan
-                    passwordConfirmationInput.classList.remove('is-invalid'); // Hapus kelas styling
-                    saveButton.disabled = false; // Aktifkan tombol simpan
+                    confirmPasswordField.classList.remove("is-invalid");
+                    errorDiv.textContent = "";
+                    return true;
                 }
             }
 
-            // Tambahkan event listener untuk konfirmasi password
-            passwordConfirmationInput.addEventListener('input', validatePassword);
+            passwordField.addEventListener("input", function() {
+                if (passwordField.value.length > 0) {
+                    confirmPasswordField.setAttribute("required", "required");
+                } else {
+                    confirmPasswordField.removeAttribute("required");
+                    confirmPasswordField.classList.remove("is-invalid");
+                    errorDiv.textContent = "";
+                }
+            });
+
+            confirmPasswordField.addEventListener("input", validatePasswords);
+
+            form.addEventListener("submit", function(event) {
+                if (passwordField.value.length > 0 && !validatePasswords()) {
+                    event.preventDefault();
+                }
+            });
         });
     </script>
 @endsection

@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // user
     public function registerUserView()
     {
         return view('auth.register');
@@ -35,18 +33,6 @@ class UserController extends Controller
 
         User::create($validate);
         return redirect()->route('login')->with('success', 'Berhasil mendaftar akun. Silahkan masuk.');
-    }
-
-    public function getAllPengguna(Request $request)
-    {
-        $search = $request->get('search');
-
-        $users = User::where('role', 'pengguna')
-            ->when($search, function ($query) use ($search) {
-                return $query->where('nama', 'like', "%{$search}%");
-            })->orderBy('nama', 'asc')
-            ->paginate(10);
-        return view('pengguna.index', compact('users', 'search'));
     }
 
     public function updateProfile(Request $request)
@@ -92,30 +78,19 @@ class UserController extends Controller
         return view('profile.edit', compact('user'));
     }
 
-
-    public function updateRt(Request $request, string $id)
+    // admin
+    public function getAllPengguna(Request $request)
     {
-        $rtRwId = User::find($id);
+        $search = $request->get('search');
 
-        if (!$rtRwId) {
-            return redirect()->back()->with('error', 'Data RT/RW tidak ditemukan.');
-        }
-
-        $validated = $request->validate([
-            'nama' => 'required|string|max:50',
-            'nik' => 'nullable|string|max:20',
-            'email' => 'required|email',
-            'nomor_whatsapp' => 'required|digits_between:10,15',
-            'rt_rw' => 'required|string|max:8',
-            'alamat' => 'nullable|string|max:255',
-            'role' => 'nullable|string|in:rt',
-            'password' => 'nullable|string|min:8|confirmed',
-        ]);
-
-        $rtRwId->update($validated);
-
-        return redirect()->back()->with('success', 'Akun RT berhasil diubah!');
+        $users = User::where('role', 'pengguna')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('nama', 'like', "%{$search}%");
+            })->orderBy('nama', 'asc')
+            ->paginate(10);
+        return view('pengguna.index', compact('users', 'search'));
     }
+
     /**
      * Show the form for creating a new resource.
      */

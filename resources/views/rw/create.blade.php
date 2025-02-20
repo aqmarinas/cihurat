@@ -18,7 +18,7 @@
                 <h5 class="mb-0">Tambah Ketua RW</h5>
             </div>
             <div class="card-body">
-                <form id="userForm" action="{{ route('rw.store') }}" method="post">
+                <form id="rwForm" action="{{ route('rw.store') }}" method="post">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Lengkap Ketua RW <span
