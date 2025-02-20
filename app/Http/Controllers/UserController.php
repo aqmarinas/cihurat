@@ -124,7 +124,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Data akun berhasil diubah!');
     }
 
-    public function deactive($id)
+    public function deactivate($id)
     {
         $user = User::find($id);
 

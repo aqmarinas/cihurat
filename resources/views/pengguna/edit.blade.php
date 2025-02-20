@@ -26,8 +26,9 @@
                 <h5 class="mb-0">Ubah Akun</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.update.pengguna', $user->id) }}" method="post" id="editUserForm">
+                <form action="{{ route('admin.pengguna.update', $user->id) }}" method="post" id="editUserForm">
                     @csrf
+                    @method('PATCH')
                     {{-- Nama --}}
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Lengkap</label>

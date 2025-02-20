@@ -38,8 +38,8 @@ Route::middleware(['auth'])->group(
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         // Profile (All role)
-        Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('edit.profile');
-        Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update.profile');
+        Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('profile.edit');
+        Route::patch('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
 
         // Panduan
         Route::get('/panduan', function () {
@@ -49,37 +49,38 @@ Route::middleware(['auth'])->group(
         // Routes Pengguna
         Route::middleware(['role:pengguna'])->group(function () {
             Route::resource('surat', SuratController::class);
-            Route::get('/surat/{id}/create', [SuratController::class, 'create'])->name('pengguna.surat.create');
-            Route::get('/riwayat', [SuratController::class, 'history'])->name('pengguna.riwayat');
-            Route::get('/riwayat/{id}', [SuratController::class, 'historyDetails'])->name('pengguna.detail.riwayat');
+            Route::get('/surat/{id}/create', [SuratController::class, 'create'])->name('surat.create');
+
+            Route::get('/riwayat', [SuratController::class, 'history'])->name('riwayat.index');
+            Route::get('/riwayat/{id}', [SuratController::class, 'historyDetails'])->name('riwayat.show');
         });
 
         // Routes RT
-        Route::middleware(['role:rt'])->group(function () {
-            Route::resource('/rt/verifikasi', VerifSuratController::class);
-            Route::post('/rt/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
-            Route::post('/rt/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
-            Route::get('/rt/verifikasi/{id}/download', [VerifSuratController::class, 'download'])->name('verifikasi.download');
+        Route::middleware(['role:rt'])->prefix('rt')->group(function () {
+            Route::resource('verifikasi', VerifSuratController::class);
+            Route::patch('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
+            Route::patch('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
+            Route::get('/verifikasi/{id}/download', [VerifSuratController::class, 'download'])->name('verifikasi.download');
 
-            Route::get('/rt/pengguna', [UserController::class, 'getAllPenggunaByRt'])->name('rt.kelola.pengguna');
+            Route::get('/pengguna', [UserController::class, 'getAllPenggunaByRt'])->name('rt.pengguna.index');
         });
 
         // Routes Admin
-        Route::middleware(['role:admin'])->group(function () {
-            Route::resource('/admin/rt', RtController::class);
-            Route::resource('/admin/rw', RwController::class);
+        Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+            Route::resource('rt', RtController::class);
+            Route::resource('rw', RwController::class);
 
-            Route::get('/admin/pengguna', [UserController::class, 'getAllPengguna'])->name('admin.kelola.pengguna');
-            Route::get('/admin/pengguna/{id}/edit', [UserController::class, 'editPengguna'])->name('admin.edit.pengguna');
-            Route::post('/admin/pengguna/{id}/edit', [UserController::class, 'updatePengguna'])->name('admin.update.pengguna');
-            Route::patch('admin/pengguna/{id}/deactive', [UserController::class, 'deactive'])->name('admin.deactive.pengguna');
+            Route::get('/pengguna', [UserController::class, 'getAllPengguna'])->name('admin.pengguna.index');
+            Route::get('/pengguna/{id}/edit', [UserController::class, 'editPengguna'])->name('admin.pengguna.edit');
+            Route::patch('/pengguna/{id}', [UserController::class, 'updatePengguna'])->name('admin.pengguna.update');
+            Route::patch('/pengguna/{id}/deactivate', [UserController::class, 'deactivate'])->name('admin.pengguna.deactivate');
 
-            Route::post('/admin/template/store', [SuratController::class, 'uploadTemplate'])->name('admin.template.store');
-            Route::get('/admin/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');
+            // Route::get('/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');
+            // Route::post('/template/store', [SuratController::class, 'uploadTemplate'])->name('admin.template.store');
 
-            Route::get('/admin/surat', [SuratController::class, 'kelolaSurat'])->name('admin.kelola.surat');
-            Route::get('/admin/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.detail');
-            Route::get('/admin/surat/{id}/download', [VerifSuratController::class, 'download'])->name('surat.download');
+            Route::get('/surat', [SuratController::class, 'kelolaSurat'])->name('admin.surat.index');
+            Route::get('/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.show');
+            Route::get('/surat/{id}/download', [VerifSuratController::class, 'download'])->name('admin.surat.download');
         });
     }
 );

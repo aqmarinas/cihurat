@@ -8,8 +8,8 @@
     </li>
 
     @if (Auth::user()->role == 'admin')
-        <li class="menu-item {{ Route::is('admin.kelola.surat') ? 'active' : '' }}">
-            <a href="{{ route('admin.kelola.surat') }}" class="menu-link">
+        <li class="menu-item {{ Route::is('admin.surat.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.surat.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-envelope"></i>
                 <div data-i18n="Analytics">Kelola Surat</div>
             </a>
@@ -47,8 +47,8 @@
                 <div data-i18n="Account Settings">Kelola Pengguna</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ Route::is('admin.kelola.pengguna') ? 'active' : '' }}">
-                    <a href="{{ route('admin.kelola.pengguna') }}" class="menu-link">
+                <li class="menu-item {{ Route::is('admin.pengguna.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pengguna.index') }}" class="menu-link">
                         <div data-i18n="Notifications">Data Pengguna</div>
                     </a>
                 </li>
@@ -61,8 +61,8 @@
                 <div data-i18n="Analytics">Cek Pengajuan Surat</div>
             </a>
         </li>
-        <li class="menu-item {{ Route::is('rt.kelola.pengguna') ? 'active' : '' }}">
-            <a href="{{ route('rt.kelola.pengguna') }}" class="menu-link">
+        <li class="menu-item {{ Route::is('rt.pengguna.index') ? 'active' : '' }}">
+            <a href="{{ route('rt.pengguna.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-group"></i>
                 <div data-i18n="Analytics">Data Pengguna RT
                     @php
@@ -80,8 +80,8 @@
                 <div data-i18n="Analytics">Pengajuan Surat</div>
             </a>
         </li>
-        <li class="menu-item {{ Route::is('pengguna.riwayat') ? 'active' : '' }}">
-            <a href="{{ route('pengguna.riwayat') }}" class="menu-link">
+        <li class="menu-item {{ Route::is('riwayat.index') ? 'active' : '' }}">
+            <a href="{{ route('riwayat.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-history"></i>
                 <div data-i18n="Analytics">Riwayat Pengajuan</div>
             </a>

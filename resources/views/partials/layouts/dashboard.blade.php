@@ -107,7 +107,7 @@
             {{-- User --}}
             @if (Auth::user()->role == 'pengguna')
                 <div class="col-lg-4 mb-4">
-                    <a href="{{ route('pengguna.riwayat') }}" class="card hover-card text-decoration-none text-center">
+                    <a href="{{ route('riwayat.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-check-circle icon-style"
                                 style="background-color: #28a745; padding: 12px; border-radius: 100%;"></i>
@@ -117,7 +117,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <a href="{{ route('pengguna.riwayat') }}" class="card hover-card text-decoration-none text-center">
+                    <a href="{{ route('riwayat.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-time icon-style"
                                 style="background-color: #ffc107; padding: 12px; border-radius: 100%;"></i>
@@ -127,7 +127,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <a href="{{ route('pengguna.riwayat') }}" class="card hover-card text-decoration-none text-center">
+                    <a href="{{ route('riwayat.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-file icon-style"
                                 style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
@@ -162,7 +162,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <a href="{{ route('rt.kelola.pengguna') }}" class="card hover-card text-decoration-none text-center">
+                    <a href="{{ route('rt.pengguna.index') }}" class="card hover-card text-decoration-none text-center">
                         <div class="card-body">
                             <i class="bx bx-group icon-style"
                                 style="background-color: #6f42c1; padding: 12px; border-radius: 100%;"></i>
@@ -182,7 +182,7 @@
         {{-- Admin --}}
         @if (Auth::user()->role == 'admin')
             <div class="col-lg-4 mb-4">
-                <a href="{{ route('admin.kelola.surat', ['status' => 'disetujui']) }}"
+                <a href="{{ route('admin.surat.index', ['status' => 'disetujui']) }}"
                     class="card hover-card text-decoration-none text-center">
                     <div class="card-body">
                         <i class="bx bx-check-circle icon-style"
@@ -193,7 +193,7 @@
                 </a>
             </div>
             <div class="col-lg-4 mb-4">
-                <a href="{{ route('admin.kelola.surat') }}" class="card hover-card text-decoration-none text-center">
+                <a href="{{ route('admin.surat.index') }}" class="card hover-card text-decoration-none text-center">
                     <div class="card-body">
                         <i class="bx bx-file icon-style"
                             style="background-color: #007bff; padding: 12px; border-radius: 100%;"></i>
@@ -203,7 +203,7 @@
                 </a>
             </div>
             <div class="col-lg-4 mb-4">
-                <a href="{{ route('admin.kelola.pengguna') }}" class="card hover-card text-decoration-none text-center">
+                <a href="{{ route('admin.pengguna.index') }}" class="card hover-card text-decoration-none text-center">
                     <div class="card-body">
                         <i class="bx bx-group icon-style" style="padding: 12px; border-radius: 100%;"></i>
                         <h5 class="card-title">Total Pengguna</h5>

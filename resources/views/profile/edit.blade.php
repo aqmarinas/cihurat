@@ -34,8 +34,9 @@
                 <h5 class="mb-0">Ubah Profil</h5>
             </div>
             <div class="card-body">
-                <form id="profileForm" action="{{ route('update.profile') }}" method="post">
+                <form id="profileForm" action="{{ route('profile.update') }}" method="post">
                     @csrf
+                    @method('PATCH')
                     <div class="row">
                         <div class="col-md-6">
                             {{-- Nama --}}

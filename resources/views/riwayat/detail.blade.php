@@ -30,11 +30,11 @@
             <div class="card-body">
                 <div class="mb-3">
                     @if (Auth::user()->role == 'pengguna')
-                        <a href="{{ route('pengguna.riwayat') }}" class="text-secondary">← Kembali</a>
+                        <a href="{{ route('riwayat.index') }}" class="text-secondary">← Kembali</a>
                     @elseif (Auth::user()->role == 'rt')
                         <a href="{{ route('verifikasi.index') }}" class="text-secondary">← Kembali</a>
                     @elseif (Auth::user()->role == 'admin')
-                        <a href="{{ route('admin.kelola.surat') }}" class="text-secondary">← Kembali</a>
+                        <a href="{{ route('admin.surat.index') }}" class="text-secondary">← Kembali</a>
                     @endif
                 </div>
 
@@ -56,7 +56,7 @@
 
                     @if (Auth::user()->role == 'admin')
                         @if ($surat->status === 'DISETUJUI')
-                            <a href="{{ route('surat.download', $surat->id) }}" class="btn btn-success btn-sm">
+                            <a href="{{ route('admin.surat.download', $surat->id) }}" class="btn btn-success btn-sm">
                                 <i class="fas fa-download"></i> Unduh
                             </a>
                         @endif
@@ -146,19 +146,17 @@
                         <div class="d-flex justify-content-end mb-3 me-3">
                             <form action="{{ route('verifikasi.setujui', $surat->id) }}" method="POST" class="d-inline">
                                 @csrf
+                                @method('PATCH')
                                 <button type="submit" class="btn btn-success me-2">
                                     <i class="bx bx-check-circle me-1"></i> Setujui
                                 </button>
                             </form>
 
-                            <form action="{{ route('verifikasi.tolak', $surat->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
-                                    data-bs-target="#modalTolak{{ $surat->id }}">
-                                    <i class="bx bx-x-circle me-1"></i>
-                                    Tolak
-                                </button>
-                            </form>
+                            <button type="submit" class="btn btn-danger me-2" data-bs-toggle="modal"
+                                data-bs-target="#modalTolak{{ $surat->id }}">
+                                <i class="bx bx-x-circle me-1"></i>
+                                Tolak
+                            </button>
                         </div>
                     @endif
                 @endif
@@ -193,6 +191,7 @@
                 </div>
                 <form action="{{ route('verifikasi.tolak', $surat->id) }}" method="POST">
                     @csrf
+                    @method('PATCH')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="keterangan">Masukkan alasan penolakan:</label>

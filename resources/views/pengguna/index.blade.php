@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-6">
                     <form method="GET"
-                        action="{{ auth()->user()->role === 'admin' ? route('admin.kelola.pengguna') : route('rt.kelola.pengguna') }}"
+                        action="{{ auth()->user()->role === 'admin' ? route('admin.pengguna.index') : route('rt.pengguna.index') }}"
                         class="d-flex">
                         <input type="text" name="search" class="form-control me-2" value="{{ request('search') }}"
                             placeholder="Cari nama..." />
@@ -74,18 +74,18 @@
                                     </td>
                                     <td>
                                         <!-- Tombol Edit -->
-                                        <a href="{{ route('admin.edit.pengguna', $user->id) }}"
+                                        <a href="{{ route('admin.pengguna.edit', $user->id) }}"
                                             class="btn btn-primary btn-sm btn-edit me-2">
                                             Ubah
                                         </a>
-                                        <form id="deactive-form-{{ $user->id }}"
-                                            action="{{ route('admin.deactive.pengguna', $user->id) }}" method="POST"
+                                        <form id="deactivate-form-{{ $user->id }}"
+                                            action="{{ route('admin.pengguna.deactivate', $user->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
                                             @method('PATCH')
                                             <button type="button"
                                                 class="btn btn-sm {{ $user->is_active ? 'btn-danger' : 'btn-warning' }}"
-                                                onclick="confirmDeactive('{{ $user->id }}', {{ $user->is_active ? 'true' : 'false' }})">
+                                                onclick="confirmDeactivate('{{ $user->id }}', {{ $user->is_active ? 'true' : 'false' }})">
                                                 {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                             </button>
                                         </form>
@@ -112,19 +112,19 @@
         </div>
     </div>
     <script>
-        function confirmDeactive(id, status) {
+        function confirmDeactivate(id, status) {
             Swal.fire({
                 text: status ? 'Apakah Anda yakin ingin menonaktifkan akun ini?' :
                     'Apakah Anda yakin ingin mengaktifkan kembali akun ini?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: status ? '#dc3435' : '# 22BB33',
+                confirmButtonColor: status ? '#dc3435' : '#22BB33',
                 cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Ya',
                 cancelButtonText: 'Tidak'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('deactive-form-' + id).submit();
+                    document.getElementById('deactivate-form-' + id).submit();
                 }
             });
         }

@@ -319,7 +319,7 @@ class SuratController extends Controller
             'jenis_surat' => $jenis_surat,
             'tanggal_pengajuan' => now(),
         ]);
-        return redirect()->route('pengguna.riwayat')->with('success', 'Berhasil mengajukan ' . $jenis_surat);
+        return redirect()->route('riwayat.index')->with('success', 'Berhasil mengajukan ' . $jenis_surat);
     }
 
     public function show(string $id) {}
@@ -347,7 +347,7 @@ class SuratController extends Controller
         $surat = Surat::find($id);
 
         if (!$surat) {
-            return redirect()->route('pengguna.riwayat')->with('error', 'Pengajuan tidak ditemukan.');
+            return redirect()->route('riwayat.index')->with('error', 'Pengajuan tidak ditemukan.');
         }
 
         $surat->status = 'DIBATALKAN';
@@ -356,7 +356,7 @@ class SuratController extends Controller
         // soft delete
         $surat->delete();
 
-        return redirect()->route('pengguna.riwayat')->with('success', 'Pengajuan berhasil dibatalkan.');
+        return redirect()->route('riwayat.index')->with('success', 'Pengajuan berhasil dibatalkan.');
     }
 
     // User
