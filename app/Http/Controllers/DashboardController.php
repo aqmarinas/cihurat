@@ -15,19 +15,23 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Auth check
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
+        $userId = Auth::id();
+        $rtRw = Auth::user()->rt_rw;
+
         // User 
-        $totalSuratDiajukanUser = Surat::where('user_id', Auth::id())->count();
-        $totalSuratDisetujuiUser = Surat::where('user_id', Auth::id())->where('status', 'DISETUJUI')->count();
-        $totalSuratMenungguUser = Surat::where('user_id', Auth::id())->where('status', 'MENUNGGU')->count();
+        $totalSuratDiajukanUser = Surat::where('user_id', $userId)->count();
+        $totalSuratDisetujuiUser = Surat::where('user_id', $userId)->where('status', 'DISETUJUI')->count();
+        $totalSuratMenungguUser = Surat::where('user_id', $userId)->where('status', 'MENUNGGU')->count();
 
         // RT 
-        $totalSuratMenungguRT = Surat::where('rt_rw', Auth::user()->rt_rw)->where('status', 'MENUNGGU')->count();
-        $totalSuratDiajukanRT = Surat::where('rt_rw', Auth::user()->rt_rw)->count();
-        $totalWargaRT = User::where('role', 'pengguna', Auth::user()->rt_rw)->count();
+        $totalSuratMenungguRT = Surat::where('rt_rw', $rtRw)->where('status', 'MENUNGGU')->count();
+        $totalSuratDiajukanRT = Surat::where('rt_rw', $rtRw)->count();
+        $totalWargaRT = User::where('role', 'pengguna')->where('rt_rw', $rtRw)->count();
 
         // Admin 
         // $totalAdmin = User::where('role', 'admin')->count();
