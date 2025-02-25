@@ -160,8 +160,19 @@
                             </button>
                         </div>
                     @endif
+                    @if ($surat->status === 'DISETUJUI')
+                        <div class="d-flex justify-content-end mb-3 me-3">
+                            <form id="cancelRtForm" action="{{ route('verifikasi.batal', $surat->id) }}" method="POST"
+                                class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="button" id="cancelRtButton" class="btn btn-danger me-2">
+                                    <i class="bx bx-x-circle me-1"></i> Batalkan
+                                </button>
+                            </form>
+                        </div>
+                    @endif
                 @endif
-
             </div>
         </div>
     </div>
@@ -228,6 +239,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const acceptButton = document.getElementById('acceptButton');
             const cancelButton = document.getElementById('cancelButton');
+            const cancelRtButton = document.getElementById('cancelRtButton');
 
             if (acceptButton) {
                 acceptButton.addEventListener('click', function(e) {
@@ -264,6 +276,26 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             document.getElementById('cancelForm').submit();
+                        }
+                    });
+                });
+            }
+
+            if (cancelRtButton) {
+                cancelRtButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        text: "Apakah Anda yakin ingin membatalkan persetujuan pengajuan surat?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3435',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Batalkan',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('cancelRtForm').submit();
                         }
                     });
                 });

@@ -86,7 +86,7 @@
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="text" class="form-control" id="email" name="email"
-                                        value="{{ old('email') }}" placeholder="Masukkan email" autofocus />
+                                        value="{{ old('email') }}" placeholder="Masukkan email" autofocus required />
                                 </div>
                                 <div class="form-password-toggle mb-3">
                                     <div class="d-flex justify-content-between">
@@ -95,7 +95,7 @@
                                     <div class="input-group input-group-merge">
                                         <input type="password" id="password" class="form-control" name="password"
                                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                            aria-describedby="password" />
+                                            aria-describedby="password" required />
                                         <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                     </div>
                                 </div>
