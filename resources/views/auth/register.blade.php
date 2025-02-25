@@ -40,6 +40,7 @@
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="../assets/js/config.js"></script>
+
     </head>
 
     <body>
@@ -199,6 +200,15 @@
                                                 <div class="mt-0" id="passwordConfirmationError"></div>
                                             </div>
                                         </div>
+
+                                        <div class="d-flex">
+                                            <input type="checkbox" class="me-2" id="tnc" name="tnc"
+                                                required>
+                                            <label for="tnc"> Saya setuju dengan
+                                                <a href="#" class="fw-bold text-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#tncModal">Syarat dan Ketentuan</a> yang berlaku
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -212,6 +222,62 @@
                                 </p>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- TNC Modal --}}
+        <div class="modal fade" id="tncModal" tabindex="-1" aria-labelledby="tncModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Syarat dan Ketentuan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Dengan mendaftar sebagai warga di Cihurat, Anda setuju untuk mematuhi ketentuan dan
+                            syarat berikut:</p>
+
+                        <p class="fw-bold">1. Pendaftaran Warga</p>
+                        <p>Pengguna yang mendaftar harus memberikan informasi yang benar, akurat, dan terkini. Data yang
+                            diberikan akan digunakan untuk tujuan administratif dan tidak akan disalahgunakan tanpa izin
+                            Anda.</p>
+
+                        <p class="fw-bold">2. Kewajiban Pengguna</p>
+                        <p>Setelah terdaftar, Anda setuju untuk:</p>
+                        <ul>
+                            <li>Menjaga kerahasiaan informasi akun Anda.</li>
+                            <li>Memberikan informasi yang akurat pada formulir yang diminta oleh sistem.</li>
+                            <li>Tidak melakukan penyalahgunaan layanan ini untuk tujuan yang melanggar hukum atau
+                                merugikan pihak lain.</li>
+                        </ul>
+
+                        <p class="fw-bold">3. Penggunaan Data Pribadi</p>
+                        <p>Data pribadi yang dikumpulkan selama proses pendaftaran akan digunakan untuk administrasi
+                            warga dan kepentingan terkait lainnya. Kami berkomitmen untuk menjaga kerahasiaan data Anda
+                            sesuai dengan kebijakan privasi yang berlaku.</p>
+
+                        <p class="fw-bold">4. Penghentian Akun</p>
+                        <p>Kami berhak untuk menangguhkan atau menghentikan akun pengguna yang melanggar ketentuan
+                            ini tanpa pemberitahuan sebelumnya.</p>
+
+                        <p class="fw-bold">5. Pembaruan Ketentuan</p>
+                        <p>Ketentuan ini dapat diperbarui dari waktu ke waktu sesuai kebutuhan, dan pembaruan akan
+                            diberitahukan kepada pengguna melalui website kami.</p>
+
+                        <p class="fw-bold">6. Penerimaan Ketentuan</p>
+                        <p>Dengan menyetujui pendaftaran, Anda mengkonfirmasi bahwa Anda telah membaca dan menyetujui
+                            semua syarat dan ketentuan ini. Anda juga setuju untuk mematuhi semua kebijakan dan
+                            peraturan yang berlaku.</p>
+
+                        <p>Jika Anda setuju dengan syarat dan ketentuan di atas, Anda dapat melanjutkan ke halaman
+                            pendaftaran.</p>
+
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            aria-label="Close">Kembali</button>
+
                     </div>
                 </div>
             </div>
