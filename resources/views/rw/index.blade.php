@@ -4,6 +4,16 @@
 
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="alert alert-primary alert-dismissible fade show col-md-9" role="alert">
+            <h5 class="text-primary mb-2">Informasi</h5>
+            <li>Ketua RW tidak memiliki akses untuk mengelola surat.</li>
+            <li>Ketua RW hanya dapat mendaftarkan akun sebagai warga biasa.</li>
+            <li>Namun, admin wajib menambahkan data Ketua RW agar namanya tercantum di bagian tanda tangan surat. Jika
+                tidak, maka bagian tersebut akan kosong.</li>
+            <li>Jika terjadi pergantian ketua RW, admin wajib mengubah data ketua RW.</li>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <!-- Button to Open the Modal -->
         <div class="d-flex justify-content-start mb-3">
             <a href="{{ route('rw.create') }}" class="btn btn-primary">Tambah Data</a>
