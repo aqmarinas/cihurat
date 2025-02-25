@@ -96,8 +96,8 @@ class SuratController extends Controller
                     'nik' => 'required|digits:16',
                     'keperluan' => 'required|string|max:50',
                     'no_whatsapp' => 'required|digits_between:10,15',
-                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:1024',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:1024'
                 ]);
 
                 $fileFields = ['ktp', 'kk'];
@@ -134,8 +134,8 @@ class SuratController extends Controller
                     'alamat' => 'required|string|max:255',
                     'keperluan' => 'required|string|max:50',
                     'no_whatsapp' => 'required|digits_between:10,15',
-                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:1024',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:1024'
 
                 ]);
 
@@ -176,8 +176,8 @@ class SuratController extends Controller
                     'jurusan' => 'required|string|max:50',
                     'keperluan' => 'required|string|max:50',
 
-                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:1024',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:1024',
                 ]);
 
                 $fileFields = ['ktp', 'kk'];
@@ -209,8 +209,8 @@ class SuratController extends Controller
                     'tanggal_meninggal' => 'required|string|max:30|regex:/^\d{1,2} [A-Za-z]+ \d{4}$/',
                     'tempat_meninggal' => 'required|string|max:30',
                     'sebab_meninggal' => 'required|string|max:30',
-                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:1024',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:1024',
                 ]);
 
                 $fileFields = ['ktp', 'kk'];
@@ -243,8 +243,8 @@ class SuratController extends Controller
                     'alamat' => 'required|string|max:255',
                     'jenis_usaha' => 'required|string|max:50',
                     'no_whatsapp' => 'required|digits_between:10,15',
-                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:1024',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:1024'
                 ]);
 
                 $fileFields = ['ktp', 'kk'];
@@ -277,8 +277,8 @@ class SuratController extends Controller
                     'pekerjaan' => 'required|string|max:30',
                     'alamat' => 'required|string|max:255',
                     'no_whatsapp' => 'required|digits_between:10,15',
-                    'ktp' => 'required|mimes:jpg,jpeg,png|max:2048',
-                    'kk' => 'required|mimes:jpg,jpeg,png|max:2048'
+                    'ktp' => 'required|mimes:jpg,jpeg,png|max:1024',
+                    'kk' => 'required|mimes:jpg,jpeg,png|max:1024'
                 ]);
 
                 $fileFields = ['ktp', 'kk'];
@@ -460,7 +460,7 @@ class SuratController extends Controller
         $request->validate([
             'jenis_surat' => 'required|string',
             // 'description' => 'required|string',
-            'template' => 'required|mimes:docx|max:2048'
+            'template' => 'required|mimes:docx|max:1024'
         ]);
 
         $folder = match ($request->jenis_surat) {
