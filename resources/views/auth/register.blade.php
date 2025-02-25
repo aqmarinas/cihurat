@@ -259,15 +259,25 @@
                             warga dan kepentingan terkait lainnya. Kami berkomitmen untuk menjaga kerahasiaan data Anda
                             sesuai dengan kebijakan privasi yang berlaku.</p>
 
-                        <p class="fw-bold">4. Penghentian Akun</p>
-                        <p>Kami berhak untuk menangguhkan atau menghentikan akun pengguna yang melanggar ketentuan
+                        <p class="fw-bold">4. Perlindungan Data</p>
+                        <p>Semua informasi yang diberikan oleh warga, termasuk data pribadi seperti foto KTP, KK, dan
+                            informasi sensitif lainnya, akan dilindungi dengan sistem yang ketat untuk mencegah
+                            penyalahgunaan atau akses yang tidak sah. Untuk memastikan keamanan dan mencegah
+                            penyalahgunaan data, setiap foto KTP dan KK yang diunggah oleh pengguna akan diberi <span
+                                class="fw-bold">penanda (watermark)</span> secara otomatis oleh sistem. Penanda ini
+                            berfungsi untuk menandakan bahwa
+                            foto tersebut berasal dari sistem yang sah dan tidak dapat dipindahtangankan atau digunakan
+                            tanpa izin.</p>
+
+                        <p class="fw-bold">5. Penghentian Akun</p>
+                        <p>Aplikasi berhak untuk menangguhkan atau menghentikan akun pengguna yang melanggar ketentuan
                             ini tanpa pemberitahuan sebelumnya.</p>
 
-                        <p class="fw-bold">5. Pembaruan Ketentuan</p>
+                        <p class="fw-bold">6. Pembaruan Ketentuan</p>
                         <p>Ketentuan ini dapat diperbarui dari waktu ke waktu sesuai kebutuhan, dan pembaruan akan
-                            diberitahukan kepada pengguna melalui website kami.</p>
+                            diberitahukan kepada pengguna melalui aplikasi.</p>
 
-                        <p class="fw-bold">6. Penerimaan Ketentuan</p>
+                        <p class="fw-bold">7. Penerimaan Ketentuan</p>
                         <p>Dengan menyetujui pendaftaran, Anda mengkonfirmasi bahwa Anda telah membaca dan menyetujui
                             semua syarat dan ketentuan ini. Anda juga setuju untuk mematuhi semua kebijakan dan
                             peraturan yang berlaku.</p>
