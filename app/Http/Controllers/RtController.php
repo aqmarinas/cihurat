@@ -44,7 +44,7 @@ class RtController extends Controller
             'nik' => 'nullable|digits:16|unique:users,nik',
             'email' => 'required|email|unique:users,email',
             'nomor_whatsapp' => 'required|digits_between:10,15|unique:users,nomor_whatsapp',
-            'rt_rw' => 'required|string|max:8',
+            'rt_rw' => 'required|string|max:8|unique:users,rt_rw',
             'alamat' => 'nullable|string|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);

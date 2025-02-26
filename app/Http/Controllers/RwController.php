@@ -12,7 +12,7 @@ class RwController extends Controller
      */
     public function index()
     {
-        $rwLists = Rw::all();
+        $rwLists = Rw::orderBy('rw', 'asc')->get();
         return view('rw.index', compact('rwLists'));
     }
 
@@ -32,7 +32,7 @@ class RwController extends Controller
         $validate = request()->validate([
             'nama' => 'required|string|max:50',
             'no_whatsapp' => 'required|digits_between:10,15|unique:users,nomor_whatsapp',
-            'rw' => 'required|digits:2',
+            'rw' => 'required|digits:2|unique:rw,rw',
         ]);
 
         Rw::create($validate);

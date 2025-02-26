@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(
         Route::middleware(['role:rt'])->prefix('rt')->group(function () {
             Route::resource('verifikasi', VerifSuratController::class);
             Route::patch('/verifikasi/{id}/setujui', [VerifSuratController::class, 'setujui'])->name('verifikasi.setujui');
+            Route::patch('/verifikasi/{id}/batal', [VerifSuratController::class, 'batal'])->name('verifikasi.batal');
             Route::patch('/verifikasi/{id}/tolak', [VerifSuratController::class, 'tolak'])->name('verifikasi.tolak');
             Route::get('/verifikasi/{id}/download', [VerifSuratController::class, 'download'])->name('verifikasi.download');
 

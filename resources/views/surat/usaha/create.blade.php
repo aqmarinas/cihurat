@@ -117,8 +117,8 @@
                                 style="color: red">*</span></label>
                         <input type="file" name="ktp" class="form-control" id="ktp"
                             accept="image/jpeg,image/png,image/jpg" required />
-                        <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
-                        <div id="ktpError" style="color: red; display: none;">Ukuran file tidak boleh lebih dari 2MB.
+                        <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 1MB)</p>
+                        <div id="ktpError" style="color: red; display: none;">Ukuran file tidak boleh lebih dari 1MB.
                         </div>
                     </div>
 
@@ -127,8 +127,8 @@
                                 style="color: red">*</span></label>
                         <input type="file" name="kk" class="form-control" id="kk"
                             accept="image/jpeg,image/png,image/jpg" required />
-                        <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 2MB)</p>
-                        <div id="kkError" style="color: red; display: none;">Ukuran file tidak boleh lebih dari 2MB.
+                        <p style="font-size: 12px">(.jpg, .jpeg, .png; Maksimal 1MB)</p>
+                        <div id="kkError" style="color: red; display: none;">Ukuran file tidak boleh lebih dari 1MB.
                         </div>
                     </div>
 
@@ -143,7 +143,7 @@
             const input = document.getElementById(inputId);
             const errorMessage = document.getElementById(errorId);
 
-            if (file && file.size > 2 * 1024 * 1024) { // 2MB
+            if (file && file.size > 1 * 1024 * 1024) { // 1MB
                 errorMessage.style.display = 'block';
                 input.style.border = '2px solid red';
             } else {

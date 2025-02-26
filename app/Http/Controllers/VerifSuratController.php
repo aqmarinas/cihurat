@@ -89,6 +89,22 @@ class VerifSuratController extends Controller
     }
 
 
+    public function batal(string $id)
+    {
+        $letter = Surat::find($id);
+
+        if (!$letter) {
+            return redirect()->route('verifikasi.index')->with('error', 'Data pengajuan surat tidak ditemukan.');
+        }
+
+        // update status
+        $letter->status = 'MENUNGGU';
+        $letter->tanggal_disetujui = null;
+        $letter->save();
+
+        return redirect()->route('verifikasi.index')->with('success', 'Persetujuan pengajuan berhasil dibatalkan.');
+    }
+
     protected function generate(Surat $letter)
     {
         $detailSurat = $letter->suratable;
