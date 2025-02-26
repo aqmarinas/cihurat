@@ -117,27 +117,27 @@ class VerifSuratController extends Controller
         switch ($letter->jenis_surat) {
             case 'Surat Pengantar':
                 $templatePath = public_path('templates/Surat Pengantar RT RW.docx');
-                $outputPath = storage_path('app/public/surat/surat_pengantar/Surat_Pengantar_' . $detailSurat->id . '.docx');
+                $outputFilename = 'Surat_Pengantar_' . $detailSurat->id . '.docx';
                 break;
             case 'Surat Keterangan Tidak Mampu':
                 $templatePath = public_path('templates/Surat Keterangan Tidak Mampu.docx');
-                $outputPath = storage_path('app/public/surat/surat_tidak_mampu/Surat_Tidak_Mampu_' . $detailSurat->id . '.docx');
+                $outputFilename = 'Surat_Tidak_Mampu_' . $detailSurat->id . '.docx';
                 break;
             case 'Surat Keterangan Kematian':
                 $templatePath = public_path('templates/Surat Keterangan Kematian.docx');
-                $outputPath = storage_path('app/public/surat/surat_kematian/Surat_Kematian_' . $detailSurat->id . '.docx');
+                $outputFilename = 'Surat_Kematian_' . $detailSurat->id . '.docx';
                 break;
             case 'Surat Keterangan Usaha':
                 $templatePath = public_path('templates/Surat Keterangan Usaha.docx');
-                $outputPath = storage_path('app/public/surat/surat_usaha/Surat_Usaha_' . $detailSurat->id . '.docx');
+                $outputFilename = 'Surat_Usaha_' . $detailSurat->id . '.docx';
                 break;
             case 'Surat Keterangan Belum Menikah':
                 $templatePath = public_path('templates/Surat Keterangan Belum Menikah.docx');
-                $outputPath = storage_path('app/public/surat/surat_belum_nikah/Surat_Belum_Nikah_' . $detailSurat->id . '.docx');
+                $outputFilename = 'Surat_Belum_Nikah_' . $detailSurat->id . '.docx';
                 break;
             case 'Surat Domisili':
                 $templatePath = public_path('templates/Surat Keterangan Domisili.docx');
-                $outputPath = storage_path('app/public/surat/surat_domisili/Surat_Domisili_' . $detailSurat->id . '.docx');
+                $outputFilename = 'Surat_Domisili_' . $detailSurat->id . '.docx';
                 break;
             default:
                 return redirect()->route('verifikasi.index')->with('error', 'Template untuk jenis surat ini belum tersedia.');
@@ -186,11 +186,14 @@ class VerifSuratController extends Controller
 
         $templateProcessor->setValues($placeholders);
 
-        // Simpan file hasil
-        $templateProcessor->saveAs($outputPath);
+        // Mengatur header untuk membuat browser mendownload file
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="' . $outputFilename . '"');
+        header('Cache-Control: max-age=0');
 
-        // Kirim file ke browser untuk diunduh
-        return response()->download($outputPath)->deleteFileAfterSend(true);
+        // Output file langsung ke browser
+        $templateProcessor->saveAs('php://output');
+        exit;
     }
 
     public function download(string $id)
@@ -211,34 +214,7 @@ class VerifSuratController extends Controller
             return redirect()->route('verifikasi.index')->with('error', 'Data detail surat tidak ditemukan.');
         }
 
-        // generate surat
-        $this->generate($letter);
-
-        // Tentukan path file berdasarkan jenis surat
-        switch ($letter->jenis_surat) {
-            case 'Surat Pengantar':
-                $outputPath = storage_path('app/public/surat/surat_pengantar/Surat_Pengantar_' . $detailSurat->id . '.docx');
-                break;
-            case 'Surat Keterangan Tidak Mampu':
-                $outputPath = storage_path('app/public/surat/surat_tidak_mampu/Surat_Tidak_Mampu_' . $detailSurat->id . '.docx');
-                break;
-            case 'Surat Keterangan Kematian':
-                $outputPath = storage_path('app/public/surat/surat_kematian/Surat_Kematian_' . $detailSurat->id . '.docx');
-                break;
-            case 'Surat Keterangan Usaha':
-                $outputPath = storage_path('app/public/surat/surat_usaha/Surat_Usaha_' . $detailSurat->id . '.docx');
-                break;
-            case 'Surat Keterangan Belum Menikah':
-                $outputPath = storage_path('app/public/surat/surat_belum_nikah/Surat_Belum_Nikah_' . $detailSurat->id . '.docx');
-                break;
-            case 'Surat Domisili':
-                $outputPath = storage_path('app/public/surat/surat_domisili/Surat_Domisili_' . $detailSurat->id . '.docx');
-                break;
-
-            default:
-                return redirect()->route('verifikasi.index')->with('error', 'File untuk jenis surat ini tidak ditemukan.');
-        }
-
-        return response()->download($outputPath);
+        // Generate surat langsung ke download
+        return $this->generate($letter);
     }
 }

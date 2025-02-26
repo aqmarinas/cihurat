@@ -65,7 +65,8 @@
                             <p>
                                 <i class="bx bx-info-circle icon-style"
                                     style="vertical-align: middle; margin-right: 5px;"></i>
-                                Butuh bantuan? Baca <a href="#" class="text-primary">panduan pengguna</a>
+                                Butuh bantuan? Baca <a href="https://shorturl.at/iu26r" class="text-primary">panduan
+                                    pengguna</a>
                             </p>
 
                             @if (session('success'))

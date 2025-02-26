@@ -91,10 +91,19 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Lainnya</span>
     </li>
-    <li class="menu-item {{ Route::is('panduan.index') ? 'active' : '' }}">
-        <a href="{{ route('panduan.index') }}" class="menu-link">
+    <li class="menu-item">
+        @php
+            $link =
+                auth()->user()->role === 'pengguna'
+                    ? 'https://shorturl.at/iu26r'
+                    : (auth()->user()->role === 'rt'
+                        ? 'https://shorturl.at/20whI'
+                        : 'https://shorturl.at/Lo5Rk');
+        @endphp
+        <a href="{{ $link }}" class="menu-link" target="_blank">
             <i class="menu-icon tf-icons bx bx-info-circle"></i>
             <div data-i18n="Analytics">Panduan</div>
+        </a>
         </a>
     </li>
 </ul>
