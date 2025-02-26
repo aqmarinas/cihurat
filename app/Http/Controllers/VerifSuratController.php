@@ -116,31 +116,35 @@ class VerifSuratController extends Controller
         // Pilih template sesuai jenis surat
         switch ($letter->jenis_surat) {
             case 'Surat Pengantar':
-                $templatePath = public_path('templates/Surat Pengantar RT RW.docx');
+                $templatePath = storage_path('app/private/templates/Surat Pengantar RT RW.docx');
                 $outputFilename = 'Surat_Pengantar_' . $detailSurat->nama . '.docx';
                 break;
             case 'Surat Keterangan Tidak Mampu':
-                $templatePath = public_path('templates/Surat Keterangan Tidak Mampu.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Tidak Mampu.docx');
                 $outputFilename = 'Surat_Tidak_Mampu_' . $detailSurat->nama . '.docx';
                 break;
             case 'Surat Keterangan Kematian':
-                $templatePath = public_path('templates/Surat Keterangan Kematian.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Kematian.docx');
                 $outputFilename = 'Surat_Kematian_' . $detailSurat->nama . '.docx';
                 break;
             case 'Surat Keterangan Usaha':
-                $templatePath = public_path('templates/Surat Keterangan Usaha.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Usaha.docx');
                 $outputFilename = 'Surat_Usaha_' . $detailSurat->nama . '.docx';
                 break;
             case 'Surat Keterangan Belum Menikah':
-                $templatePath = public_path('templates/Surat Keterangan Belum Menikah.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Belum Menikah.docx');
                 $outputFilename = 'Surat_Belum_Nikah_' . $detailSurat->nama . '.docx';
                 break;
             case 'Surat Domisili':
-                $templatePath = public_path('templates/Surat Keterangan Domisili.docx');
+                $templatePath = storage_path('app/private/templates/Surat Keterangan Domisili.docx');
                 $outputFilename = 'Surat_Domisili_' . $detailSurat->nama . '.docx';
                 break;
             default:
                 return redirect()->route('verifikasi.index')->with('error', 'Template untuk jenis surat ini belum tersedia.');
+        }
+
+        if (!file_exists($templatePath)) {
+            return back()->with('error', 'Template tidak ditemukan.');
         }
 
         // Load template

@@ -30,7 +30,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="jenis_surat">Jenis Surat</label>
+                            {{-- <label for="jenis_surat">Jenis Surat</label>
                             <select name="jenis_surat" id="jenis_surat" required>
                                 <option value="Surat Pengantar">Surat Pengantar</option>
                                 <option value="Surat Keterangan Tidak Mampu">Surat Keterangan Tidak Mampu</option>
@@ -38,11 +38,16 @@
                                 <option value="Surat Keterangan Usaha">Surat Keterangan Usaha</option>
                                 <option value="Surat Keterangan Belum Menikah">Surat Keterangan Belum Menikah</option>
                                 <option value="Surat Domisili">Surat Domisili</option>
-                            </select>
+                            </select> --}}
 
-                            <input type="file" name="template" accept=".docx" required>
+                            <div class="mb-3">
+                                <label class="form-label" for="kk">Template Surat<span
+                                        style="color: red">*</span></label>
+                                <input type="file" name="template" class="form-control" id="template"
+                                    accept=".docx, .doc" required />
+                            </div>
 
-                            <button type="submit" class="btn btn-primary" id="saveButton">Tambah</button>
+                            <button type="submit" class="btn btn-primary">Tambah</button>
                         </div>
                     </form>
                 </div>

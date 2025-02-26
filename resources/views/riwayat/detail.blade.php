@@ -237,6 +237,20 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            const image = document.getElementById('modalFileImage');
+
+            // disable right-click
+            image.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // disable touch
+            image.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
             const acceptButton = document.getElementById('acceptButton');
             const cancelButton = document.getElementById('cancelButton');
             const cancelRtButton = document.getElementById('cancelRtButton');

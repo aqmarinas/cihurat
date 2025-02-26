@@ -76,8 +76,8 @@ Route::middleware(['auth'])->group(
             Route::patch('/pengguna/{id}', [UserController::class, 'updatePengguna'])->name('admin.pengguna.update');
             Route::patch('/pengguna/{id}/deactivate', [UserController::class, 'deactivate'])->name('admin.pengguna.deactivate');
 
-            // Route::get('/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');
-            // Route::post('/template/store', [SuratController::class, 'uploadTemplate'])->name('admin.template.store');
+            Route::get('/template/upload', [SuratController::class, 'uploadTemplateView'])->name('admin.template.upload');
+            Route::post('/template/store', [SuratController::class, 'uploadTemplate'])->name('admin.template.store');
 
             Route::get('/surat', [SuratController::class, 'kelolaSurat'])->name('admin.surat.index');
             Route::get('/surat/{id}/detail', [SuratController::class, 'historyDetails'])->name('admin.surat.show');
