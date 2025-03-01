@@ -21,7 +21,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/cihurat.my.id/cihurat
-            git config --global --add safe.directory /var/www/cihurat.my.id/cihurat
             git pull origin main
             php artisan migrate --force
             php artisan optimize
