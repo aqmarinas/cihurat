@@ -36,7 +36,7 @@ class SuratController extends Controller
     public function create(string $id)
     {
         $surat = JenisSurat::find($id);
-        $user = Auth::user();
+        $user = auth()->user();
 
         if (!$surat) {
             return redirect()->route('surat.index')->with('error', 'Jenis surat tidak ditemukan.');
@@ -321,7 +321,7 @@ class SuratController extends Controller
             });
         }
 
-        $path = storage_path("app/public/documents/$folder/$filename");
+        $path = storage_path("app/private/documents/$folder/$filename");
         $watermarkedImage->save($path);
 
         return "documents/$folder/$filename";

@@ -134,10 +134,13 @@
                 <h5><strong>Lampiran</strong></h5>
 
                 @if ($detailSurat->ktp)
-                    <x-file-viewer title="KTP" file="{{ $detailSurat->ktp }}" />
+                    {{-- <x-file-viewer title="KTP" file="{{ $detailSurat->ktp }}" /> --}}
+                    <x-file-viewer title="KTP" file="{{ $detailSurat->ktp }}"
+                        route="{{ route('berkas.ktp', ['filename' => basename($detailSurat->ktp)]) }}" />
                 @endif
                 @if ($detailSurat->kk)
-                    <x-file-viewer title="KK" file="{{ $detailSurat->kk }}" />
+                    <x-file-viewer title="KK" file="{{ $detailSurat->kk }}"
+                        route="{{ route('berkas.kk', ['filename' => basename($detailSurat->kk)]) }}" />
                 @endif
 
                 {{-- Action --}}
@@ -187,7 +190,7 @@
                 </div>
                 <div class="modal-body"
                     style="overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; height: 400px; cursor: grab;">
-                    <img src="" alt="File" id="modalFileImage"
+                    <img src="" alt="Terjadi kesalahan dalam memuat berkas" id="modalFileImage"
                         style="max-width: 100%; max-height: 100%; transition: transform 0.3s ease-out; position: relative;">
                 </div>
                 <div class="modal-footer"
@@ -303,6 +306,7 @@
         });
 
 
+        // hide url
         document.addEventListener('DOMContentLoaded', function() {
             const image = document.getElementById('modalFileImage');
 
@@ -317,6 +321,7 @@
             });
         });
 
+        // confirm button
         document.addEventListener('DOMContentLoaded', function() {
             const acceptButton = document.getElementById('acceptButton');
             const cancelButton = document.getElementById('cancelButton');

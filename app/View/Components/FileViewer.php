@@ -10,14 +10,16 @@ class FileViewer extends Component
 {
     public $title;
     public $file;
+    public $route;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($title, $file)
+    public function __construct($title, $file, $route)
     {
         $this->title = $title;
         $this->file = $file;
+        $this->route = $route;
     }
 
     /**

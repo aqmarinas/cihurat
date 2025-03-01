@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RtController;
 use App\Http\Controllers\RwController;
@@ -45,6 +46,9 @@ Route::middleware(['auth'])->group(
         Route::get('/panduan', function () {
             return view('panduan.index');
         })->name('panduan.index');
+
+        Route::get('/kk/{filename}', [BerkasController::class, 'showKK'])->name('berkas.kk');
+        Route::get('/ktp/{filename}', [BerkasController::class, 'showKTP'])->name('berkas.ktp');
 
         // Routes Pengguna
         Route::middleware(['role:pengguna'])->group(function () {

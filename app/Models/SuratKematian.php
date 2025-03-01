@@ -30,4 +30,9 @@ class SuratKematian extends Model
         'ktp',
         'kk',
     ];
+
+    public function surat()
+    {
+        return $this->morphOne(Surat::class, 'suratable');
+    }
 }
