@@ -185,8 +185,16 @@
                     <h5 class="modal-title" id="viewFileModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
-                    <img src="" alt="File" id="modalFileImage" class="img-fluid rounded">
+                <div class="modal-body"
+                    style="overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; height: 400px; cursor: grab;">
+                    <img src="" alt="File" id="modalFileImage"
+                        style="max-width: 100%; max-height: 100%; transition: transform 0.3s ease-out; position: relative;">
+                </div>
+                <div class="modal-footer"
+                    style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.7); padding: 5px; border-radius: 10px; z-index: 10;">
+                    <button type="button" class="btn btn-sm btn-secondary" id="zoomInBtn">+</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="zoomOutBtn">-</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="resetZoomBtn">↻</button>
                 </div>
             </div>
         </div>
@@ -225,6 +233,14 @@
             const viewFileModal = document.getElementById('viewFileModal');
             const modalTitle = document.getElementById('viewFileModalLabel');
             const modalImage = document.getElementById('modalFileImage');
+            const modalBody = document.querySelector('.modal-body');
+
+            let zoomLevel = 1;
+            let isDragging = false;
+            let startX = 0,
+                startY = 0;
+            let translateX = 0,
+                translateY = 0;
 
             viewFileModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
@@ -233,8 +249,59 @@
 
                 modalTitle.textContent = title;
                 modalImage.src = file;
+                zoomLevel = 1;
+                translateX = 0;
+                translateY = 0;
+                modalImage.style.transform = `scale(1) translate(0px, 0px)`;
+            });
+
+            document.getElementById('zoomInBtn').addEventListener('click', function() {
+                if (zoomLevel < 3) {
+                    zoomLevel += 0.2;
+                    modalImage.style.transform =
+                        `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.getElementById('zoomOutBtn').addEventListener('click', function() {
+                if (zoomLevel > 1) {
+                    zoomLevel -= 0.2;
+                    modalImage.style.transform =
+                        `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.getElementById('resetZoomBtn').addEventListener('click', function() {
+                zoomLevel = 1;
+                translateX = 0;
+                translateY = 0;
+                modalImage.style.transform = `scale(1) translate(0px, 0px)`;
+            });
+
+            modalImage.addEventListener('mousedown', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    modalBody.style.cursor = "grabbing";
+                }
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    modalImage.style.transform =
+                        `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                modalBody.style.cursor = "grab";
             });
         });
+
 
         document.addEventListener('DOMContentLoaded', function() {
             const image = document.getElementById('modalFileImage');
