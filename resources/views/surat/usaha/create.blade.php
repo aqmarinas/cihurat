@@ -138,6 +138,35 @@
         </div>
     </div>
     <script>
+        document.getElementById('suratForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isKkValid = true;
+            let isKtpValid = true;
+
+            if (document.getElementById('kk').files.length > 0) {
+                isKkValid = checkFileSize('kk', 'kkError');
+            }
+
+            if (document.getElementById('ktp').files.length > 0) {
+                isKtpValid = checkFileSize('ktp', 'ktpError');
+            }
+
+            if (isKkValid && isKtpValid) {
+                this.submit();
+            } else {
+                if (!isKkValid) {
+                    document.getElementById('kkError').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                } else if (!isKtpValid) {
+                    document.getElementById('ktpError').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+
         function checkFileSize(inputId, errorId) {
             const file = document.getElementById(inputId).files[0];
             const input = document.getElementById(inputId);
@@ -146,10 +175,11 @@
             if (file && file.size > 1 * 1024 * 1024) { // 1MB
                 errorMessage.style.display = 'block';
                 input.style.border = '2px solid red';
+                return false;
             } else {
                 errorMessage.style.display = 'none';
                 input.style.border = '';
-                valid
+                return true;
             }
         }
 
