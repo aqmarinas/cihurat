@@ -306,20 +306,20 @@
         });
 
 
-        // hide url
-        document.addEventListener('DOMContentLoaded', function() {
-            const image = document.getElementById('modalFileImage');
+        // // hide url
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const image = document.getElementById('modalFileImage');
 
-            // disable right-click
-            image.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
+        //     // disable right-click
+        //     image.addEventListener('contextmenu', function(e) {
+        //         e.preventDefault();
+        //     });
 
-            // disable touch
-            image.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-            });
-        });
+        //     // disable touch
+        //     image.addEventListener('touchstart', function(e) {
+        //         e.preventDefault();
+        //     });
+        // });
 
         // confirm button
         document.addEventListener('DOMContentLoaded', function() {
